@@ -1,7 +1,7 @@
 #ifndef GESTOR_ARCHIVOS_H
 #define GESTOR_ARCHIVOS_H
 
-#include "./colecciones.h"
+#include "colecciones.h"
 
 // Funciones para persistencia binaria
 int guardarPresentacionesBinario(const char* nombreArchivo, ColeccionPresentaciones coleccion);

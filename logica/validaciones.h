@@ -1,9 +1,9 @@
 #ifndef VALIDACIONES_H
 #define VALIDACIONES_H
 
-#include "./colecciones.h"
-#include "../Dominio/tipos_seguros.h"
-#include "../Dominio/presentacion.h"
+#include "colecciones.h"
+#include "../dominio/tipos_seguros.h"
+#include "../dominio/presentacion.h"
 
 // Verifica si el escenario está libre en ese rango (Retorna 1 si está libre, 0 si hay solapamiento).
 int verificarDisponibilidadEscenario(ColeccionPresentaciones historial, int idEscenario, Horario inicio, Duracion duracion);

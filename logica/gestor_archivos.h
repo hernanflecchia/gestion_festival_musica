@@ -40,6 +40,8 @@ typedef struct stEscenarioArchivo {
 // Verifica si existe el archivo y crea el administrador por defecto si no existe
 void inicializarArchivoUsuarios(void);
 
+Usuarios validarLogin(Usuarios usuarioIngresado);
+
 // Funciones para persistencia binaria
 int guardarPresentacionesBinario(const char* nombreArchivo, ColeccionPresentaciones coleccion);
 ColeccionPresentaciones cargarPresentacionesBinario(const char* nombreArchivo);

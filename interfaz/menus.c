@@ -45,13 +45,13 @@ int mostrarMenuArtistas(void) {
     return scanInt();
 }
 
-void menuAdmin(Usuarios usua, ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPresentaciones* cPres) {
+void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPresentaciones* cPres) {
     int opcionPrincipal;
     int opcionSubMenu;
 
     do {
         printf("\n=== PANEL DE ADMINISTRADOR ===\n");
-        printf("Bienvenido/a, %s\n", usua.nombre);
+        printf("Bienvenido/a, %s\n", usuario.nombre);
         printf("1. Gestionar Artistas\n");
         printf("2. Gestionar Escenarios\n");
         printf("3. Gestionar Presentaciones\n");
@@ -102,7 +102,7 @@ void menuAdmin(Usuarios usua, ColeccionArtistas* cArt, ColeccionEscenarios* cEsc
                 break;
 
             case 0:
-                printf("\nCerrando sesion de %s...\n", usua.nombre);
+                printf("\nCerrando sesion de %s...\n", usuario.nombre);
                 break;
 
             default:

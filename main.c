@@ -9,9 +9,9 @@ int main() {
     // INICIALIZACIÓN
     // ==========================================
     // Inicializamos los arreglos dinámicos y cargamos del disco
-    //ColeccionArtistas colArtistas = inicializarColeccionArtistas();
-    //ColeccionEscenarios colEscenarios = inicializarColeccionEscenarios();
-    //ColeccionPresentaciones colPresentaciones = inicializarColeccionPresentaciones();
+    ColeccionArtistas colArtistas = inicializarColeccionArtistas();
+    ColeccionEscenarios colEscenarios = inicializarColeccionEscenarios();
+    ColeccionPresentaciones colPresentaciones = inicializarColeccionPresentaciones();
     
     // 1. Verificamos y creamos el archivo de usuarios si es necesario
     inicializarArchivoUsuarios();
@@ -26,10 +26,17 @@ int main() {
         opcionInicio = mostrarMenuInicio();
 
         switch(opcionInicio) {
-            case 1: // Iniciar sesión
-                usuarioLogueado = pedirCredencialesUsuario("\n--- INICIO DE SESION ---");
+            case 1:
                 if (usuarioLogueado.rol == 1) {
-                    menuAdmin(usuarioLogueado);
+                    menuAdmin(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
+                } 
+                else if (usuarioLogueado.rol == 0) {
+                    // menuUsuario(usuarioLogueado); // (Para cuando lo programes)
+                    printf("\nBienvenido Usuario Normal. (Menu en construccion)\n");
+                } 
+                else {
+                    // Entra acá si el rol es -1 (el centinela)
+                    printf("\nError: Nombre de usuario o contrasenia incorrectos.\n");
                 }
                 break;
             case 2: // Crear usuario

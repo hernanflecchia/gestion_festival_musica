@@ -25,3 +25,26 @@ void inicializarArchivoUsuarios(void) {
         fclose(archUsuarios); 
     }
 }
+
+Usuarios validarLogin(Usuarios usuarioIngresado) {
+    Usuarios usuarioLeido;
+    // Creamos un usuario "centinela" para indicar que falló el login
+    Usuarios usuarioError;
+    usuarioError.rol = -1; 
+
+    FILE* arch = fopen("usuarios.bin", "rb");
+    
+    if (arch != NULL) {
+        while (fread(&usuarioLeido, sizeof(Usuarios), 1, arch) > 0) { 
+            if (strcmp(usuarioLeido.nombre, usuarioIngresado.nombre) == 0 && 
+                strcmp(usuarioLeido.contrasenia, usuarioIngresado.contrasenia) == 0) {
+
+                fclose(arch);
+                return usuarioLeido;
+            }
+        }
+        fclose(arch);
+    }
+    
+    return usuarioError;
+}

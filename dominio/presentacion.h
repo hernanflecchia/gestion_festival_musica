@@ -12,6 +12,6 @@ typedef struct stPresentacion {
 } Presentacion;
 
 // Prototipo de la función para mostrar la presentación
-void mostrarPresentacion(Presentacion p);
+void mostrarPresentacion(Presentacion presentacion);
 
 #endif

@@ -5,6 +5,7 @@
 #include "../dominio/artista.h"
 #include "../dominio/escenario.h"
 #include "../dominio/presentacion.h"
+#include "../logica/colecciones.h"
 
 // ==========================================
 // MENÚS DE NAVEGACIÓN
@@ -15,8 +16,8 @@ int mostrarMenuArtistas(void);
 int mostrarMenuEscenarios(void);
 int mostrarMenuPresentaciones(void);
 int mostrarMenuListados(void);
-void menuAdmin(Usuarios usua);
-void menuUsuario(Usuarios usua);
+void menuAdmin(Usuarios usuario, ColeccionArtistas colArtistas, ColeccionEscenarios colEscenarios, ColeccionPresentaciones colPresentaciones);
+void menuUsuario(Usuarios usuario, ColeccionArtistas colArtistas, ColeccionEscenarios colEscenarios, ColeccionPresentaciones colPresentaciones);
 
 // ==========================================
 // INGRESOS DE DATOS (ALTAS)

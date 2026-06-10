@@ -3,26 +3,25 @@
 #include "gestor_archivos.h"
 
 void inicializarArchivoUsuarios(void) {
-    FILE* archUsuarios = fopen("usuarios.bin", "rb"); // Intentamos leer [6]
+    FILE* archUsuarios = fopen("usuarios.bin", "rb");
     
-    if (archUsuarios == NULL) { // Si el archivo no existe [7]
-        archUsuarios = fopen("usuarios.bin", "wb"); // Lo creamos [6]
-        
+    if (archUsuarios == NULL) {
+        // Si el archivo no existe lo creamos con wb
+        archUsuarios = fopen("usuarios.bin", "wb");
+        // Creamos el usuario admin
         if (archUsuarios != NULL) {
             Usuarios primerAdmin;
             strcpy(primerAdmin.nombre, "admin");
             strcpy(primerAdmin.contrasenia, "admin");
-            primerAdmin.rol = 1; // 1 = Admin
+            primerAdmin.rol = 1;
             
-            // Escribimos el bloque en el archivo [8]
             fwrite(&primerAdmin, sizeof(Usuarios), 1, archUsuarios); 
-            fclose(archUsuarios); [5]
+            fclose(archUsuarios);
             
-            // Un pequeño aviso por consola no hace daño en la inicialización
             printf("[Sistema] Primer inicio detectado: Usuario 'admin' creado con exito.\n\n");
         }
     } else {
-        // El archivo ya existía, lo cerramos [5]
+        // Si el archivo ya existe lo cerramos nada mas
         fclose(archUsuarios); 
     }
 }

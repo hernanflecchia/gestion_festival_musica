@@ -13,7 +13,8 @@ int main() {
     //ColeccionEscenarios colEscenarios = inicializarColeccionEscenarios();
     //ColeccionPresentaciones colPresentaciones = inicializarColeccionPresentaciones();
     
-    // (Acá también iría tu lógica oculta de crear el 1er Admin si no existe)
+    // 1. Verificamos y creamos el archivo de usuarios si es necesario
+    inicializarArchivoUsuarios();
 
     int opcionInicio;
     Usuarios usuarioLogueado;
@@ -27,10 +28,9 @@ int main() {
         switch(opcionInicio) {
             case 1: // Iniciar sesión
                 usuarioLogueado = pedirCredencialesUsuario("\n--- INICIO DE SESION ---");
-                // (Futuro) La Lógica verifica si existe. Supongamos que es admin:
-                // if (usuarioLogueado.rol == 1) {
-                //      menuAdmin(usuarioLogueado);
-                // }
+                if (usuarioLogueado.rol == 1) {
+                    menuAdmin(usuarioLogueado);
+                }
                 break;
             case 2: // Crear usuario
                 Usuarios nuevo = pedirCredencialesUsuario("\n--- REGISTRO DE NUEVO USUARIO ---");

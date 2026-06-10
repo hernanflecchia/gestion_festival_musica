@@ -26,14 +26,14 @@ int main() {
 
         switch(opcionInicio) {
             case 1: // Iniciar sesión
-                usuarioLogueado = pedirDatosLogin();
+                usuarioLogueado = pedirCredencialesUsuario("\n--- INICIO DE SESION ---");
                 // (Futuro) La Lógica verifica si existe. Supongamos que es admin:
                 // if (usuarioLogueado.rol == 1) {
                 //      menuAdmin(usuarioLogueado);
                 // }
                 break;
             case 2: // Crear usuario
-                Usuarios nuevo = pedirDatosNuevoUsuario();
+                Usuarios nuevo = pedirCredencialesUsuario("\n--- REGISTRO DE NUEVO USUARIO ---");
                 // (Futuro) La Lógica lo guarda en usuarios.bin
                 printf("\nUsuario creado con éxito. Por favor, inicie sesión.\n");
                 break;

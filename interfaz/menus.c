@@ -11,20 +11,10 @@ int mostrarMenuInicio(void) {
     return scanInt();
 }
 
-Usuarios pedirDatosLogin(void) {
+Usuarios pedirCredencialesUsuario(const char* titulo) {
     Usuarios usuario;
 
-    printf("Ingrese nombre de usuario: ");
-    scanString(usuario.nombre, DIMnombre);
-
-    printf("Ingrese contraseña: ");
-    scanString(usuario.contrasenia, DIMcontrasenia);
-
-    return usuario;
-}
-
-Usuarios pedirDatosNuevoUsuario(void) {
-    Usuarios usuario;
+    printf("%s\n", titulo); 
 
     printf("Ingrese nombre de usuario: ");
     scanString(usuario.nombre, DIMnombre);

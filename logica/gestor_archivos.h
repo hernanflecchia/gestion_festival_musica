@@ -2,6 +2,7 @@
 #define GESTOR_ARCHIVOS_H
 
 #include "colecciones.h"
+#include "../dominio/usuario.h"
 
 // Estructuras exclusivas para persistencia (disco)
 typedef struct stDuracionArchivo {
@@ -35,6 +36,9 @@ typedef struct stEscenarioArchivo {
     char nombre[50];
     char valido;
 } EscenarioArchivo;
+
+// Verifica si existe el archivo y crea el administrador por defecto si no existe
+void inicializarArchivoUsuarios(void);
 
 // Funciones para persistencia binaria
 int guardarPresentacionesBinario(const char* nombreArchivo, ColeccionPresentaciones coleccion);

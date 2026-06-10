@@ -3,6 +3,7 @@
 
 #include "colecciones.h"
 
+// Estructuras exclusivas para persistencia (disco)
 typedef struct stDuracionArchivo {
     int horas;
     int minutos;
@@ -19,7 +20,21 @@ typedef struct stPresentacionArchivo {
     int idEscenario;
     HorarioArchivo inicio;
     DuracionArchivo duracion;
+    char valido; // 'S' para activo, 'N' para borrado lógico (Auditoría)
 } PresentacionArchivo;
+
+typedef struct stArtistaArchivo {
+    int id;
+    char nombre[50];
+    char genero[30];
+    char valido;
+} ArtistaArchivo;
+
+typedef struct stEscenarioArchivo {
+    int id;
+    char nombre[50];
+    char valido;
+} EscenarioArchivo;
 
 // Funciones para persistencia binaria
 int guardarPresentacionesBinario(const char* nombreArchivo, ColeccionPresentaciones coleccion);

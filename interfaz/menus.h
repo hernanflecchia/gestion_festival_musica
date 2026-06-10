@@ -16,8 +16,8 @@ int mostrarMenuArtistas(void);
 int mostrarMenuEscenarios(void);
 int mostrarMenuPresentaciones(void);
 int mostrarMenuListados(void);
-void menuAdmin(Usuarios usuario, ColeccionArtistas colArtistas, ColeccionEscenarios colEscenarios, ColeccionPresentaciones colPresentaciones);
-void menuUsuario(Usuarios usuario, ColeccionArtistas colArtistas, ColeccionEscenarios colEscenarios, ColeccionPresentaciones colPresentaciones);
+void menuAdmin(Usuarios usuario, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, ColeccionPresentaciones* colPresentaciones);
+void menuUsuario(Usuarios usuario, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, ColeccionPresentaciones* colPresentaciones);
 
 // ==========================================
 // INGRESOS DE DATOS (ALTAS)

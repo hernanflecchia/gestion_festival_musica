@@ -21,8 +21,7 @@ void menuUsuario(Usuarios usua);
 // ==========================================
 // INGRESOS DE DATOS (ALTAS)
 // ==========================================
-Usuarios pedirDatosNuevoUsuario(void);
-Usuarios pedirDatosLogin(void);
+Usuarios pedirCredencialesUsuario(const char* titulo);
 Artista pedirDatosNuevoArtista(void);
 Escenario pedirDatosNuevoEscenario(void);
 Presentacion pedirDatosNuevaPresentacion(void);

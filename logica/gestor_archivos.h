@@ -1,41 +1,12 @@
 #ifndef GESTOR_ARCHIVOS_H
 #define GESTOR_ARCHIVOS_H
+#define ARCHIVO_USUARIOS "usuarios.bin"
+#define ARCHIVO_ARTISTAS "artistas.bin"
+#define ARCHIVO_ESCENARIOS "escenarios.bin"
+#define ARCHIVO_PRESENTACIONES "presentaciones.bin"
 
 #include "colecciones.h"
 #include "../dominio/usuario.h"
-
-// Estructuras exclusivas para persistencia (disco)
-typedef struct stDuracionArchivo {
-    int horas;
-    int minutos;
-} DuracionArchivo;
-
-typedef struct stHorarioArchivo {
-    int horas;
-    int minutos;
-} HorarioArchivo;
-
-typedef struct stPresentacionArchivo {
-    int id;
-    int idArtista;
-    int idEscenario;
-    HorarioArchivo inicio;
-    DuracionArchivo duracion;
-    char valido; // 'S' para activo, 'N' para borrado lógico (Auditoría)
-} PresentacionArchivo;
-
-typedef struct stArtistaArchivo {
-    int id;
-    char nombre[50];
-    char genero[30];
-    char valido;
-} ArtistaArchivo;
-
-typedef struct stEscenarioArchivo {
-    int id;
-    char nombre[50];
-    char valido;
-} EscenarioArchivo;
 
 // ==========================================
 // ARCHIVO USUARIOS

@@ -71,6 +71,17 @@ int guardarUsuario(Usuarios nuevoUsuario) {
 // ARCHIVO ARTISTAS
 // ==========================================
 
+ArtistaArchivo transformarAArtistaArchivo(Artista artistaMemoria) {
+    ArtistaArchivo artistaDisco;
+
+    artistaDisco.id = artistaMemoria.id;
+    strcpy(artistaDisco.nombre, artistaMemoria.nombre);
+    strcpy(artistaDisco.genero, artistaMemoria.genero);
+    artistaDisco.valido = 'S';
+
+    return artistaDisco;
+}
+
 int guardarArtistaEnArchivo(ArtistaArchivo nueva) {
     FILE* arch = fopen(ARCHIVO_ARTISTAS, "ab");
 
@@ -84,12 +95,12 @@ int guardarArtistaEnArchivo(ArtistaArchivo nueva) {
     return 0;
 }
 
-Artista transformarAArtistaMemoria(ArtistaArchivo nuevoArtista) {
+Artista transformarAArtistaMemoria(ArtistaArchivo artistaDisco) {
     Artista artistaMemoria;
 
-    artistaMemoria.id = nuevoArtista.id;
-    strcpy(artistaMemoria.nombre, nuevoArtista.nombre);
-    strcpy(artistaMemoria.genero, nuevoArtista.genero);
+    artistaMemoria.id = artistaDisco.id;
+    strcpy(artistaMemoria.nombre, artistaDisco.nombre);
+    strcpy(artistaMemoria.genero, artistaDisco.genero);
 
     return artistaMemoria;
 }
@@ -114,4 +125,31 @@ void cargarArtistasDesdeArchivo(ColeccionArtistas* coleccion) {
         }
         fclose(arch);
     }
+}
+
+int modificarArtistaEnArchivo(ArtistaArchivo modificado) {
+    int exito = 0;
+    FILE* arch = fopen("artistas.bin", "r+b"); 
+    
+    if (arch != NULL) {
+        ArtistaArchivo leido;
+        
+        while (fread(&leido, sizeof(ArtistaArchivo), 1, arch)) { 
+            
+            // Si encontramos el artista con el mismo ID que queremos modificar
+            if (leido.id == modificado.id) {
+                
+                // Movemos el indicador de posición exactamente un struct para atrás
+                fseek(arch, -1 * sizeof(ArtistaArchivo), SEEK_CUR); 
+                
+                // Escribimos el dato nuevo pisando el viejo
+                fwrite(&modificado, sizeof(ArtistaArchivo), 1, arch);
+                
+                exito = 1;
+                break;
+            }
+        }
+        fclose(arch);
+    }
+    return exito;
 }

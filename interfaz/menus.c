@@ -3,6 +3,7 @@
 #include "../dominio/usuario.h"
 #include "../dominio/artista.h"
 #include "../logica/colecciones.h"
+#include "../logica/gestor_archivos.h"
 
 int mostrarMenuInicio(void) {
     printf("        INICIO  \n\n");
@@ -69,14 +70,54 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 1:
                         {
                             Artista nuevoArtista = pedirDatosNuevoArtista();
-                            agregarArtista(cArt, nuevoArtista);
-                            printf("\n[Exito] Artista '%s' agregado a la memoria.\n", nuevoArtista.nombre);
+                            // Intentamos agregarlo a la memoria dinámica
+                            if (agregarArtista(cArt, nuevoArtista) == 1) {
+                                // Si la memoria RAM lo aceptó, lo mapeamos al formato de archivo
+                                ArtistaArchivo nuevoArch = transformarAArtistaArchivo(nuevoArtista);
+                                // Finalmente lo guardamos en el disco
+                                if (guardarArtistaEnArchivo(nuevoArch) == 1) {
+                                    printf("\n[Exito] Artista agregado y guardado correctamente.\n");
+                                } else {
+                                    printf("\n[Error] El artista esta en memoria pero fallo el guardado en disco.\n");
+                                }
+                                
+                            } else {
+                                printf("\n[Error] No se pudo agregar al artista por falta de memoria.\n");
+                            }
                             break;
                         }
                         case 2:
-                            // Aca usarías pedirIdGenerico("Artista"), luego lo buscás en el arreglo, 
-                            // y si existe, se lo pasas a pedirDatosModificadosArtista...
-                            printf("\n(En construccion...)\n");
+                            int indice;
+                            printf("\nIngrese el indice del artista a modificar: ");
+                            scanf("%d", &indice);
+                            
+                            // 1. Buscamos el artista original para ver si existe (usando tu funcion validada)
+                            Artista aModificar = obtenerArtista(cArt, indice);
+                            
+                            if (aModificar.id != -1) {
+                                // 2. Pedimos los datos nuevos (podes reciclar tu funcion de pedirDatos)
+                                printf("\nNuevo nombre: ");
+                                fflush(stdin);
+                                gets(aModificar.nombre);
+                                printf("Nuevo genero: ");
+                                fflush(stdin);
+                                gets(aModificar.genero);
+                                
+                                // 3. Actualizamos la memoria RAM
+                                if (actualizarArtista(cArt, indice, aModificar) == 1) {
+                                    
+                                    // 4. Mapeamos y actualizamos el Disco
+                                    ArtistaArchivo archModificado = transformarAArtistaArchivo(aModificar);
+                                    
+                                    if (modificarArtistaEnArchivo(archModificado) == 1) {
+                                        printf("\n[Exito] Artista modificado en memoria y disco.\n");
+                                    } else {
+                                        printf("\n[Error] Modificado en memoria pero no en disco.\n");
+                                    }
+                                }
+                            } else {
+                                printf("\n[Error] Indice invalido. No existe el artista.\n");
+                            }
                             break;
                         case 3:
                             // Pedir ID, buscarlo y cambiarle el valido a 'N' en el archivo

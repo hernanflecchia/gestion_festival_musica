@@ -24,38 +24,38 @@ int guardarUsuario(Usuarios nuevoUsuario);
 // ==========================================
 
 // Funciones de persistencia de Artistas
-int guardarArtistaEnArchivo(ArtistaArchivo nueva); 
+int guardarArtistaEnArchivo(ArtistaArchivo nuevoArtista); 
 void cargarArtistasDesdeArchivo(ColeccionArtistas* coleccion);
 int exportarArtistasATexto(const char* nombreArchivoTxt, ColeccionArtistas* coleccion);
 
 // Prototipos utilitarios de mapeo (transforman un modelo en otro)
-ArtistaArchivo transformarAArtistaArchivo(Artista pMemoria);
-Artista transformarAArtistaMemoria(ArtistaArchivo pDisco);
+ArtistaArchivo transformarAArtistaArchivo(Artista artistaMemoria);
+Artista transformarAArtistaMemoria(ArtistaArchivo artistaDisco);
 
 // ==========================================
 // ARCHIVO ESCENARIOS
 // ==========================================
 
 // Funciones de persistencia de Escenarios
-int guardarEscenarioEnArchivo(EscenarioArchivo nueva); 
+int guardarEscenarioEnArchivo(EscenarioArchivo nuevoEscenario); 
 void cargarEscenariosDesdeArchivo(ColeccionEscenarios* coleccion);
 int exportarEscenariosATexto(const char* nombreArchivoTxt, ColeccionEscenarios* coleccion);
 
 // Prototipos utilitarios de mapeo (transforman un modelo en otro)
-EscenarioArchivo transformarAEscenarioArchivo(Escenario pMemoria);
-Escenario transformarAEscenarioMemoria(EscenarioArchivo pDisco);
+EscenarioArchivo transformarAEscenarioArchivo(Escenario escenarioMemoria);
+Escenario transformarAEscenarioMemoria(EscenarioArchivo escenarioDisco);
 
 // ==========================================
 // ARCHIVO PRESENTACIONES
 // ==========================================
 
 // Funciones de persistencia de Presentaciones
-int guardarPresentacionEnArchivo(PresentacionArchivo nueva); 
+int guardarPresentacionEnArchivo(PresentacionArchivo nuevaPresentacion); 
 void cargarPresentacionesDesdeArchivo(ColeccionPresentaciones* coleccion);
 int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion);
 
 // Prototipos utilitarios de mapeo (transforman un modelo en otro)
-PresentacionArchivo transformarAPresentacionArchivo(Presentacion pMemoria);
-Presentacion transformarAPresentacionMemoria(PresentacionArchivo pDisco);
+PresentacionArchivo transformarAPresentacionArchivo(Presentacion presentacionMemoria);
+Presentacion transformarAPresentacionMemoria(PresentacionArchivo presentacionDisco);
 
 #endif

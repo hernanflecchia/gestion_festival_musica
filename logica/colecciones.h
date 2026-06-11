@@ -32,23 +32,23 @@ typedef struct {
 
 // --- Para Presentaciones ---
 ColeccionPresentaciones inicializarColeccionPresentaciones(void);
-int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion nueva);
+int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion nuevaPresentacion);
 Presentacion obtenerPresentacion(ColeccionPresentaciones coleccion, int indice);
-int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion modificada);
+int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion presentacionModificada);
 void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion);
 
 // --- Para Artistas ---
 ColeccionArtistas inicializarColeccionArtistas(void);
-int agregarArtista(ColeccionArtistas* coleccion, Artista nueva);
+int agregarArtista(ColeccionArtistas* coleccion, Artista nuevoArtista);
 Artista obtenerArtista(ColeccionArtistas coleccion, int indice);
-int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista modificada);
+int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista artistaModificado);
 void liberarColeccionArtistas(ColeccionArtistas* coleccion);
 
 // --- Para Escenarios ---
 ColeccionEscenarios inicializarColeccionEscenarios(void);
-int agregarEscenario(ColeccionEscenarios* coleccion, Escenario nueva);
+int agregarEscenario(ColeccionEscenarios* coleccion, Escenario nuevoEscenario);
 Escenario obtenerEscenario(ColeccionEscenarios coleccion, int indice);
-int actualizarEscenario(ColeccionEscenarios* coleccion, int indice, Escenario modificada);
+int actualizarEscenario(ColeccionEscenarios* coleccion, int indice, Escenario escenarioModificado);
 void liberarColeccionEscenarios(ColeccionEscenarios* coleccion);
 
 // =======================================================

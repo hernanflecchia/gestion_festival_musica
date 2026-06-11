@@ -2,12 +2,16 @@
 #include <string.h>
 #include "gestor_archivos.h"
 
+// ==========================================
+// ARCHIVO USUARIOS
+// ==========================================
+
 void inicializarArchivoUsuarios(void) {
-    FILE* archUsuarios = fopen("usuarios.bin", "rb");
+    FILE* archUsuarios = fopen(ARCHIVO_USUARIOS, "rb");
     
     if (archUsuarios == NULL) {
         // Si el archivo no existe lo creamos con wb
-        archUsuarios = fopen("usuarios.bin", "wb");
+        archUsuarios = fopen(ARCHIVO_USUARIOS, "wb");
         // Creamos el usuario admin
         if (archUsuarios != NULL) {
             Usuarios primerAdmin;
@@ -32,7 +36,7 @@ Usuarios validarLogin(Usuarios usuarioIngresado) {
     Usuarios usuarioError;
     usuarioError.rol = -1; 
 
-    FILE* arch = fopen("usuarios.bin", "rb");
+    FILE* arch = fopen(ARCHIVO_USUARIOS, "rb");
     
     if (arch != NULL) {
         while (fread(&usuarioLeido, sizeof(Usuarios), 1, arch) > 0) { 
@@ -51,7 +55,7 @@ Usuarios validarLogin(Usuarios usuarioIngresado) {
 
 int guardarUsuario(Usuarios nuevoUsuario) {
     nuevoUsuario.rol = 0;
-    FILE* arch = fopen("usuarios.bin", "ab");
+    FILE* arch = fopen(ARCHIVO_USUARIOS, "ab");
     
     if (arch != NULL) {
         fwrite(&nuevoUsuario, sizeof(Usuarios), 1, arch);
@@ -61,4 +65,46 @@ int guardarUsuario(Usuarios nuevoUsuario) {
     }
     
     return 0;
+}
+
+// ==========================================
+// ARCHIVO ARTISTAS
+// ==========================================
+
+int guardarArtistaEnArchivo(ArtistaArchivo nueva) {
+    FILE* arch = fopen(ARCHIVO_ARTISTAS, "ab");
+
+    if (arch!= NULL) {
+        fwrite(&nueva, sizeof(ArtistaArchivo), 1, arch);
+        fclose(arch);
+
+        return 1;
+    }
+
+    return 0;
+}
+
+Artista transformarAArtistaMemoria(ArtistaArchivo artistaDisco) {
+    Artista artistaMemoria;
+
+    artistaMemoria.id = artistaDisco.id;
+    strcpy(artistaMemoria.nombre, artistaDisco.nombre);
+    strcpy(artistaMemoria.genero, artistaDisco.genero);
+
+    return artistaMemoria;
+}
+
+void cargarArtistasDesdeArchivo(ColeccionArtistas* coleccion) {
+    FILE* arch = fopen(ARCHIVO_ARTISTAS, "rb");
+
+    if (arch != NULL) {
+        ArtistaArchivo artistaLeido;
+
+        while (fread(&artistaLeido, sizeof(ArtistaArchivo), 1, arch)) {
+            if (artistaLeido.valido == 'S') {
+                Artista artistaMemoria = transformarAArtistaMemoria(artistaLeido);
+                agregarArtista(coleccion, artistaMemoria);
+            }
+        }
+    }
 }

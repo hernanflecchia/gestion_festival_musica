@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include "colecciones.h"
 
-// ==========================================
-// INICIALIZACIÓN Y LIBERACIÓN DE ARTISTAS
-// ==========================================
+// ===========
+// ARTISTAS
+// ===========
 
 ColeccionArtistas inicializarColeccionArtistas(void) {
     ColeccionArtistas col;
@@ -23,6 +23,10 @@ ColeccionArtistas inicializarColeccionArtistas(void) {
     return col;
 }
 
+int agregarArtista(ColeccionArtistas* coleccion, Artista nueva) {
+
+}
+
 void liberarColeccionArtistas(ColeccionArtistas* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {
@@ -30,9 +34,9 @@ void liberarColeccionArtistas(ColeccionArtistas* coleccion) {
     }
 }
 
-// ============================================
-// INICIALIZACIÓN Y LIBERACIÓN DE ESCENARIOS
-// ============================================
+// =============
+// ESCENARIOS
+// =============
 
 ColeccionEscenarios inicializarColeccionEscenarios(void) {
     ColeccionEscenarios col;
@@ -58,9 +62,9 @@ void liberarColeccionEscenarios(ColeccionEscenarios* coleccion) {
     }
 }
 
-// ================================================
-// INICIALIZACIÓN Y LIBERACIÓN DE PRESENTACIONES
-// ================================================
+// =================
+// PRESENTACIONES
+// =================
 
 ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
     ColeccionPresentaciones col;

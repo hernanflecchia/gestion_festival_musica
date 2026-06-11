@@ -27,6 +27,8 @@ int main() {
 
         switch(opcionInicio) {
             case 1:
+                Usuarios intento = pedirCredencialesUsuario("\n--- INICIO DE SESION ---");
+                usuarioLogueado = validarLogin(intento);
                 if (usuarioLogueado.rol == 1) {
                     menuAdmin(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
                 } 
@@ -36,15 +38,18 @@ int main() {
                 } 
                 else {
                     // Entra acá si el rol es -1 (el centinela)
-                    printf("\nError: Nombre de usuario o contrasenia incorrectos.\n");
+                    printf("\nError: Nombre de usuario o contraseña incorrectos.\n");
                 }
                 break;
-            case 2: // Crear usuario
+            case 2:
                 Usuarios nuevo = pedirCredencialesUsuario("\n--- REGISTRO DE NUEVO USUARIO ---");
-                // (Futuro) La Lógica lo guarda en usuarios.bin
-                printf("\nUsuario creado con éxito. Por favor, inicie sesión.\n");
+                if (guardarUsuario(nuevo) == 1) {
+                    printf("\n[Exito] Usuario '%s' creado correctamente. Ya puede iniciar sesion.\n", nuevo.nombre);
+                } else {
+                    printf("\n[Error Critico] No se pudo acceder al archivo de usuarios.\n");
+                }
                 break;
-            case 3: // Salir
+            case 3:
                 printf("\nGuardando configuraciones y cerrando el sistema...\n");
                 break;
             default:
@@ -56,9 +61,9 @@ int main() {
     // 3. LIMPIEZA Y CIERRE
     // ==========================================
     // Vaciamos el Heap llamando a tu TDA antes de apagar el programa
-    //liberarColeccionArtistas(&colArtistas);
-    //liberarColeccionEscenarios(&colEscenarios);
-    //liberarColeccionPresentaciones(&colPresentaciones);
+    liberarColeccionArtistas(&colArtistas);
+    liberarColeccionEscenarios(&colEscenarios);
+    liberarColeccionPresentaciones(&colPresentaciones);
 
     return 0;
 }

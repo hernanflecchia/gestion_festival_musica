@@ -48,3 +48,17 @@ Usuarios validarLogin(Usuarios usuarioIngresado) {
     
     return usuarioError;
 }
+
+int guardarUsuario(Usuarios nuevoUsuario) {
+    nuevoUsuario.rol = 0;
+    FILE* arch = fopen("usuarios.bin", "ab");
+    
+    if (arch != NULL) {
+        fwrite(&nuevoUsuario, sizeof(Usuarios), 1, arch);
+        fclose(arch); 
+        
+        return 1;
+    }
+    
+    return 0;
+}

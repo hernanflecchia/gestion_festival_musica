@@ -15,6 +15,16 @@ typedef struct stDuracion {
     int esValido; // Funciona como flag: 1 es Válido, 0 es Inválido
 } Duracion;
 
+typedef struct stDuracionArchivo {
+    int horas;
+    int minutos;
+} DuracionArchivo;
+
+typedef struct stHorarioArchivo {
+    int horas;
+    int minutos;
+} HorarioArchivo;
+
 // Prototipos de las funciones validadoras
 Horario crearHorario(int horas, int minutos);
 Duracion crearDuracion(int horas, int minutos);

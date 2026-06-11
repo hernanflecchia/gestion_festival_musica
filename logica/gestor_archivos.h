@@ -27,6 +27,7 @@ int guardarUsuario(Usuarios nuevoUsuario);
 int guardarArtistaEnArchivo(ArtistaArchivo nuevoArtista); 
 void cargarArtistasDesdeArchivo(ColeccionArtistas* coleccion);
 int exportarArtistasATexto(const char* nombreArchivoTxt, ColeccionArtistas* coleccion);
+int modificarArtistaEnArchivo(ArtistaArchivo artistaModificado);
 
 // Prototipos utilitarios de mapeo (transforman un modelo en otro)
 ArtistaArchivo transformarAArtistaArchivo(Artista artistaMemoria);

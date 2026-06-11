@@ -1,15 +1,15 @@
 #ifndef ESCENARIO_H
 #define ESCENARIO_H
-#define DIM_NOMBRE 50
+#define DIM_ESCENARIO_NOMBRE 50
 
 typedef struct stEscenario {
     int id;
-    char nombre[DIM_NOMBRE];
+    char nombre[DIM_ESCENARIO_NOMBRE];
 } Escenario;
 
 typedef struct stEscenarioArchivo {
     int id;
-    char nombre[DIM_NOMBRE];
+    char nombre[DIM_ESCENARIO_NOMBRE];
     char valido; // 'S' para activo, 'N' para borrado lógico (Auditoría)
 } EscenarioArchivo;
 

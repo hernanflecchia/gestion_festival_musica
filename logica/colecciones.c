@@ -61,6 +61,19 @@ Artista obtenerArtista(ColeccionArtistas* coleccion, int indice) {
     return unArtista;
 }
 
+int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista artistaModificado) {
+    int respuesta = 1;
+    // Verificamos que el indice sea valido y no se pase de los elementos cargados
+    // si falla algo devolvemos -1 como respuesta
+    if (indice >= 0 && indice < coleccion->validos) {
+        coleccion->arreglo[indice] = artistaModificado;
+        respuesta = 1;
+    } else {
+        respuesta = -1; 
+    }
+    return respuesta;
+}
+
 void liberarColeccionArtistas(ColeccionArtistas* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {

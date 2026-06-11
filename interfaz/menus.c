@@ -18,9 +18,9 @@ Usuarios pedirCredencialesUsuario(const char* titulo) {
 
     printf("%s\n", titulo); 
     printf("Ingrese nombre de usuario: ");
-    scanString(usuario.nombre, DIM_NOMBRE);
+    scanString(usuario.nombre, DIM_USUARIO_NOMBRE);
     printf("Ingrese contraseña: ");
-    scanString(usuario.contrasenia, DIM_CONTRASENIA);
+    scanString(usuario.contrasenia, DIM_USUARIO_CONTRASENIA);
 
     return usuario;
 }

@@ -33,21 +33,21 @@ typedef struct {
 // --- Para Presentaciones ---
 ColeccionPresentaciones inicializarColeccionPresentaciones(void);
 int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion nuevaPresentacion);
-Presentacion obtenerPresentacion(ColeccionPresentaciones coleccion, int indice);
+Presentacion obtenerPresentacion(ColeccionPresentaciones* coleccion, int indice);
 int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion presentacionModificada);
 void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion);
 
 // --- Para Artistas ---
 ColeccionArtistas inicializarColeccionArtistas(void);
 int agregarArtista(ColeccionArtistas* coleccion, Artista nuevoArtista);
-Artista obtenerArtista(ColeccionArtistas coleccion, int indice);
+Artista obtenerArtista(ColeccionArtistas* coleccion, int indice);
 int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista artistaModificado);
 void liberarColeccionArtistas(ColeccionArtistas* coleccion);
 
 // --- Para Escenarios ---
 ColeccionEscenarios inicializarColeccionEscenarios(void);
 int agregarEscenario(ColeccionEscenarios* coleccion, Escenario nuevoEscenario);
-Escenario obtenerEscenario(ColeccionEscenarios coleccion, int indice);
+Escenario obtenerEscenario(ColeccionEscenarios* coleccion, int indice);
 int actualizarEscenario(ColeccionEscenarios* coleccion, int indice, Escenario escenarioModificado);
 void liberarColeccionEscenarios(ColeccionEscenarios* coleccion);
 

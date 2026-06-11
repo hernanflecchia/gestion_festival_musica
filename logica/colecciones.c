@@ -23,8 +23,42 @@ ColeccionArtistas inicializarColeccionArtistas(void) {
     return col;
 }
 
-int agregarArtista(ColeccionArtistas* coleccion, Artista nueva) {
+int agregarArtista(ColeccionArtistas* coleccion, Artista nuevoArtista) {
+    
+    // Verificamos si NO hay espacio (los válidos alcanzaron la capacidad)
+    if (coleccion->validos == coleccion->capacidad) {
+        
+        int nuevaCapacidad = coleccion->capacidad + 10;
+        Artista* nuevoBloque = (Artista*) realloc(coleccion->arreglo, nuevaCapacidad * sizeof(Artista));
+        
+        if (nuevoBloque == NULL) {
+            return 0; // Falló la inserción
+        }
+        
+        // Actualizamos los datos de la colección
+        coleccion->arreglo = nuevoBloque;
+        coleccion->capacidad = nuevaCapacidad;
+    }
+    
+    // Agregamos el artista.
+    coleccion->arreglo[coleccion->validos] = nuevoArtista;
+    coleccion->validos++;
+    
+    return 1;
+}
 
+Artista obtenerArtista(ColeccionArtistas* coleccion, int indice) {
+    Artista unArtista;
+
+    // Verificamos que el indice sea valido y no se pase de los elementos cargados
+    // si falla algo devolvemos -1 como id indicando con ello que falló
+    if (indice >= 0 && indice < coleccion->validos) {
+        unArtista = coleccion->arreglo[indice];
+    } else {
+        unArtista.id = -1; 
+    }
+
+    return unArtista;
 }
 
 void liberarColeccionArtistas(ColeccionArtistas* coleccion) {

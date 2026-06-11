@@ -84,12 +84,12 @@ int guardarArtistaEnArchivo(ArtistaArchivo nueva) {
     return 0;
 }
 
-Artista transformarAArtistaMemoria(ArtistaArchivo artistaDisco) {
+Artista transformarAArtistaMemoria(ArtistaArchivo nuevoArtista) {
     Artista artistaMemoria;
 
-    artistaMemoria.id = artistaDisco.id;
-    strcpy(artistaMemoria.nombre, artistaDisco.nombre);
-    strcpy(artistaMemoria.genero, artistaDisco.genero);
+    artistaMemoria.id = nuevoArtista.id;
+    strcpy(artistaMemoria.nombre, nuevoArtista.nombre);
+    strcpy(artistaMemoria.genero, nuevoArtista.genero);
 
     return artistaMemoria;
 }
@@ -99,12 +99,19 @@ void cargarArtistasDesdeArchivo(ColeccionArtistas* coleccion) {
 
     if (arch != NULL) {
         ArtistaArchivo artistaLeido;
+        int agregado;
 
         while (fread(&artistaLeido, sizeof(ArtistaArchivo), 1, arch)) {
             if (artistaLeido.valido == 'S') {
                 Artista artistaMemoria = transformarAArtistaMemoria(artistaLeido);
-                agregarArtista(coleccion, artistaMemoria);
+                agregado = agregarArtista(coleccion, artistaMemoria);
+                if (agregado == 0) {
+                    printf("[Error] No hay memoria disponible para ampliar el arreglo.\n");
+                    fclose(arch);
+                    return;
+                }
             }
         }
+        fclose(arch);
     }
 }

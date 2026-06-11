@@ -23,7 +23,7 @@ ColeccionArtistas inicializarColeccionArtistas(void) {
     return col;
 }
 
-int agregarArtista(ColeccionArtistas* coleccion, Artista nuevoArtista) {
+int agregarArtista(ColeccionArtistas* coleccion, Artista unArtista) {
     
     // Verificamos si NO hay espacio (los válidos alcanzaron la capacidad)
     if (coleccion->validos == coleccion->capacidad) {
@@ -41,7 +41,7 @@ int agregarArtista(ColeccionArtistas* coleccion, Artista nuevoArtista) {
     }
     
     // Agregamos el artista.
-    coleccion->arreglo[coleccion->validos] = nuevoArtista;
+    coleccion->arreglo[coleccion->validos] = unArtista;
     coleccion->validos++;
     
     return 1;

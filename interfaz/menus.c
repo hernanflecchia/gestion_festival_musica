@@ -18,9 +18,9 @@ Usuarios pedirCredencialesUsuario(const char* titulo) {
 
     printf("%s\n", titulo); 
     printf("Ingrese nombre de usuario: ");
-    scanString(usuario.nombre, DIMnombre);
+    scanString(usuario.nombre, DIM_NOMBRE);
     printf("Ingrese contraseña: ");
-    scanString(usuario.contrasenia, DIMcontrasenia);
+    scanString(usuario.contrasenia, DIM_CONTRASENIA);
 
     return usuario;
 }
@@ -69,7 +69,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 1:
                         {
                             Artista nuevoArtista = pedirDatosNuevoArtista();
-                            //agregarArtista(cArt, nuevoArtista);
+                            agregarArtista(cArt, nuevoArtista);
                             printf("\n[Exito] Artista '%s' agregado a la memoria.\n", nuevoArtista.nombre);
                             break;
                         }

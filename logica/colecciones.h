@@ -35,6 +35,8 @@ ColeccionPresentaciones inicializarColeccionPresentaciones(void);
 int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPresentacion);
 Presentacion obtenerPresentacion(ColeccionPresentaciones* coleccion, int indice);
 int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion presentacionModificada);
+int obtenerCantidadPresentaciones(ColeccionPresentaciones* coleccion);
+int obtenerSiguienteIdPresentacion(ColeccionPresentaciones* coleccion);
 void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion);
 
 // --- Para Artistas ---
@@ -42,6 +44,8 @@ ColeccionArtistas inicializarColeccionArtistas(void);
 int agregarArtista(ColeccionArtistas* coleccion, Artista unArtista);
 Artista obtenerArtista(ColeccionArtistas* coleccion, int indice);
 int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista artistaModificado);
+int obtenerCantidadArtistas(ColeccionArtistas* coleccion);
+int obtenerSiguienteIdArtista(ColeccionArtistas* coleccion);
 void liberarColeccionArtistas(ColeccionArtistas* coleccion);
 
 // --- Para Escenarios ---
@@ -49,6 +53,8 @@ ColeccionEscenarios inicializarColeccionEscenarios(void);
 int agregarEscenario(ColeccionEscenarios* coleccion, Escenario unEscenario);
 Escenario obtenerEscenario(ColeccionEscenarios* coleccion, int indice);
 int actualizarEscenario(ColeccionEscenarios* coleccion, int indice, Escenario escenarioModificado);
+int obtenerCantidadEscenarios(ColeccionEscenarios* coleccion);
+int obtenerSiguienteIdEscenario(ColeccionEscenarios* coleccion);
 void liberarColeccionEscenarios(ColeccionEscenarios* coleccion);
 
 // =======================================================

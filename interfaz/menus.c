@@ -65,6 +65,7 @@ int mostrarMenuArtistas(void) {
 void menuUsuario(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPresentaciones* cPres) {
     int opcion;
     int idBuscado;
+    int cantidad;
 
     do {
         printf("\nBienvenido Usuario Normal.\n");
@@ -84,8 +85,18 @@ void menuUsuario(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPr
         switch (opcion) {
             case 1:
                 printf("\n--- LISTADO DE ARTISTAS ---\n");
-                // TODO: Ordenar alfabeticamente
-                // TODO: Imprimir el arreglo
+                cantidad = obtenerCantidadArtistas(cArt);
+                if (cantidad == 0) {
+                    printf("No hay artistas cargados en el sistema.\n");
+                } else {
+                    ordenarColeccionArtistasAlfabeticamente(cArt);
+                    for (int i = 0; i < cantidad; i++) {
+                        Artista artistas = obtenerArtista(cArt, i);
+                        if (artistas.id != -1) {
+                            mostrarArtistaUsuario(artistas);
+                        }
+                    }
+                }
                 break;
                 
             case 2:
@@ -120,7 +131,7 @@ void menuUsuario(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPr
                 printf("\n[Error] Opcion invalida. Intente nuevamente.\n");
                 break;
         }
-    } while (opcion != '0');
+    } while (opcion != 0);
 }
 
 void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPresentaciones* cPres) {
@@ -190,11 +201,11 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                                 if (bajaLogicaArtistaEnArchivo(idBuscado) == 1) {
                                     printf("\n[Exito] Artista borrado de la memoria y del disco correctamente.\n");
                                     // Borrar en cascada
-                                    int cantRAM = eliminarPresentacionesDeMemoriaPorArtista(cPres, idBuscado);
+                                    int cantMemoria = eliminarPresentacionesDeMemoriaPorArtista(cPres, idBuscado);
                                     int cantDisco = bajaLogicaPresentacionesEnArchivoPorArtista(idBuscado);
                                     // Verificamos si hubo presentaciones afectadas
-                                    if (cantRAM > 0 || cantDisco > 0) {
-                                        printf("[Exito] Se borraron %d presentaciones en RAM y %d en disco asociadas a este artista.\n", cantRAM, cantDisco);
+                                    if (cantMemoria > 0 || cantDisco > 0) {
+                                        printf("[Exito] Se borraron %d presentaciones en Memoria y %d en disco asociadas a este artista.\n", cantMemoria, cantDisco);
                                     } else {
                                         printf("[Info] El artista no tenia presentaciones programadas activas.\n");
                                     }

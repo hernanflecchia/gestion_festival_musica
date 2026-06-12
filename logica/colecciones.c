@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "colecciones.h"
 
 // ===========
@@ -147,6 +148,43 @@ void liberarColeccionEscenarios(ColeccionEscenarios* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {
         free(coleccion->arreglo);
+    }
+}
+
+int buscarPosMenorAlfabeticoRecursivo(Artista arreglo[], int validos, int indiceActual, int indiceMenor) {
+    // Condición de corte: llegamos al final del arreglo
+    if (indiceActual == validos) {
+        return indiceMenor; 
+    }
+    // Si el nombre actual es alfabéticamente menor que el que teníamos guardado, actualizamos
+    if (strcmp(arreglo[indiceActual].nombre, arreglo[indiceMenor].nombre) < 0) {
+        indiceMenor = indiceActual;
+    }
+    // Llamada recursiva avanzando al siguiente elemento
+    return buscarPosMenorAlfabeticoRecursivo(arreglo, validos, indiceActual + 1, indiceMenor);
+}
+
+void ordenarArtistasRecursivo(Artista arreglo[], int validos, int indiceActual) {
+    // Condición de corte: si llegamos al anteúltimo elemento, ya está todo ordenado
+    if (indiceActual >= validos - 1) {
+        return; 
+    }
+    // Buscamos el menor desde la posición actual hasta el final
+    int posMenor = buscarPosMenorAlfabeticoRecursivo(arreglo, validos, indiceActual + 1, indiceActual);
+    // Si encontramos uno menor, hacemos el "swap" (intercambio)
+    if (posMenor != indiceActual) {
+        Artista aux = arreglo[indiceActual];
+        arreglo[indiceActual] = arreglo[posMenor];
+        arreglo[posMenor] = aux;
+    }
+    // Llamada recursiva para ordenar el resto del arreglo avanzando un lugar
+    ordenarArtistasRecursivo(arreglo, validos, indiceActual + 1);
+}
+
+void ordenarColeccionArtistasAlfabeticamente(ColeccionArtistas* coleccion) {
+    // Disparamos la recursión empezando desde el índice 0
+    if (coleccion->validos > 1) {
+        ordenarArtistasRecursivo(coleccion->arreglo, coleccion->validos, 0);
     }
 }
 

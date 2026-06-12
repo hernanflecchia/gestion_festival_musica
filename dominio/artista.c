@@ -7,5 +7,5 @@ void mostrarArtistaAdmin(Artista artista) {
 }
 
 void mostrarArtistaUsuario(Artista artista) {
-    printf("Nombre: %-20s | Genero: %s\n", artista.id, artista.nombre, artista.genero);
+    printf("Nombre: %-20s | Genero: %s\n", artista.nombre, artista.genero);
 }

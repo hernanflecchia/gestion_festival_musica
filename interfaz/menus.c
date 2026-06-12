@@ -76,12 +76,10 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
         printf("0. Cerrar Sesion\n");
         printf("Elija una opcion: ");
         opcionPrincipal = scanInt();
-
         switch(opcionPrincipal) {
             case 1:
                 do {
                     opcionSubMenu = mostrarMenuArtistas();
-                    
                     switch(opcionSubMenu) {
                         case 1:
                         {
@@ -104,7 +102,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             break;
                         }
                         case 2:
-                            int idBuscado = pedirIdGenerico("Artista");
+                            int idBuscado = pedirIdGenerico("Artista a modificar");
                             int indice = buscarIndiceArtistaPorId(cArt, idBuscado);
                             if (indice != -1) {
                                 Artista aModificar = obtenerArtista(cArt, indice);
@@ -122,14 +120,28 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             }
                             break;
                         case 3:
-                            // Pedir ID, buscarlo y cambiarle el valido a 'N' en el archivo
-                            printf("\n(En construccion...)\n");
+                            int idBuscado = pedirIdGenerico("Artista a dar de baja");
+                            int indice = buscarIndiceArtistaPorId(cArt, idBuscado);
+                            if (indice != -1) {
+                                eliminarArtistaDeMemoria(cArt, indice);
+                                if (bajaLogicaArtistaEnArchivo(idBuscado) == 1) {
+                                    printf("\n[Exito] Artista borrado de la memoria y del disco correctamente.\n");
+                                    int cantPresentacionesBorradas = bajaLogicaPresentacionesPorArtista(cPres, idBuscado);
+                                    if (cantPresentacionesBorradas > 0) {
+                                        printf("[Exito] Se borraron %d presentaciones asociadas a este artista.\n", cantPresentacionesBorradas);
+                                    } else {
+                                        printf("[Info] El artista no tenia presentaciones programadas.\n");
+                                    }
+                                } else {
+                                    printf("\n[Error] Se borró de memoria pero falló el archivo.\n");
+                                }
+                            } else {
+                                printf("\n[Error] El ID ingresado no existe o ya fue dado de baja.\n");
+                            }
                             break;
                         case 4:
                             printf("\n--- LISTADO DE ARTISTAS ---\n");
-                            
                             int cantidad = obtenerCantidadArtistas(cArt);
-                            
                             if (cantidad == 0) {
                                 printf("No hay artistas cargados en el sistema.\n");
                             } else {

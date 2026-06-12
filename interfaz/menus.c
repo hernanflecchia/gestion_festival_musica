@@ -104,16 +104,13 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             break;
                         }
                         case 2:
-                            int indice = pedirIdGenerico("Artista");
-                            Artista aModificar = obtenerArtista(cArt, indice);                         
-                            if (aModificar.id != -1) {
-                                aModificar = pedirDatosModificadosArtista(aModificar);                                
-                                // 3. Actualizamos la memoria RAM
+                            int idBuscado = pedirIdGenerico("Artista");
+                            int indice = buscarIndiceArtistaPorId(cArt, idBuscado);
+                            if (indice != -1) {
+                                Artista aModificar = obtenerArtista(cArt, indice);
+                                aModificar = pedirDatosModificadosArtista(aModificar);                             
                                 if (actualizarArtista(cArt, indice, aModificar) == 1) {
-                                    
-                                    // 4. Mapeamos y actualizamos el Disco
                                     ArtistaArchivo archModificado = transformarAArtistaArchivo(aModificar);
-                                    
                                     if (modificarArtistaEnArchivo(archModificado) == 1) {
                                         printf("\n[Exito] Artista modificado en memoria y disco.\n");
                                     } else {

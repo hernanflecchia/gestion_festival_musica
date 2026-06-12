@@ -40,7 +40,7 @@ int agregarArtista(ColeccionArtistas* coleccion, Artista unArtista) {
         coleccion->capacidad = nuevaCapacidad;
     }
     
-    // Agregamos el artista.
+    // Agregamos el artista a la coleccion
     coleccion->arreglo[coleccion->validos] = unArtista;
     coleccion->validos++;
     
@@ -76,6 +76,18 @@ int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista artistaM
 
 int obtenerCantidadArtistas(ColeccionArtistas* coleccion) {
     return coleccion->validos;
+}
+
+int obtenerSiguienteIdArtista(ColeccionArtistas* coleccion) {
+    int proximoId = 1;
+    
+    if (coleccion->validos > 0) {
+        // Vamos a la ultima celda ocupada (validos - 1)
+        // Leemos su id y le sumamos 1
+        proximoId = coleccion->arreglo[coleccion->validos - 1].id + 1;
+    }
+    
+    return proximoId;
 }
 
 void liberarColeccionArtistas(ColeccionArtistas* coleccion) {

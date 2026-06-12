@@ -71,6 +71,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 1:
                         {
                             Artista nuevoArtista = pedirDatosNuevoArtista();
+                            nuevoArtista.id = obtenerSiguienteIdArtista(cArt);
                             // Intentamos agregarlo a la memoria dinámica
                             if (agregarArtista(cArt, nuevoArtista) == 1) {
                                 // Si la memoria RAM lo aceptó, lo mapeamos al formato de archivo

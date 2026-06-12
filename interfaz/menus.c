@@ -41,6 +41,7 @@ int mostrarMenuArtistas(void) {
     printf("1. Dar de alta nuevo Artista\n");
     printf("2. Modificar Artista existente\n");
     printf("3. Dar de baja (Eliminar) Artista\n");
+    printf("4. Listar Artistas por pantalla\n");
     printf("0. Volver al menu principal\n");
     printf("Elija una opcion: ");
     return scanInt();
@@ -96,12 +97,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             
                             if (aModificar.id != -1) {
                                 // 2. Pedimos los datos nuevos (podes reciclar tu funcion de pedirDatos)
-                                printf("\nNuevo nombre: ");
-                                fflush(stdin);
-                                gets(aModificar.nombre);
-                                printf("Nuevo genero: ");
-                                fflush(stdin);
-                                gets(aModificar.genero);
+                                aModificar = pedirDatosNuevoArtista();
                                 
                                 // 3. Actualizamos la memoria RAM
                                 if (actualizarArtista(cArt, indice, aModificar) == 1) {
@@ -122,6 +118,23 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 3:
                             // Pedir ID, buscarlo y cambiarle el valido a 'N' en el archivo
                             printf("\n(En construccion...)\n");
+                            break;
+                        case 4:
+                            printf("\n--- LISTADO DE ARTISTAS ---\n");
+                            
+                            int cantidad = obtenerCantidadArtistas(cArt);
+                            
+                            if (cantidad == 0) {
+                                printf("No hay artistas cargados en el sistema.\n");
+                            } else {
+                                for (int i = 0; i < cantidad; i++) {
+                                    Artista unArtista = obtenerArtista(cArt, i);
+                                    // Verificamos que no sea el valor centinela de error (-1)
+                                    if (unArtista.id != -1) {
+                                        mostrarArtista(unArtista);
+                                    }
+                                }
+                            }
                             break;
                         case 0:
                             // Simplemente vuelve al menú principal

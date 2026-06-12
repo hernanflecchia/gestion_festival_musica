@@ -74,6 +74,10 @@ int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista artistaM
     return respuesta;
 }
 
+int obtenerCantidadArtistas(ColeccionArtistas* coleccion) {
+    return coleccion->validos;
+}
+
 void liberarColeccionArtistas(ColeccionArtistas* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {

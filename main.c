@@ -10,6 +10,7 @@ int main() {
     // ==========================================
     // Inicializamos los arreglos dinámicos y cargamos del disco
     ColeccionArtistas colArtistas = inicializarColeccionArtistas();
+    cargarArtistasDesdeArchivo(&colArtistas);
     ColeccionEscenarios colEscenarios = inicializarColeccionEscenarios();
     ColeccionPresentaciones colPresentaciones = inicializarColeccionPresentaciones();
     

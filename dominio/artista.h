@@ -17,6 +17,7 @@ typedef struct stArtistaArchivo {
 } ArtistaArchivo;
 
 // Prototipo de la función para mostrar los datos del artista
-void mostrarArtista(Artista artista);
+void mostrarArtistaAdmin(Artista artista);
+void mostrarArtistaUsuario(Artista artista);
 
 #endif

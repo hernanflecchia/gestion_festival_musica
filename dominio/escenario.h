@@ -14,6 +14,7 @@ typedef struct stEscenarioArchivo {
 } EscenarioArchivo;
 
 // Prototipo de la función para mostrar los datos del escenario
-void mostrarEscenario(Escenario escenario);
+void mostrarEscenarioAdmin(Escenario escenario);
+void mostrarEscenarioUsuario(Escenario escenario);
 
 #endif

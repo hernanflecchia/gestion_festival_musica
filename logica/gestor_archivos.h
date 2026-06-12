@@ -28,6 +28,7 @@ int guardarArtistaEnArchivo(ArtistaArchivo nuevoArtista);
 void cargarArtistasDesdeArchivo(ColeccionArtistas* coleccion);
 int exportarArtistasATexto(const char* nombreArchivoTxt, ColeccionArtistas* coleccion);
 int modificarArtistaEnArchivo(ArtistaArchivo artistaModificado);
+int bajaLogicaArtistaEnArchivo(int idBuscado);
 
 // Prototipos utilitarios de mapeo (transforman un modelo en otro)
 ArtistaArchivo transformarAArtistaArchivo(Artista artistaMemoria);
@@ -41,6 +42,8 @@ Artista transformarAArtistaMemoria(ArtistaArchivo artistaDisco);
 int guardarEscenarioEnArchivo(EscenarioArchivo nuevoEscenario); 
 void cargarEscenariosDesdeArchivo(ColeccionEscenarios* coleccion);
 int exportarEscenariosATexto(const char* nombreArchivoTxt, ColeccionEscenarios* coleccion);
+int modificarEscenarioEnArchivo(EscenarioArchivo escenarioModificado);
+int bajaLogicaEscenarioEnArchivo(int idBuscado);
 
 // Prototipos utilitarios de mapeo (transforman un modelo en otro)
 EscenarioArchivo transformarAEscenarioArchivo(Escenario escenarioMemoria);
@@ -54,6 +57,11 @@ Escenario transformarAEscenarioMemoria(EscenarioArchivo escenarioDisco);
 int guardarPresentacionEnArchivo(PresentacionArchivo nuevaPresentacion); 
 void cargarPresentacionesDesdeArchivo(ColeccionPresentaciones* coleccion);
 int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion);
+int modificarPresentacionEnArchivo(PresentacionArchivo presentacionModificado);
+int bajaLogicaPresentacionEnArchivo(int idBuscado);
+
+int bajaLogicaPresentacionesEnArchivoPorArtista(int idArtistaBuscado);
+int bajaLogicaPresentacionesEnArchivoPorEscenario(int idEscenarioBuscado);
 
 // Prototipos utilitarios de mapeo (transforman un modelo en otro)
 PresentacionArchivo transformarAPresentacionArchivo(Presentacion presentacionMemoria);

@@ -67,12 +67,11 @@ void eliminarEscenarioDeMemoria(ColeccionEscenarios* coleccion, int indice);
 void liberarColeccionEscenarios(ColeccionEscenarios* coleccion);
 
 // =======================================================
-// FUNCIONES DE BÚSQUEDA
+// FUNCIONES DE ORDENAMIENTO RECURSIVO
 // =======================================================
-// Devuelven el índice donde está guardado, o -1 si no existe
 
-int buscarPosicionArtistaRecursivo(Artista arreglo[], int validos, int idBuscado, int indiceActual);
-int buscarPosicionEscenarioRecursivo(Escenario arreglo[], int validos, int idBuscado, int indiceActual);
-int buscarPosicionPresentacionRecursivo(Presentacion arreglo[], int validos, int idBuscado, int indiceActual);
+void ordenarColeccionArtistasAlfabeticamente(ColeccionArtistas* coleccion);
+void ordenarColeccionEscenariosAlfabeticamente(ColeccionEscenarios* coleccion);
+void ordenarColeccionPresentacionesAlfabeticamente(ColeccionPresentaciones* coleccion);
 
 #endif

@@ -90,6 +90,19 @@ int obtenerSiguienteIdArtista(ColeccionArtistas* coleccion) {
     return proximoId;
 }
 
+int buscarIndiceArtistaPorId(ColeccionArtistas* coleccion, int idBuscado) {
+    int indiceEncontrado = -1; // Por defecto asumimos que no existe
+    
+    for (int i = 0; i < coleccion->validos; i++) {
+        if (coleccion->arreglo[i].id == idBuscado) {
+            indiceEncontrado = i;
+            break;
+        }
+    }
+    
+    return indiceEncontrado;
+}
+
 void liberarColeccionArtistas(ColeccionArtistas* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {

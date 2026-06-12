@@ -30,10 +30,25 @@ Artista pedirDatosNuevoArtista(void) {
     Artista nuevo;
     printf("\n--- ALTA DE ARTISTA ---\n");
     printf("Ingrese el nombre del artista: ");
-    scanString(nuevo.nombre, 50);
+    scanString(nuevo.nombre, DIM_ARTISTA_NOMBRE);
     printf("Ingrese el genero musical: ");
-    scanString(nuevo.genero, 30);
+    scanString(nuevo.genero, DIM_GENERO);
     return nuevo;
+}
+
+int pedirIdGenerico(const char* nombreEntidad) {
+    printf("\nIngrese el ID del %s: ", nombreEntidad);
+    return scanInt();
+}
+
+Artista pedirDatosModificadosArtista(Artista artistaExistente) {
+    printf("\n--- MODIFICANDO ARTISTA ---\n");
+    printf("Modificando los datos del ID: %d\n", artistaExistente.id);
+    printf("Nuevo nombre (anterior: %s): ", artistaExistente.nombre);
+    scanString(artistaExistente.nombre, DIM_ARTISTA_NOMBRE);
+    printf("Nuevo genero (anterior: %s): ", artistaExistente.genero);
+    scanString(artistaExistente.genero, DIM_GENERO);
+    return artistaExistente;
 }
 
 int mostrarMenuArtistas(void) {
@@ -89,17 +104,10 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             break;
                         }
                         case 2:
-                            int indice;
-                            printf("\nIngrese el indice del artista a modificar: ");
-                            scanf("%d", &indice);
-                            
-                            // 1. Buscamos el artista original para ver si existe (usando tu funcion validada)
-                            Artista aModificar = obtenerArtista(cArt, indice);
-                            
+                            int indice = pedirIdGenerico("Artista");
+                            Artista aModificar = obtenerArtista(cArt, indice);                         
                             if (aModificar.id != -1) {
-                                // 2. Pedimos los datos nuevos (podes reciclar tu funcion de pedirDatos)
-                                aModificar = pedirDatosNuevoArtista();
-                                
+                                aModificar = pedirDatosModificadosArtista(aModificar);                                
                                 // 3. Actualizamos la memoria RAM
                                 if (actualizarArtista(cArt, indice, aModificar) == 1) {
                                     
@@ -164,9 +172,4 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                 printf("\nOpcion invalida.\n");
         }
     } while(opcionPrincipal != 0);
-}
-
-int pedirIdGenerico(const char* nombreEntidad) {
-    printf("\nIngrese el ID del %s: ", nombreEntidad);
-    return scanInt();
 }

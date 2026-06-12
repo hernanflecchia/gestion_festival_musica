@@ -47,7 +47,6 @@ Artista obtenerArtista(ColeccionArtistas* coleccion, int indice);
 int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista artistaModificado);
 int buscarIndiceArtistaPorId(ColeccionArtistas* coleccion, int idBuscado);
 int obtenerCantidadArtistas(ColeccionArtistas* coleccion);
-int obtenerCantidadArtistas(ColeccionArtistas* coleccion);
 int obtenerSiguienteIdArtista(ColeccionArtistas* coleccion);
 void liberarColeccionArtistas(ColeccionArtistas* coleccion);
 

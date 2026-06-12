@@ -215,7 +215,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                                     Artista unArtista = obtenerArtista(cArt, i);
                                     // Verificamos que no sea el valor centinela de error (-1)
                                     if (unArtista.id != -1) {
-                                        mostrarArtista(unArtista);
+                                        mostrarArtistaAdmin(unArtista);
                                     }
                                 }
                             }

@@ -62,9 +62,72 @@ int mostrarMenuArtistas(void) {
     return scanInt();
 }
 
+void menuUsuario(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPresentaciones* cPres) {
+    int opcion;
+    int idBuscado;
+
+    do {
+        printf("\nBienvenido Usuario Normal.\n");
+        printf("\n========================================\n");
+        printf("         FESTIVAL - MENU DE USUARIO       \n");
+        printf("========================================\n");
+        printf("1. Ver listado de todos los Artistas\n");
+        printf("2. Ver listado de todos los Escenarios\n");
+        printf("3. Ver cronograma completo (Todas las Presentaciones)\n");
+        printf("4. Filtrar presentaciones por Artista\n");
+        printf("5. Filtrar presentaciones por Escenario\n");
+        printf("0. Volver al menu principal\n");
+        printf("Elija una opcion: ");
+        
+        opcion = scanInt();
+        
+        switch (opcion) {
+            case 1:
+                printf("\n--- LISTADO DE ARTISTAS ---\n");
+                // TODO: Ordenar alfabeticamente
+                // TODO: Imprimir el arreglo
+                break;
+                
+            case 2:
+                printf("\n--- LISTADO DE ESCENARIOS ---\n");
+                // TODO: Ordenar alfabeticamente
+                // TODO: Imprimir el arreglo
+                break;
+                
+            case 3:
+                printf("\n--- CRONOGRAMA COMPLETO ---\n");
+                // TODO: Mostrar todas las presentaciones
+                break;
+                
+            case 4:
+                // Reutilizás tu funcion generica!
+                idBuscado = pedirIdGenerico("Artista para ver sus presentaciones");
+                printf("\n--- PRESENTACIONES DEL ARTISTA ---\n");
+                // TODO: Recorrer el arreglo de presentaciones e imprimir solo las que coincidan
+                break;
+                
+            case 5:
+                idBuscado = pedirIdGenerico("Escenario para ver sus presentaciones");
+                printf("\n--- PRESENTACIONES EN EL ESCENARIO ---\n");
+                // TODO: Recorrer el arreglo e imprimir coincidencias
+                break;
+                
+            case 0:
+                printf("\nVolviendo al menu principal...\n");
+                break;
+                
+            default:
+                printf("\n[Error] Opcion invalida. Intente nuevamente.\n");
+                break;
+        }
+    } while (opcion != '0');
+}
+
 void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPresentaciones* cPres) {
     int opcionPrincipal;
     int opcionSubMenu;
+    int idBuscado;
+    int indice;
 
     do {
         printf("\n=== PANEL DE ADMINISTRADOR ===\n");
@@ -102,8 +165,8 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             break;
                         }
                         case 2:
-                            int idBuscado = pedirIdGenerico("Artista a modificar");
-                            int indice = buscarIndiceArtistaPorId(cArt, idBuscado);
+                            idBuscado = pedirIdGenerico("Artista a modificar");
+                            indice = buscarIndiceArtistaPorId(cArt, idBuscado);
                             if (indice != -1) {
                                 Artista aModificar = obtenerArtista(cArt, indice);
                                 aModificar = pedirDatosModificadosArtista(aModificar);                             
@@ -120,23 +183,26 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             }
                             break;
                         case 3:
-                            int idBuscado = pedirIdGenerico("Artista a dar de baja");
-                            int indice = buscarIndiceArtistaPorId(cArt, idBuscado);
+                            idBuscado = pedirIdGenerico("Artista a dar de baja");
+                            indice = buscarIndiceArtistaPorId(cArt, idBuscado);
                             if (indice != -1) {
                                 eliminarArtistaDeMemoria(cArt, indice);
                                 if (bajaLogicaArtistaEnArchivo(idBuscado) == 1) {
                                     printf("\n[Exito] Artista borrado de la memoria y del disco correctamente.\n");
-                                    int cantPresentacionesBorradas = bajaLogicaPresentacionesPorArtista(cPres, idBuscado);
-                                    if (cantPresentacionesBorradas > 0) {
-                                        printf("[Exito] Se borraron %d presentaciones asociadas a este artista.\n", cantPresentacionesBorradas);
+                                    // Borrar en cascada
+                                    int cantRAM = eliminarPresentacionesDeMemoriaPorArtista(cPres, idBuscado);
+                                    int cantDisco = bajaLogicaPresentacionesEnArchivoPorArtista(idBuscado);
+                                    // Verificamos si hubo presentaciones afectadas
+                                    if (cantRAM > 0 || cantDisco > 0) {
+                                        printf("[Exito] Se borraron %d presentaciones en RAM y %d en disco asociadas a este artista.\n", cantRAM, cantDisco);
                                     } else {
-                                        printf("[Info] El artista no tenia presentaciones programadas.\n");
+                                        printf("[Info] El artista no tenia presentaciones programadas activas.\n");
                                     }
                                 } else {
-                                    printf("\n[Error] Se borró de memoria pero falló el archivo.\n");
+                                    printf("\n[Error] Se borró de memoria pero falló la escritura en el archivo.\n");
                                 }
                             } else {
-                                printf("\n[Error] El ID ingresado no existe o ya fue dado de baja.\n");
+                                printf("\n[Error] El ID ingresado no existe o ya fue dado de baja previamente.\n");
                             }
                             break;
                         case 4:

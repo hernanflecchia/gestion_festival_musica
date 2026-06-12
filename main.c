@@ -34,8 +34,7 @@ int main() {
                     menuAdmin(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
                 } 
                 else if (usuarioLogueado.rol == 0) {
-                    // menuUsuario(usuarioLogueado); // (Para cuando lo programes)
-                    printf("\nBienvenido Usuario Normal. (Menu en construccion)\n");
+                    menuUsuario(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
                 } 
                 else {
                     // Entra acá si el rol es -1 (el centinela)

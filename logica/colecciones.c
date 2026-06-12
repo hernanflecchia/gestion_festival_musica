@@ -103,6 +103,18 @@ int buscarIndiceArtistaPorId(ColeccionArtistas* coleccion, int idBuscado) {
     return indiceEncontrado;
 }
 
+void eliminarArtistaDeMemoria(ColeccionArtistas* coleccion, int indiceAEliminar) {
+    // Verificamos por seguridad que el índice sea válido
+    if (indiceAEliminar >= 0 && indiceAEliminar < coleccion->validos) {
+        // Empezamos en la posición a eliminar y traemos el de la derecha hacia la izquierda
+        for (int i = indiceAEliminar; i < coleccion->validos - 1; i++) {
+            coleccion->arreglo[i] = coleccion->arreglo[i + 1];
+        }
+        // Achicamos la cantidad de válidos en 1
+        coleccion->validos--;
+    }
+}
+
 void liberarColeccionArtistas(ColeccionArtistas* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {
@@ -157,6 +169,28 @@ ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
     }
     
     return col;
+}
+
+
+
+int eliminarPresentacionesDeMemoriaPorArtista(ColeccionPresentaciones* coleccion, int idArtista) {
+    int cantidadBorradas = 0;
+    int i = 0;
+    
+    while (i < coleccion->validos) {
+        if (coleccion->arreglo[i].idArtista == idArtista) {
+            // Borrado físico: Pisamos moviendo todo hacia la izquierda
+            for (int j = i; j < coleccion->validos - 1; j++) {
+                coleccion->arreglo[j] = coleccion->arreglo[j + 1];
+            }
+            coleccion->validos--;
+            cantidadBorradas++;
+        } else {
+            i++; // Solo avanzamos si no borramos nada
+        }
+    }
+    
+    return cantidadBorradas;
 }
 
 void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion) {

@@ -38,7 +38,11 @@ int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Prese
 int buscarIndicePresentacionPorId(ColeccionPresentaciones* coleccion, int idBuscado);
 int obtenerCantidadPresentaciones(ColeccionPresentaciones* coleccion);
 int obtenerSiguienteIdPresentacion(ColeccionPresentaciones* coleccion);
+void eliminarPresentacionDeMemoria(ColeccionPresentaciones* coleccion, int indice);
 void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion);
+
+int eliminarPresentacionesDeMemoriaPorArtista(ColeccionPresentaciones* coleccion, int idArtista);
+int eliminarPresentacionesDeMemoriaPorEscenario(ColeccionPresentaciones* coleccion, int idEscenario);
 
 // --- Para Artistas ---
 ColeccionArtistas inicializarColeccionArtistas(void);
@@ -48,6 +52,7 @@ int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista artistaM
 int buscarIndiceArtistaPorId(ColeccionArtistas* coleccion, int idBuscado);
 int obtenerCantidadArtistas(ColeccionArtistas* coleccion);
 int obtenerSiguienteIdArtista(ColeccionArtistas* coleccion);
+void eliminarArtistaDeMemoria(ColeccionArtistas* coleccion, int indice);
 void liberarColeccionArtistas(ColeccionArtistas* coleccion);
 
 // --- Para Escenarios ---
@@ -58,6 +63,7 @@ int actualizarEscenario(ColeccionEscenarios* coleccion, int indice, Escenario es
 int buscarIndiceEscenarioPorId(ColeccionEscenarios* coleccion, int idBuscado);
 int obtenerCantidadEscenarios(ColeccionEscenarios* coleccion);
 int obtenerSiguienteIdEscenario(ColeccionEscenarios* coleccion);
+void eliminarEscenarioDeMemoria(ColeccionEscenarios* coleccion, int indice);
 void liberarColeccionEscenarios(ColeccionEscenarios* coleccion);
 
 // =======================================================

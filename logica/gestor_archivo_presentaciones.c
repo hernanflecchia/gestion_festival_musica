@@ -1,6 +1,41 @@
 #include <stdio.h>
 #include <string.h>
 #include "gestor_archivo_presentaciones.h"
+#include "../dominio/tipos_seguros.h"
+
+Presentacion transformarAPresentacionMemoria(PresentacionArchivo presentacionDisco) {
+    Presentacion presentacionMemoria;
+
+    presentacionMemoria.id = presentacionDisco.id;
+    presentacionMemoria.idArtista = presentacionDisco.idArtista;
+    presentacionMemoria.idEscenario = presentacionDisco.idEscenario;
+    presentacionMemoria.inicio = crearHorario(presentacionDisco.inicio.horas, presentacionDisco.inicio.minutos);
+    presentacionMemoria.duracion = crearDuracion(presentacionDisco.duracion.horas, presentacionDisco.duracion.minutos);
+
+    return presentacionMemoria;
+}
+
+void cargarPresentacionesDesdeArchivo(ColeccionPresentaciones* coleccion) {
+    FILE* arch = fopen(ARCHIVO_PRESENTACIONES, "rb");
+
+    if (arch != NULL) {
+        PresentacionArchivo presentacionLeido;
+        int agregado;
+
+        while (fread(&presentacionLeido, sizeof(PresentacionArchivo), 1, arch)) {
+            if (presentacionLeido.valido == 'S') {
+                Presentacion presentacionMemoria = transformarAPresentacionMemoria(presentacionLeido);
+                agregado = agregarPresentacion(coleccion, presentacionMemoria);
+                if (agregado == 0) {
+                    printf("[Error] No hay memoria disponible para ampliar el arreglo.\n");
+                    fclose(arch);
+                    return;
+                }
+            }
+        }
+        fclose(arch);
+    }
+}
 
 int bajaLogicaPresentacionesEnArchivoPorArtista(int idArtistaBuscado) {
     int cantidadBorradas = 0;

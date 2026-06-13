@@ -20,6 +20,30 @@ ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
     return col;
 }
 
+int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPresentacion) {
+    
+    // Verificamos si NO hay espacio (los válidos alcanzaron la capacidad)
+    if (coleccion->validos == coleccion->capacidad) {
+        
+        int nuevaCapacidad = coleccion->capacidad + 10;
+        Presentacion* nuevoBloque = (Presentacion*) realloc(coleccion->arreglo, nuevaCapacidad * sizeof(Presentacion));
+        
+        if (nuevoBloque == NULL) {
+            return 0; // Falló la inserción
+        }
+        
+        // Actualizamos los datos de la colección
+        coleccion->arreglo = nuevoBloque;
+        coleccion->capacidad = nuevaCapacidad;
+    }
+    
+    // Agregamos el presentacion a la coleccion
+    coleccion->arreglo[coleccion->validos] = unaPresentacion;
+    coleccion->validos++;
+    
+    return 1;
+}
+
 void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {

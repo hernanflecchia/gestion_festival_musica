@@ -3,8 +3,12 @@
 #include "../dominio/usuario.h"
 #include "../dominio/artista.h"
 #include "../dominio/escenario.h"
-#include "../logica/colecciones.h"
-#include "../logica/gestor_archivos.h"
+#include "../logica/coleccion_artistas.h"
+#include "../logica/coleccion_escenarios.h"
+#include "../logica/coleccion_presentaciones.h"
+#include "../logica/gestor_archivo_artistas.h"
+#include "../logica/gestor_archivo_escenarios.h"
+#include "../logica/gestor_archivo_presentaciones.h"
 
 int mostrarMenuInicio(void) {
     printf("        INICIO  \n\n");

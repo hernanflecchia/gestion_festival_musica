@@ -5,7 +5,6 @@
 
 int mostrarMenuPresentaciones(void);
 Presentacion pedirDatosNuevaPresentacion(void);
-int pedirIdGenerico(const char* nombreEntidad); 
 Presentacion pedirDatosModificadosPresentacion(Presentacion presentacionExistente);
 
 #endif

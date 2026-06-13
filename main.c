@@ -1,8 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "interfaz/menus.h"
-#include "logica/gestor_archivos.h"
-#include "logica/colecciones.h"
+#include "logica/gestor_archivo_usuarios.h"
+#include "logica/gestor_archivo_artistas.h"
+#include "logica/gestor_archivo_escenarios.h"
+#include "logica/gestor_archivo_presentaciones.h"
+#include "logica/coleccion_artistas.h"
+#include "logica/coleccion_escenarios.h"
+#include "logica/coleccion_presentaciones.h"
 
 int main() {
     // ==========================================
@@ -12,8 +17,10 @@ int main() {
     ColeccionArtistas colArtistas = inicializarColeccionArtistas();
     cargarArtistasDesdeArchivo(&colArtistas);
     ColeccionEscenarios colEscenarios = inicializarColeccionEscenarios();
+    cargarEscenariosDesdeArchivo(&colEscenarios);
     ColeccionPresentaciones colPresentaciones = inicializarColeccionPresentaciones();
-    
+    cargarPresentacionesDesdeArchivo(&colPresentaciones);
+
     // 1. Verificamos y creamos el archivo de usuarios si es necesario
     inicializarArchivoUsuarios();
 

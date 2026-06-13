@@ -1,5 +1,5 @@
 #ifndef COLECCION_PRESENTACIONES_H
-#define COLECCIONES_H
+#define COLECCION_PRESENTACIONES_H
 
 #include "../dominio/presentacion.h"
 

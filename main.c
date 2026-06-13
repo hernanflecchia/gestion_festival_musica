@@ -40,7 +40,7 @@ int main() {
                     else if (usuarioLogueado.rol == 0) {
                         menuUsuario(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
                     }
-                    // Vaciamos el Heap llamando a tu TDA antes de apagar el programa
+                    // Vaciamos las colecciones y liberamos memoria antes de volver al menú de inicio
                     liberarColeccionArtistas(&colArtistas);
                     liberarColeccionEscenarios(&colEscenarios);
                     liberarColeccionPresentaciones(&colPresentaciones);

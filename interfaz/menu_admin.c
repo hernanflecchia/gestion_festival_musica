@@ -107,7 +107,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             if (cantidad == 0) {
                                 printf("No hay artistas cargados en el sistema.\n");
                             } else {
-                                mostrarListadoArtistas(cArt);
+                                mostrarListadoArtistas(cArt, true);
                             }
                             break;
                         case 0:
@@ -194,7 +194,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             if (cantidad == 0) {
                                 printf("No hay escenarios cargados en el sistema.\n");
                             } else {
-                                mostrarListadoEscenarios(cEsc);
+                                mostrarListadoEscenarios(cEsc, true);
                             }
                             break;
                         case 0:

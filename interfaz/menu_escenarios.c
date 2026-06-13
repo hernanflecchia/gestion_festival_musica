@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "scanner.h"
 #include "../logica/coleccion_escenarios.h"
 
@@ -15,13 +16,17 @@ int mostrarMenuEscenarios(void) {
     return scanInt();
 }
 
-void mostrarListadoEscenarios(ColeccionEscenarios* colEscenarios) {
+void mostrarListadoEscenarios(ColeccionEscenarios* colEscenarios, bool esAdmin) {
     system("clear");
     printf("\n--- LISTADO DE ESCENARIOS ---\n");
     for (int i = 0; i < colEscenarios->validos; i++) {
         Escenario escenario = obtenerEscenario(colEscenarios, i);
         if (escenario.id != -1) {
-            mostrarEscenarioUsuario(escenario);
+            if (esAdmin) {
+                mostrarEscenarioAdmin(escenario);
+            } else {
+                mostrarEscenarioUsuario(escenario);
+            }
         }
     }
     printf("\nPresione Enter para continuar...");

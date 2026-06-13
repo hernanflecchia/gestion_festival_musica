@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include "scanner.h"
 #include "../logica/coleccion_artistas.h"
 
@@ -15,13 +16,17 @@ int mostrarMenuArtistas(void) {
     return scanInt();
 }
 
-void mostrarListadoArtistas(ColeccionArtistas* colArtistas) {
+void mostrarListadoArtistas(ColeccionArtistas* colArtistas, bool esAdmin) {
     system("clear");
     printf("\n--- LISTADO DE ARTISTAS ---\n");
     for (int i = 0; i < colArtistas->validos; i++) {
         Artista artistas = obtenerArtista(colArtistas, i);
         if (artistas.id != -1) {
-            mostrarArtistaUsuario(artistas);
+            if (esAdmin) {
+                mostrarArtistaAdmin(artistas);
+            } else {
+                mostrarArtistaUsuario(artistas);
+            }
         }
     }
     printf("\nPresione Enter para continuar...");

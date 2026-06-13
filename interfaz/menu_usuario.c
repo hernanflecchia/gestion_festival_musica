@@ -42,7 +42,7 @@ void menuUsuario(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPr
                     printf("No hay artistas cargados en el sistema.\n");
                 } else {
                     ordenarColeccionArtistasAlfabeticamente(cArt);
-                    mostrarListadoArtistas(cArt);
+                    mostrarListadoArtistas(cArt, false);
                     printf("¿Desea exportar los artistas a un TSV? (s/n)\n");
                     if (confirmar('s')) {
                         if (exportarArtistasATexto("artistas.tsv", cArt)) {
@@ -61,7 +61,7 @@ void menuUsuario(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPr
                     printf("No hay escenarios cargados en el sistema.\n");
                 } else {
                     ordenarColeccionEscenariosAlfabeticamente(cEsc);
-                    mostrarListadoEscenarios(cEsc);
+                    mostrarListadoEscenarios(cEsc, false);
                     printf("¿Desea exportar los escenarios a un TSV? (s/n)\n");
                     if (confirmar('s')) {
                         if (exportarEscenariosATexto("escenarios.tsv", cEsc)) {

@@ -3,6 +3,31 @@
 #include "scanner.h"
 #include "../logica/coleccion_artistas.h"
 
+int mostrarMenuArtistas(void) {
+    system("clear");
+    printf("\n--- GESTION DE ARTISTAS ---\n");
+    printf("1. Dar de alta nuevo Artista\n");
+    printf("2. Modificar Artista existente\n");
+    printf("3. Dar de baja (Eliminar) Artista\n");
+    printf("4. Listar Artistas por pantalla\n");
+    printf("0. Volver al menu principal\n");
+    printf("Elija una opcion: ");
+    return scanInt();
+}
+
+void mostrarListadoArtistas(ColeccionArtistas* colArtistas) {
+    system("clear");
+    printf("\n--- LISTADO DE ARTISTAS ---\n");
+    for (int i = 0; i < colArtistas->validos; i++) {
+        Artista artistas = obtenerArtista(colArtistas, i);
+        if (artistas.id != -1) {
+            mostrarArtistaUsuario(artistas);
+        }
+    }
+    printf("\nPresione Enter para continuar...");
+    getchar();
+}
+
 Artista pedirDatosNuevoArtista(void) {
     Artista nuevo;
     
@@ -24,16 +49,4 @@ Artista pedirDatosModificadosArtista(Artista artistaExistente) {
     printf("Nuevo genero (anterior: %s): ", artistaExistente.genero);
     scanString(artistaExistente.genero, DIM_GENERO);
     return artistaExistente;
-}
-
-int mostrarMenuArtistas(void) {
-    system("clear");
-    printf("\n--- GESTION DE ARTISTAS ---\n");
-    printf("1. Dar de alta nuevo Artista\n");
-    printf("2. Modificar Artista existente\n");
-    printf("3. Dar de baja (Eliminar) Artista\n");
-    printf("4. Listar Artistas por pantalla\n");
-    printf("0. Volver al menu principal\n");
-    printf("Elija una opcion: ");
-    return scanInt();
 }

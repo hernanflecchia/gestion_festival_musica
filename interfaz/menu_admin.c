@@ -107,13 +107,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             if (cantidad == 0) {
                                 printf("No hay artistas cargados en el sistema.\n");
                             } else {
-                                for (int i = 0; i < cantidad; i++) {
-                                    Artista unArtista = obtenerArtista(cArt, i);
-                                    // Verificamos que no sea el valor centinela de error (-1)
-                                    if (unArtista.id != -1) {
-                                        mostrarArtistaAdmin(unArtista);
-                                    }
-                                }
+                                mostrarListadoArtistas(cArt);
                             }
                             break;
                         case 0:
@@ -200,13 +194,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             if (cantidad == 0) {
                                 printf("No hay escenarios cargados en el sistema.\n");
                             } else {
-                                for (int i = 0; i < cantidad; i++) {
-                                    Escenario unEscenario = obtenerEscenario(cEsc, i);
-                                    // Verificamos que no sea el valor centinela de error (-1)
-                                    if (unEscenario.id != -1) {
-                                        mostrarEscenarioAdmin(unEscenario);
-                                    }
-                                }
+                                mostrarListadoEscenarios(cEsc);
                             }
                             break;
                         case 0:

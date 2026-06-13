@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "scanner.h"
 #include "../logica/coleccion_artistas.h"
 
 Artista pedirDatosNuevoArtista(void) {
     Artista nuevo;
+    
+    system("clear");
     printf("\n--- ALTA DE ARTISTA ---\n");
     printf("Ingrese el nombre del artista: ");
     scanString(nuevo.nombre, DIM_ARTISTA_NOMBRE);
@@ -13,6 +16,7 @@ Artista pedirDatosNuevoArtista(void) {
 }
 
 Artista pedirDatosModificadosArtista(Artista artistaExistente) {
+    system("clear");
     printf("\n--- MODIFICANDO ARTISTA ---\n");
     printf("Modificando los datos del ID: %d\n", artistaExistente.id);
     printf("Nuevo nombre (anterior: %s): ", artistaExistente.nombre);
@@ -23,6 +27,7 @@ Artista pedirDatosModificadosArtista(Artista artistaExistente) {
 }
 
 int mostrarMenuArtistas(void) {
+    system("clear");
     printf("\n--- GESTION DE ARTISTAS ---\n");
     printf("1. Dar de alta nuevo Artista\n");
     printf("2. Modificar Artista existente\n");

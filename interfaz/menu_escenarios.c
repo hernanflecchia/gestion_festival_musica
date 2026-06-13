@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "scanner.h"
 #include "../logica/coleccion_escenarios.h"
 
 Escenario pedirDatosNuevoEscenario(void) {
     Escenario nuevo;
+    
+    system("clear");
     printf("\n--- ALTA DE ESCENARIO ---\n");
     printf("Ingrese el nombre del escenario: ");
     scanString(nuevo.nombre, DIM_ESCENARIO_NOMBRE);
@@ -11,6 +14,7 @@ Escenario pedirDatosNuevoEscenario(void) {
 }
 
 Escenario pedirDatosModificadosEscenario(Escenario escenarioExistente) {
+    system("clear");
     printf("\n--- MODIFICANDO ESCENARIO ---\n");
     printf("Modificando los datos del ID: %d\n", escenarioExistente.id);
     printf("Nuevo nombre (anterior: %s): ", escenarioExistente.nombre);
@@ -19,6 +23,7 @@ Escenario pedirDatosModificadosEscenario(Escenario escenarioExistente) {
 }
 
 int mostrarMenuEscenarios(void) {
+    system("clear");
     printf("\n--- GESTION DE ESCENARIOS ---\n");
     printf("1. Dar de alta nuevo Escenario\n");
     printf("2. Modificar Escenario existente\n");

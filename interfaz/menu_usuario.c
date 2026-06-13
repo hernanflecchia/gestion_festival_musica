@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "scanner.h"
 #include "menu_artistas.h"
 #include "menu_escenarios.h"
@@ -19,6 +20,7 @@ void menuUsuario(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPr
     int cantidad;
 
     do {
+        system("clear");
         printf("\nBienvenido Usuario Normal.\n");
         printf("\n========================================\n");
         printf("         FESTIVAL - MENU DE USUARIO       \n");

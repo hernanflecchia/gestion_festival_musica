@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "scanner.h"
 #include "menu_artistas.h"
 #include "menu_escenarios.h"
@@ -20,6 +21,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
     int indice;
 
     do {
+        system("clear");
         printf("\n=== PANEL DE ADMINISTRADOR ===\n");
         printf("Bienvenido/a, %s\n", usuario.nombre);
         printf("1. Gestionar Artistas\n");

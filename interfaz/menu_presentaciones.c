@@ -1,9 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "scanner.h"
 #include "../logica/coleccion_presentaciones.h"
 
 Presentacion pedirDatosNuevoPresentacion(void) {
     Presentacion nuevo;
+
+    system("clear");
     printf("\n--- ALTA DE PRESENTACION ---\n");
     printf("Ingrese el nombre del presentacion: ");
 
@@ -11,6 +14,7 @@ Presentacion pedirDatosNuevoPresentacion(void) {
 }
 
 Presentacion pedirDatosModificadosPresentacion(Presentacion presentacionExistente) {
+    system("clear");
     printf("\n--- MODIFICANDO PRESENTACION ---\n");
     printf("Modificando los datos del ID: %d\n", presentacionExistente.id);
 
@@ -18,6 +22,7 @@ Presentacion pedirDatosModificadosPresentacion(Presentacion presentacionExistent
 }
 
 int mostrarMenuPresentaciones(void) {
+    system("clear");
     printf("\n--- GESTION DE PRESENTACIONES ---\n");
     printf("1. Dar de alta nueva Presentacion\n");
     printf("2. Modificar Presentacion existente\n");

@@ -50,6 +50,8 @@ int main() {
                 else {
                     // Entra acá si el rol es -1 (el centinela)
                     printf("\nError: Nombre de usuario o contraseña incorrectos.\n");
+                    printf("\nPresione Enter para volver al menu...");
+                    getchar();
                 }
                 break;
             case 2:

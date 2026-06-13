@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "interfaz/menus.h"
+#include "interfaz/menu_inicio.h"
+#include "interfaz/menu_usuario.h"
+#include "interfaz/menu_admin.h"
 #include "logica/gestor_archivo_usuarios.h"
 #include "logica/gestor_archivo_artistas.h"
 #include "logica/gestor_archivo_escenarios.h"

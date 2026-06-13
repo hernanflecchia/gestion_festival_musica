@@ -5,7 +5,6 @@
 
 int mostrarMenuEscenarios(void);
 Escenario pedirDatosNuevoEscenario(void);
-int pedirIdGenerico(const char* nombreEntidad); 
 Escenario pedirDatosModificadosEscenario(Escenario escenarioExistente);
 
 #endif

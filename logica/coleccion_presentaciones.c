@@ -44,6 +44,20 @@ int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPres
     return 1;
 }
 
+Presentacion obtenerPresentacion(ColeccionPresentaciones* coleccion, int indice) {
+    Presentacion unaPresentacion;
+
+    // Verificamos que el indice sea valido y no se pase de los elementos cargados
+    // si falla algo devolvemos -1 como id indicando con ello que falló
+    if (indice >= 0 && indice < coleccion->validos) {
+        unaPresentacion = coleccion->arreglo[indice];
+    } else {
+        unaPresentacion.id = -1; 
+    }
+
+    return unaPresentacion;
+}
+
 void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {

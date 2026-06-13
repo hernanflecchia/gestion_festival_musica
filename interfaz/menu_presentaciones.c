@@ -3,6 +3,8 @@
 #include <stdbool.h>
 #include "scanner.h"
 #include "../logica/coleccion_presentaciones.h"
+#include "../logica/coleccion_artistas.h"
+#include "../logica/coleccion_escenarios.h"
 
 int mostrarMenuPresentaciones(void) {
     system("clear");
@@ -16,19 +18,31 @@ int mostrarMenuPresentaciones(void) {
     return scanInt();
 }
 
-void mostrarListadoPresentaciones(ColeccionPresentaciones* colPresentaciones, bool esAdmin) {
+void mostrarListadoPresentaciones(ColeccionPresentaciones* colPresentaciones, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, bool esAdmin) {
+    
     system("clear");
     printf("\n--- LISTADO DE PRESENTACIONES ---\n");
+    
     for (int i = 0; i < colPresentaciones->validos; i++) {
         Presentacion presentacion = obtenerPresentacion(colPresentaciones, i);
-        if (presentacion.id != -1) {
+        
+        // Verificamos el valor centinela para saltar las presentaciones borradas
+        if (presentacion.id != -1) { 
+            
+            int indiceArt = buscarIndiceArtistaPorId(colArtistas, presentacion.idArtista);
+            Artista artista = obtenerArtista(colArtistas, indiceArt); 
+
+            int indiceEsc = buscarIndiceEscenarioPorId(colEscenarios, presentacion.idEscenario);
+            Escenario escenario = obtenerEscenario(colEscenarios, indiceEsc);
+
             if (esAdmin) {
-                mostrarPresentacionAdmin(presentacion);
+                mostrarPresentacionAdmin(presentacion, artista.nombre, escenario.nombre);
             } else {
-                mostrarPresentacionUsuario(presentacion);
+                mostrarPresentacionUsuario(presentacion, artista.nombre, escenario.nombre);
             }
         }
     }
+    
     printf("\nPresione Enter para continuar...");
     getchar();
 }

@@ -5,7 +5,9 @@
 #include "../dominio/artista.h"
 #include "../dominio/escenario.h"
 #include "../dominio/presentacion.h"
-#include "../logica/colecciones.h"
+#include "../logica/coleccion_artistas.h"
+#include "../logica/coleccion_escenarios.h"
+#include "../logica/coleccion_presentaciones.h"
 
 // ==========================================
 // MENÚS DE NAVEGACIÓN

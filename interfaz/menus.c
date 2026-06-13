@@ -141,8 +141,26 @@ void menuUsuario(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPr
                 
             case 2:
                 printf("\n--- LISTADO DE ESCENARIOS ---\n");
-                // TODO: Ordenar alfabeticamente
-                // TODO: Imprimir el arreglo
+                cantidad = obtenerCantidadEscenarios(cEsc);
+                if (cantidad == 0) {
+                    printf("No hay escenarios cargados en el sistema.\n");
+                } else {
+                    ordenarColeccionEscenariosAlfabeticamente(cEsc);
+                    for (int i = 0; i < cantidad; i++) {
+                        Escenario escenarios = obtenerEscenario(cEsc, i);
+                        if (escenarios.id != -1) {
+                            mostrarEscenarioUsuario(escenarios);
+                        }
+                    }
+                    printf("¿Desea exportar los escenarios a un TSV? (s/n)\n");
+                    if (confirmar('s')) {
+                        if (exportarEscenariosATexto("escenarios.tsv", cEsc)) {
+                            printf("[Exito] El listado fue guardado en 'escenarios.tsv'.\n");
+                        } else {
+                            printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                        }
+                    }
+                }
                 break;
                 
             case 3:

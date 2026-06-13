@@ -10,17 +10,6 @@
 #include "logica/coleccion_presentaciones.h"
 
 int main() {
-    // ==========================================
-    // INICIALIZACIÓN
-    // ==========================================
-    // Inicializamos los arreglos dinámicos y cargamos del disco
-    ColeccionArtistas colArtistas = inicializarColeccionArtistas();
-    cargarArtistasDesdeArchivo(&colArtistas);
-    ColeccionEscenarios colEscenarios = inicializarColeccionEscenarios();
-    cargarEscenariosDesdeArchivo(&colEscenarios);
-    ColeccionPresentaciones colPresentaciones = inicializarColeccionPresentaciones();
-    cargarPresentacionesDesdeArchivo(&colPresentaciones);
-
     // 1. Verificamos y creamos el archivo de usuarios si es necesario
     inicializarArchivoUsuarios();
 
@@ -37,11 +26,24 @@ int main() {
             case 1:
                 Usuarios intento = pedirCredencialesUsuario("\n--- INICIO DE SESION ---");
                 usuarioLogueado = validarLogin(intento);
-                if (usuarioLogueado.rol == 1) {
-                    menuAdmin(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
-                } 
-                else if (usuarioLogueado.rol == 0) {
-                    menuUsuario(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
+                if (usuarioLogueado.rol == 1 || usuarioLogueado.rol == 0) {
+                    // Inicializamos los arreglos dinámicos y cargamos del disco
+                    ColeccionArtistas colArtistas = inicializarColeccionArtistas();
+                    cargarArtistasDesdeArchivo(&colArtistas);
+                    ColeccionEscenarios colEscenarios = inicializarColeccionEscenarios();
+                    cargarEscenariosDesdeArchivo(&colEscenarios);
+                    ColeccionPresentaciones colPresentaciones = inicializarColeccionPresentaciones();
+                    cargarPresentacionesDesdeArchivo(&colPresentaciones);
+                    if (usuarioLogueado.rol == 1) {
+                        menuAdmin(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
+                    } 
+                    else if (usuarioLogueado.rol == 0) {
+                        menuUsuario(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
+                    }
+                    // Vaciamos el Heap llamando a tu TDA antes de apagar el programa
+                    liberarColeccionArtistas(&colArtistas);
+                    liberarColeccionEscenarios(&colEscenarios);
+                    liberarColeccionPresentaciones(&colPresentaciones);
                 } 
                 else {
                     // Entra acá si el rol es -1 (el centinela)
@@ -63,14 +65,6 @@ int main() {
                 printf("\nOpción inválida. Intente de nuevo.\n");
         }
     } while (opcionInicio != 3);
-
-    // ==========================================
-    // 3. LIMPIEZA Y CIERRE
-    // ==========================================
-    // Vaciamos el Heap llamando a tu TDA antes de apagar el programa
-    liberarColeccionArtistas(&colArtistas);
-    liberarColeccionEscenarios(&colEscenarios);
-    liberarColeccionPresentaciones(&colPresentaciones);
 
     return 0;
 }

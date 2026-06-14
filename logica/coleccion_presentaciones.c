@@ -58,6 +58,58 @@ Presentacion obtenerPresentacion(ColeccionPresentaciones* coleccion, int indice)
     return unaPresentacion;
 }
 
+int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion presentacionModificada) {
+    int respuesta = 1;
+    // Verificamos que el indice sea valido y no se pase de los elementos cargados
+    // si falla algo devolvemos -1 como respuesta
+    if (indice >= 0 && indice < coleccion->validos) {
+        coleccion->arreglo[indice] = presentacionModificada;
+        respuesta = 1;
+    } else {
+        respuesta = -1; 
+    }
+    return respuesta;
+}
+
+int buscarIndicePresentacionPorId(ColeccionPresentaciones* coleccion, int idBuscado) {
+    int indiceEncontrado = -1;
+    
+    for (int i = 0; i < coleccion->validos; i++) {
+        if (coleccion->arreglo[i].id == idBuscado) {
+            indiceEncontrado = i;
+            break;
+        }
+    }
+    
+    return indiceEncontrado;
+}
+
+int obtenerCantidadPresentaciones(ColeccionPresentaciones* coleccion) {
+    return coleccion->validos;
+}
+
+int obtenerSiguienteIdPresentacion(ColeccionPresentaciones* coleccion) {
+    int proximoId = 1;
+    
+    if (coleccion->validos > 0) {
+        // Vamos a la ultima celda ocupada(validos - 1) y le sumamos 1 al id que tiene para generar el próximo id
+        proximoId = coleccion->arreglo[coleccion->validos - 1].id + 1;
+    }
+    
+    return proximoId;
+}
+
+void eliminarPresentacionDeMemoria(ColeccionPresentaciones* coleccion, int indiceAEliminar) {
+    // Verificamos que el indice sea valido y no se pase de los elementos cargados
+    if (indiceAEliminar >= 0 && indiceAEliminar < coleccion->validos) {
+        // Borrado físico: Pisamos moviendo todo hacia la izquierda
+        for (int i = indiceAEliminar; i < coleccion->validos - 1; i++) {
+            coleccion->arreglo[i] = coleccion->arreglo[i + 1];
+        }
+        coleccion->validos--;
+    }
+}
+
 void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {

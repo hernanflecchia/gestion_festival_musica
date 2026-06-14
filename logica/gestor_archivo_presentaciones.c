@@ -3,6 +3,34 @@
 #include "gestor_archivo_presentaciones.h"
 #include "../dominio/tipos_seguros.h"
 
+PresentacionArchivo transformarAPresentacionArchivo(Presentacion presentacionMemoria) {
+    PresentacionArchivo presentacionDisco;
+
+    presentacionDisco.id = presentacionMemoria.id;
+    presentacionDisco.idArtista = presentacionMemoria.idArtista;
+    presentacionDisco.idEscenario = presentacionMemoria.idEscenario;
+    presentacionDisco.inicio.horas = presentacionMemoria.inicio.horas;
+    presentacionDisco.inicio.minutos = presentacionMemoria.inicio.minutos;
+    presentacionDisco.duracion.horas = presentacionMemoria.duracion.horas;
+    presentacionDisco.duracion.minutos = presentacionMemoria.duracion.minutos;
+    presentacionDisco.valido = 'S';
+
+    return presentacionDisco;
+}
+
+int guardarPresentacionEnArchivo(PresentacionArchivo nueva) {
+    FILE* arch = fopen(ARCHIVO_PRESENTACIONES, "ab");
+
+    if (arch!= NULL) {
+        fwrite(&nueva, sizeof(PresentacionArchivo), 1, arch);
+        fclose(arch);
+
+        return 1;
+    }
+
+    return 0;
+}
+
 Presentacion transformarAPresentacionMemoria(PresentacionArchivo presentacionDisco) {
     Presentacion presentacionMemoria;
 
@@ -34,6 +62,74 @@ void cargarPresentacionesDesdeArchivo(ColeccionPresentaciones* coleccion) {
             }
         }
         fclose(arch);
+    }
+}
+
+int modificarPresentacionEnArchivo(PresentacionArchivo modificado) {
+    int exito = 0;
+    FILE* arch = fopen(ARCHIVO_PRESENTACIONES, "r+b"); 
+    
+    if (arch != NULL) {
+        PresentacionArchivo leido;
+        
+        while (fread(&leido, sizeof(PresentacionArchivo), 1, arch)) { 
+            
+            // Si encontramos la presentación con el mismo ID que queremos modificar
+            if (leido.id == modificado.id) {
+                
+                // Movemos el indicador de posición exactamente un struct para atrás
+                fseek(arch, -1 * sizeof(PresentacionArchivo), SEEK_CUR); 
+                
+                // Escribimos el dato nuevo pisando el viejo
+                fwrite(&modificado, sizeof(PresentacionArchivo), 1, arch);
+                
+                exito = 1;
+                break;
+            }
+        }
+        fclose(arch);
+    }
+    return exito;
+}
+
+int bajaLogicaPresentacionEnArchivo(int idBorrar) {
+    int exito = 0;
+    FILE* arch = fopen(ARCHIVO_PRESENTACIONES, "r+b"); 
+    
+    if (arch != NULL) {
+        PresentacionArchivo leida;
+        while (fread(&leida, sizeof(PresentacionArchivo), 1, arch)) { 
+            
+            // Si encontramos la presentación con el mismo ID que queremos borrar
+            if (leida.id == idBorrar && leida.valido == 'S') {
+                leida.valido = 'N'; // La marcamos como borrada lógicamente
+                fseek(arch, -1 * sizeof(PresentacionArchivo), SEEK_CUR); 
+                fwrite(&leida, sizeof(PresentacionArchivo), 1, arch);
+                // Refrescamos el buffer haciendo un seek vacio
+                fseek(arch, 0, SEEK_CUR);
+                exito = 1;
+                break;
+            }
+        }
+        fclose(arch);
+    }
+    return exito;
+}
+
+int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion) {
+    FILE* archTxt = fopen(nombreArchivoTxt, "w");
+    
+    if (archTxt != NULL) {
+        
+        fprintf(archTxt, "idArtista\tidEscenario\tinicio\tduracion\n");
+        for (int i = 0; i < coleccion->validos; i++) {
+            fprintf(archTxt, "%d\t%d\t%d:%d\t%d:%d\n", coleccion->arreglo[i].idArtista, coleccion->arreglo[i].idEscenario, coleccion->arreglo[i].inicio.horas, coleccion->arreglo[i].inicio.minutos, coleccion->arreglo[i].duracion.horas, coleccion->arreglo[i].duracion.minutos);
+        }
+        fclose(archTxt);
+        return 1; 
+        
+    } else {
+        return 0;
     }
 }
 

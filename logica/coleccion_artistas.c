@@ -7,7 +7,7 @@ ColeccionArtistas inicializarColeccionArtistas(void) {
     ColeccionArtistas col;
     
     // Definimos un tamaño inicial arbitrario (por ejemplo, para 10 artistas)
-    col.capacidad = 10;
+    col.capacidad = 5;
     col.validos = 0;
     // Solicitamos el bloque de memoria dinámico
     col.arreglo = (Artista*) malloc(col.capacidad * sizeof(Artista));
@@ -25,7 +25,7 @@ int agregarArtista(ColeccionArtistas* coleccion, Artista unArtista) {
     // Verificamos si NO hay espacio (los válidos alcanzaron la capacidad)
     if (coleccion->validos == coleccion->capacidad) {
         
-        int nuevaCapacidad = coleccion->capacidad + 10;
+        int nuevaCapacidad = coleccion->capacidad + 5;
         Artista* nuevoBloque = (Artista*) realloc(coleccion->arreglo, nuevaCapacidad * sizeof(Artista));
         
         if (nuevoBloque == NULL) {

@@ -47,20 +47,45 @@ void mostrarListadoPresentaciones(ColeccionPresentaciones* colPresentaciones, Co
     getchar();
 }
 
-Presentacion pedirDatosNuevoPresentacion(void) {
-    Presentacion nuevo;
+Presentacion pedirDatosNuevaPresentacion(void) {
+    Presentacion nueva;
 
     system("clear");
     printf("\n--- ALTA DE PRESENTACION ---\n");
-    printf("Ingrese el nombre del presentacion: ");
+    printf("Ingrese el id del artista: ");
+    nueva.idArtista = scanInt();
+    printf("Ingrese el id del escenario: ");
+    nueva.idEscenario = scanInt();
+    printf("INICIO\n");
+    printf("Ingrese la hora de inicio (formato 24hs, solo la hora): ");
+    nueva.inicio.horas = scanInt();
+    printf("Ingrese el minuto de inicio: ");
+    nueva.inicio.minutos = scanInt();
+    printf("DURACION\n");
+    printf("Ingrese la hora de duracion (formato 24hs, solo la hora): ");
+    nueva.duracion.horas = scanInt();
+    printf("Ingrese el minuto de duracion: ");
+    nueva.duracion.minutos = scanInt();
 
-    return nuevo;
+    return nueva;
 }
 
 Presentacion pedirDatosModificadosPresentacion(Presentacion presentacionExistente) {
     system("clear");
     printf("\n--- MODIFICANDO PRESENTACION ---\n");
     printf("Modificando los datos del ID: %d\n", presentacionExistente.id);
+    printf("Nuevo id del artista (anterior: %d): ", presentacionExistente.idArtista);
+    presentacionExistente.idArtista = scanInt();
+    printf("Nuevo id del escenario (anterior: %d): ", presentacionExistente.idEscenario);
+    presentacionExistente.idEscenario = scanInt();
+    printf("Nueva hora de inicio (anterior: %d): ", presentacionExistente.inicio.horas);
+    presentacionExistente.inicio.horas = scanInt();
+    printf("Nuevo minuto de inicio (anterior: %d): ", presentacionExistente.inicio.minutos);
+    presentacionExistente.inicio.minutos = scanInt();
+    printf("Nueva hora de duracion (anterior: %d): ", presentacionExistente.duracion.horas);
+    presentacionExistente.duracion.horas = scanInt();
+    printf("Nuevo minuto de duracion (anterior: %d): ", presentacionExistente.duracion.minutos);
+    presentacionExistente.duracion.minutos = scanInt();
 
     return presentacionExistente;
 }

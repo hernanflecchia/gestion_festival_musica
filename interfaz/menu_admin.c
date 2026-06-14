@@ -37,7 +37,6 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                     opcionSubMenu = mostrarMenuArtistas();
                     switch(opcionSubMenu) {
                         case 1:
-                        {
                             Artista nuevoArtista = pedirDatosNuevoArtista();
                             nuevoArtista.id = obtenerSiguienteIdArtista(cArt);
                             // Intentamos agregarlo a la memoria dinámica
@@ -50,13 +49,12 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                                 } else {
                                     printf("\n[Error] El artista esta en memoria pero fallo el guardado en disco.\n");
                                 }
-                                
                             } else {
                                 printf("\n[Error] No se pudo agregar al artista por falta de memoria.\n");
                             }
                             break;
-                        }
                         case 2:
+                            system("clear");
                             printf("\n--- MODIFICAR ARTISTA ---\n");
                             printf("Para modificar un artista, primero ingrese su ID.\n");
                             idBuscado = scanInt();
@@ -77,6 +75,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             }
                             break;
                         case 3:
+                            system("clear");
                             printf("\n--- ELIMINAR ARTISTA ---\n");
                             printf("Para eliminar un artista, primero ingrese su ID.\n");
                             idBuscado = scanInt();
@@ -100,8 +99,11 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             } else {
                                 printf("\n[Error] El ID ingresado no existe o ya fue dado de baja previamente.\n");
                             }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
                             break;
                         case 4:
+                            system("clear");
                             printf("\n--- LISTADO DE ARTISTAS ---\n");
                             int cantidad = obtenerCantidadArtistas(cArt);
                             if (cantidad == 0) {
@@ -124,7 +126,6 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                     opcionSubMenu = mostrarMenuEscenarios();
                     switch(opcionSubMenu) {
                         case 1:
-                        {
                             Escenario nuevoEscenario = pedirDatosNuevoEscenario();
                             nuevoEscenario.id = obtenerSiguienteIdEscenario(cEsc);
                             // Intentamos agregarlo a la memoria dinámica
@@ -137,13 +138,12 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                                 } else {
                                     printf("\n[Error] El escenario esta en memoria pero fallo el guardado en disco.\n");
                                 }
-                                
                             } else {
                                 printf("\n[Error] No se pudo agregar al escenario por falta de memoria.\n");
                             }
                             break;
-                        }
                         case 2:
+                            system("clear");
                             printf("\n--- MODIFICAR ESCENARIO ---\n");
                             printf("Para modificar un escenario, primero ingrese su ID.\n");
                             idBuscado = scanInt();
@@ -164,6 +164,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             }
                             break;
                         case 3:
+                            system("clear");
                             printf("\n--- ELIMINAR ESCENARIO ---\n");
                             printf("Para eliminar un escenario, primero ingrese su ID.\n");
                             idBuscado = scanInt();
@@ -187,6 +188,8 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             } else {
                                 printf("\n[Error] El ID ingresado no existe o ya fue dado de baja previamente.\n");
                             }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
                             break;
                         case 4:
                             printf("\n--- LISTADO DE ESCENARIOS ---\n");
@@ -207,8 +210,84 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                 break;
                 
             case 3:
-                // Aca armarías el do-while para PRESENTACIONES
-                printf("\n(Menu Presentaciones en construccion...)\n");
+                do {
+                    opcionSubMenu = mostrarMenuPresentaciones();
+                    switch(opcionSubMenu) {
+                        case 1:
+                            Presentacion nuevaPresentacion = pedirDatosNuevaPresentacion();
+                            nuevaPresentacion.id = obtenerSiguienteIdPresentacion(cPres);
+                            // Intentamos agregarla a la memoria dinámica
+                            if (agregarPresentacion(cPres, nuevaPresentacion) == 1) {
+                                // Si la memoria RAM lo aceptó, lo mapeamos al formato de archivo
+                                PresentacionArchivo nuevoArch = transformarAPresentacionArchivo(nuevaPresentacion);
+                                // Finalmente lo guardamos en el disco
+                                if (guardarPresentacionEnArchivo(nuevoArch) == 1) {
+                                    printf("\n[Exito] Presentacion agregada y guardada correctamente.\n");
+                                } else {
+                                    printf("\n[Error] La presentacion esta en memoria pero fallo el guardado en disco.\n");
+                                }
+                            } else {
+                                printf("\n[Error] No se pudo agregar la presentacion por falta de memoria.\n");
+                            }
+                            break;
+                        case 2:
+                            system("clear");
+                            printf("\n--- MODIFICAR PRESENTACION ---\n");
+                            printf("Para modificar una presentacion, primero ingrese su ID.\n");
+                            idBuscado = scanInt();
+                            indice = buscarIndicePresentacionPorId(cPres, idBuscado);
+                            if (indice != -1) {
+                                Presentacion aModificar = obtenerPresentacion(cPres, indice);
+                                aModificar = pedirDatosModificadosPresentacion(aModificar);                             
+                                if (actualizarPresentacion(cPres, indice, aModificar) == 1) {
+                                    PresentacionArchivo archModificado = transformarAPresentacionArchivo(aModificar);
+                                    if (modificarPresentacionEnArchivo(archModificado) == 1) {
+                                        printf("\n[Exito] Presentacion modificada en memoria y disco.\n");
+                                    } else {
+                                        printf("\n[Error] Modificado en memoria pero no en disco.\n");
+                                    }
+                                }
+                            } else {
+                                printf("\n[Error] Indice invalido. No existe la presentacion.\n");
+                            }
+                            break;
+                        case 3:
+                            system("clear");
+                            printf("\n--- ELIMINAR PRESENTACION ---\n");
+                            printf("Para eliminar una presentacion, primero ingrese su ID.\n");
+                            idBuscado = scanInt();
+                            indice = buscarIndicePresentacionPorId(cPres, idBuscado);
+                            if (indice != -1) {
+                                eliminarPresentacionDeMemoria(cPres, indice);
+                                if (bajaLogicaPresentacionEnArchivo(idBuscado) == 1) {
+                                    printf("\n[Exito] Presentacion borrada de la memoria y del disco correctamente.\n");
+                                } else {
+                                    printf("\n[Error] Se borró de memoria pero falló la escritura en el archivo.\n");
+                                }
+                            } else {
+                                printf("\n[Error] El ID ingresado no existe o ya fue dado de baja previamente.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 4:
+                            printf("\n--- LISTADO DE PRESENTACIONES ---\n");
+                            int cantidad = obtenerCantidadPresentaciones(cPres);
+                            if (cantidad == 0) {
+                                printf("No hay presentaciones cargadas en el sistema.\n");
+                            } else {
+                                mostrarListadoPresentaciones(cPres, true);
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 0:
+                            // Volver al menú principal
+                            break;
+                        default:
+                            printf("\nOpcion invalida.\n");
+                    }
+                } while(opcionSubMenu != 0);
                 break;
 
             case 0:

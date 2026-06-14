@@ -9,7 +9,7 @@
 
 int mostrarMenuPresentaciones(void);
 void mostrarListadoPresentaciones(ColeccionPresentaciones* colPresentaciones, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, bool esAdmin);
-Presentacion pedirDatosNuevaPresentacion(void);
+Presentacion pedirDatosNuevaPresentacion(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc);
 Presentacion pedirDatosModificadosPresentacion(Presentacion presentacionExistente);
 
 #endif

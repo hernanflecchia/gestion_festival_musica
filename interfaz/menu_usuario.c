@@ -75,7 +75,21 @@ void menuUsuario(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPr
                 
             case 3:
                 printf("\n--- CRONOGRAMA COMPLETO ---\n");
-                // TODO: Mostrar todas las presentaciones
+                cantidad = obtenerCantidadPresentaciones(cPres);
+                if (cantidad == 0) {
+                    printf("No hay presentaciones cargadas en el sistema.\n");
+                } else {
+                    ordenarColeccionPresentacionesAlfabeticamente(cPres, cArt);
+                    mostrarListadoPresentaciones(cPres, cArt, cEsc, false);
+                    printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
+                    if (confirmar('s')) {
+                        if (exportarPresentacionesATexto("presentaciones.tsv", cPres, cArt, cEsc)) {
+                            printf("[Exito] El listado fue guardado en 'presentaciones.tsv'.\n");
+                        } else {
+                            printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                        }
+                    }
+                }
                 break;
                 
             case 4:

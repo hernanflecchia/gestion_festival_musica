@@ -276,10 +276,8 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             if (cantidad == 0) {
                                 printf("No hay presentaciones cargadas en el sistema.\n");
                             } else {
-                                mostrarListadoPresentaciones(cPres, true);
+                                mostrarListadoPresentaciones(cPres, cArt, cEsc, true);
                             }
-                            printf("\nPresione Enter para continuar...");
-                            getchar();
                             break;
                         case 0:
                             // Volver al menú principal

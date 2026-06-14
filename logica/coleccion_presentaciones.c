@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "coleccion_presentaciones.h"
+#include "coleccion_artistas.h"
 
 ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
     ColeccionPresentaciones col;
@@ -114,6 +115,54 @@ void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion) {
     // Verificamos que el puntero no sea nulo antes de liberar
     if (coleccion->arreglo != NULL) {
         free(coleccion->arreglo);
+    }
+}
+
+int buscarPresentacionPosMenorAlfabeticoRecursivo(Presentacion arreglo[], int validos, int indiceActual, int indiceMenor, ColeccionArtistas* colArtistas) {
+    if (indiceActual == validos) {
+        return indiceMenor; 
+    }
+    
+    int idArtActual = arreglo[indiceActual].idArtista;
+    int idArtMenor = arreglo[indiceMenor].idArtista;
+    
+    int idxActual = buscarIndiceArtistaPorId(colArtistas, idArtActual);
+    int idxMenor = buscarIndiceArtistaPorId(colArtistas, idArtMenor);
+    
+    Artista artActual = obtenerArtista(colArtistas, idxActual);
+    Artista artMenor = obtenerArtista(colArtistas, idxMenor);
+
+    if (strcmp(artActual.nombre, artMenor.nombre) < 0) {
+        indiceMenor = indiceActual;
+    }
+    
+    return buscarPresentacionPosMenorAlfabeticoRecursivo(arreglo, validos, indiceActual + 1, indiceMenor, colArtistas);
+}
+
+void ordenarPresentacionesRecursivo(Presentacion arreglo[], int validos, int indiceActual, ColeccionArtistas* colArtistas) {
+    // Condición de corte: si llegamos al anteúltimo elemento, ya está todo ordenado
+    if (indiceActual >= validos - 1) {
+        return; 
+    }
+    
+    // Buscamos el menor desde la posición actual hasta el final
+    int posMenor = buscarPresentacionPosMenorAlfabeticoRecursivo(arreglo, validos, indiceActual + 1, indiceActual, colArtistas);
+    
+    // Si encontramos uno menor, hacemos el "swap" (intercambio) de las presentaciones enteras
+    if (posMenor != indiceActual) {
+        Presentacion aux = arreglo[indiceActual];
+        arreglo[indiceActual] = arreglo[posMenor];
+        arreglo[posMenor] = aux;
+    }
+    
+    // Llamada recursiva para ordenar el resto del arreglo avanzando un lugar
+    ordenarPresentacionesRecursivo(arreglo, validos, indiceActual + 1, colArtistas);
+}
+
+void ordenarColeccionPresentacionesAlfabeticamente(ColeccionPresentaciones* colPresentaciones, ColeccionArtistas* colArtistas) {
+    // Disparamos la recursión empezando desde el índice 0
+    if (colPresentaciones->validos > 1) {
+        ordenarPresentacionesRecursivo(colPresentaciones->arreglo, colPresentaciones->validos, 0, colArtistas);
     }
 }
 

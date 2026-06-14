@@ -2,6 +2,8 @@
 #include <string.h>
 #include "gestor_archivo_presentaciones.h"
 #include "../dominio/tipos_seguros.h"
+#include "coleccion_artistas.h"
+#include "coleccion_escenarios.h"
 
 PresentacionArchivo transformarAPresentacionArchivo(Presentacion presentacionMemoria) {
     PresentacionArchivo presentacionDisco;
@@ -116,15 +118,34 @@ int bajaLogicaPresentacionEnArchivo(int idBorrar) {
     return exito;
 }
 
-int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion) {
+int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios) {
+    
     FILE* archTxt = fopen(nombreArchivoTxt, "w");
     
     if (archTxt != NULL) {
         
-        fprintf(archTxt, "idArtista\tidEscenario\tinicio\tduracion\n");
+        fprintf(archTxt, "artista\tescenario\tinicio\tduracion\n");
+        
         for (int i = 0; i < coleccion->validos; i++) {
-            fprintf(archTxt, "%d\t%d\t%d:%d\t%d:%d\n", coleccion->arreglo[i].idArtista, coleccion->arreglo[i].idEscenario, coleccion->arreglo[i].inicio.horas, coleccion->arreglo[i].inicio.minutos, coleccion->arreglo[i].duracion.horas, coleccion->arreglo[i].duracion.minutos);
+            
+            if (coleccion->arreglo[i].id != -1) {
+                
+                int indiceArt = buscarIndiceArtistaPorId(colArtistas, coleccion->arreglo[i].idArtista);
+                Artista artista = obtenerArtista(colArtistas, indiceArt); 
+
+                int indiceEsc = buscarIndiceEscenarioPorId(colEscenarios, coleccion->arreglo[i].idEscenario);
+                Escenario escenario = obtenerEscenario(colEscenarios, indiceEsc);
+
+                fprintf(archTxt, "%s\t%s\t%02d:%02d\t%02d:%02d\n", 
+                    artista.nombre, 
+                    escenario.nombre,
+                    coleccion->arreglo[i].inicio.horas, 
+                    coleccion->arreglo[i].inicio.minutos,
+                    coleccion->arreglo[i].duracion.horas, 
+                    coleccion->arreglo[i].duracion.minutos);
+            }
         }
+        
         fclose(archTxt);
         return 1; 
         

@@ -2,6 +2,8 @@
 #define COLECCION_PRESENTACIONES_H
 
 #include "../dominio/presentacion.h"
+#include "../dominio/tipos_seguros.h"
+#include "coleccion_artistas.h"
 
 // ==========================================
 // DEFINICIÓN DEL TDA (Coleccion Dinámica)
@@ -24,7 +26,7 @@ int obtenerCantidadPresentaciones(ColeccionPresentaciones* coleccion);
 int obtenerSiguienteIdPresentacion(ColeccionPresentaciones* coleccion);
 void eliminarPresentacionDeMemoria(ColeccionPresentaciones* coleccion, int indice);
 void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion);
-void ordenarColeccionPresentacionesAlfabeticamente(ColeccionPresentaciones* coleccion);
+void ordenarColeccionPresentacionesAlfabeticamente(ColeccionPresentaciones* coleccion, ColeccionArtistas* colArtistas);
 
 int eliminarPresentacionesDeMemoriaPorArtista(ColeccionPresentaciones* coleccion, int idArtista);
 int eliminarPresentacionesDeMemoriaPorEscenario(ColeccionPresentaciones* coleccion, int idEscenario);

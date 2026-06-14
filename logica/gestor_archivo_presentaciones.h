@@ -3,13 +3,15 @@
 #define ARCHIVO_PRESENTACIONES "presentaciones.bin"
 
 #include "coleccion_presentaciones.h"
+#include "coleccion_artistas.h"
+#include "coleccion_escenarios.h"
 
 // =====================================
 // PROTOTIPOS PARA GESTION EN DISCO
 // =====================================
 int guardarPresentacionEnArchivo(PresentacionArchivo nuevaPresentacion); 
 void cargarPresentacionesDesdeArchivo(ColeccionPresentaciones* coleccion);
-int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion);
+int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios);
 int modificarPresentacionEnArchivo(PresentacionArchivo presentacionModificado);
 int bajaLogicaPresentacionEnArchivo(int idBuscado);
 

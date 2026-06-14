@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "menu_usuario.h"
 
 int mostrarMenuinicio(void)

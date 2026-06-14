@@ -28,5 +28,7 @@ typedef struct stHorarioArchivo {
 // Prototipos de las funciones validadoras
 Horario crearHorario(int horas, int minutos);
 Duracion crearDuracion(int horas, int minutos);
+int calcularHorarioEnMinutos(Horario horario);
+int calcularDuracionEnMinutos(Duracion duracion);  
 
 #endif

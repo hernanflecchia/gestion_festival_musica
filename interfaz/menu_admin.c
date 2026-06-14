@@ -214,21 +214,26 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                     opcionSubMenu = mostrarMenuPresentaciones();
                     switch(opcionSubMenu) {
                         case 1:
-                            Presentacion nuevaPresentacion = pedirDatosNuevaPresentacion();
-                            nuevaPresentacion.id = obtenerSiguienteIdPresentacion(cPres);
-                            // Intentamos agregarla a la memoria dinámica
-                            if (agregarPresentacion(cPres, nuevaPresentacion) == 1) {
-                                // Si la memoria RAM lo aceptó, lo mapeamos al formato de archivo
-                                PresentacionArchivo nuevoArch = transformarAPresentacionArchivo(nuevaPresentacion);
-                                // Finalmente lo guardamos en el disco
-                                if (guardarPresentacionEnArchivo(nuevoArch) == 1) {
-                                    printf("\n[Exito] Presentacion agregada y guardada correctamente.\n");
+                            Presentacion temp = pedirDatosNuevaPresentacion(cArt, cEsc);
+                            Presentacion nuevaPresentacion = crearPresentacionValidada(cPres, temp);
+                            if (nuevaPresentacion.id != -1) {
+                                nuevaPresentacion.id = obtenerSiguienteIdPresentacion(cPres);
+                                if (agregarPresentacion(cPres, nuevaPresentacion) == 1) {
+                                    PresentacionArchivo nuevoArch = transformarAPresentacionArchivo(nuevaPresentacion);
+                                    if (guardarPresentacionEnArchivo(nuevoArch) == 1) {
+                                        printf("\n[Exito] Presentacion agregada y guardada correctamente.\n");
+                                    } else {
+                                        printf("\n[Error] La presentacion esta en memoria pero fallo el guardado en disco.\n");
+                                    }
                                 } else {
-                                    printf("\n[Error] La presentacion esta en memoria pero fallo el guardado en disco.\n");
+                                    printf("\n[Error] No se pudo agregar la presentacion por falta de memoria.\n");
                                 }
                             } else {
-                                printf("\n[Error] No se pudo agregar la presentacion por falta de memoria.\n");
+                                printf("\n[Error] No se pudo crear la presentacion.\n");
+                                printf("Motivo: El Artista o el Escenario ya se encuentran ocupados en ese horario.\n");
                             }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
                             break;
                         case 2:
                             system("clear");

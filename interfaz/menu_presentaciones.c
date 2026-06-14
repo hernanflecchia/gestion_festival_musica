@@ -47,26 +47,55 @@ void mostrarListadoPresentaciones(ColeccionPresentaciones* colPresentaciones, Co
     getchar();
 }
 
-Presentacion pedirDatosNuevaPresentacion(void) {
+Presentacion pedirDatosNuevaPresentacion(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc) {
     Presentacion nueva;
-
+    Horario inicio;
+    Duracion duracion;
+    
     system("clear");
     printf("\n--- ALTA DE PRESENTACION ---\n");
     printf("Ingrese el id del artista: ");
     nueva.idArtista = scanInt();
-    printf("Ingrese el id del escenario: ");
+    while (buscarIndiceArtistaPorId(cArt, nueva.idArtista) == -1) {
+        printf("\n[Error] El ID del Artista no existe en el sistema.\n");
+        printf("Por favor, ingrese un ID valido: ");
+        nueva.idArtista = scanInt();
+    }
+    printf("\nIngrese el id del escenario: ");
     nueva.idEscenario = scanInt();
-    printf("INICIO\n");
+    while (buscarIndiceEscenarioPorId(cEsc, nueva.idEscenario) == -1) {
+        printf("\n[Error] El ID del Escenario no existe en el sistema.\n");
+        printf("Por favor, ingrese un ID valido: ");
+        nueva.idEscenario = scanInt();
+    }
+    printf("\nINICIO\n");
     printf("Ingrese la hora de inicio (formato 24hs, solo la hora): ");
     nueva.inicio.horas = scanInt();
-    printf("Ingrese el minuto de inicio: ");
+    printf("Ingrese los minutos de inicio: ");
     nueva.inicio.minutos = scanInt();
-    printf("DURACION\n");
-    printf("Ingrese la hora de duracion (formato 24hs, solo la hora): ");
+    inicio = crearHorario(nueva.inicio.horas, nueva.inicio.minutos);
+    while (inicio.esValido == 0) {
+        printf("\n[Error] Horario de inicio invalido. Asegurese de ingresar una hora entre 0 y 23, y minutos entre 0 y 59.\n");
+        printf("Ingrese la hora de inicio (formato 24hs, solo la hora): ");
+        nueva.inicio.horas = scanInt();
+        printf("Ingrese los minutos de inicio: ");
+        nueva.inicio.minutos = scanInt();
+        inicio = crearHorario(nueva.inicio.horas, nueva.inicio.minutos);
+    }    
+    printf("\nDURACION\n");
+    printf("Ingrese la hora de la duracion (formato 24hs, solo la hora): ");
     nueva.duracion.horas = scanInt();
-    printf("Ingrese el minuto de duracion: ");
+    printf("Ingrese los minutos de la duracion: ");
     nueva.duracion.minutos = scanInt();
-
+    duracion = crearDuracion(nueva.duracion.horas, nueva.duracion.minutos);
+    while (duracion.esValido == 0) {
+        printf("\n[Error] Duracion invalida. Asegurese de ingresar una hora de duracion mayor o igual a 0, y minutos entre 0 y 59.\n");
+        printf("Ingrese la hora de la duracion (formato 24hs, solo la hora): ");
+        nueva.duracion.horas = scanInt();
+        printf("Ingrese los minutos de la duracion: ");
+        nueva.duracion.minutos = scanInt();
+        duracion = crearDuracion(nueva.duracion.horas, nueva.duracion.minutos);
+    }
     return nueva;
 }
 

@@ -3,6 +3,7 @@
 #include <string.h>
 #include "coleccion_presentaciones.h"
 #include "coleccion_artistas.h"
+#include "../dominio/tipos_seguros.h"
 
 ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
     ColeccionPresentaciones col;
@@ -164,6 +165,55 @@ void ordenarColeccionPresentacionesAlfabeticamente(ColeccionPresentaciones* colP
     if (colPresentaciones->validos > 1) {
         ordenarPresentacionesRecursivo(colPresentaciones->arreglo, colPresentaciones->validos, 0, colArtistas);
     }
+}
+
+// Verifica si el escenario está libre en ese rango (Retorna 1 si está libre, 0 si hay solapamiento).
+int verificarDisponibilidadEscenario(ColeccionPresentaciones coleccion, int idEscenario, Horario inicio, Duracion duracion) {
+    for (int i = 0; i < coleccion.validos; i++) {
+        Presentacion presentacion = coleccion.arreglo[i];
+        if (presentacion.idEscenario == idEscenario) {
+            int duracionTotalPresentacion = calcularHorarioEnMinutos(presentacion.inicio) + calcularDuracionEnMinutos(presentacion.duracion);
+            int duracionTotalNuevaPresentacion = calcularHorarioEnMinutos(inicio) + calcularDuracionEnMinutos(duracion);
+            if ((calcularHorarioEnMinutos(inicio) >= calcularHorarioEnMinutos(presentacion.inicio) && calcularHorarioEnMinutos(inicio) < duracionTotalPresentacion) ||
+                (duracionTotalNuevaPresentacion > calcularHorarioEnMinutos(presentacion.inicio) && duracionTotalNuevaPresentacion <= duracionTotalPresentacion)) {
+                return 0;
+            }
+        }
+    }
+    return 1; // Asumimos que está libre
+}
+// Verifica si el artista está libre en ese rango (Retorna 1 si está libre, 0 si hay solapamiento).
+int verificarDisponibilidadArtista(ColeccionPresentaciones coleccion, int idArtista, Horario inicio, Duracion duracion) {
+    int duracionTotalPresentacion;
+    int duracionTotalNuevaPresentacion;
+    for (int i = 0; i < coleccion.validos; i++) {
+        Presentacion presentacion = coleccion.arreglo[i];
+        if (presentacion.idArtista == idArtista) {
+            duracionTotalPresentacion = calcularHorarioEnMinutos(presentacion.inicio) + calcularDuracionEnMinutos(presentacion.duracion);
+            duracionTotalNuevaPresentacion = calcularHorarioEnMinutos(inicio) + calcularDuracionEnMinutos(duracion);
+            if ((calcularHorarioEnMinutos(inicio) >= calcularHorarioEnMinutos(presentacion.inicio) && calcularHorarioEnMinutos(inicio) < duracionTotalPresentacion) ||
+                (duracionTotalNuevaPresentacion > calcularHorarioEnMinutos(presentacion.inicio) && duracionTotalNuevaPresentacion <= duracionTotalPresentacion)) {
+                return 0;
+            }
+        }
+    }
+    return 1; // Asumimos que está libre
+}
+
+Presentacion crearPresentacionValidada(ColeccionPresentaciones* coleccion, Presentacion datosTemporales) {
+    Presentacion nueva;
+    nueva.id = -1; // Valor centinela para indicar que no se pudo crear la presentación
+    // Verificamos la disponibilidad del escenario
+    if (!verificarDisponibilidadEscenario(*coleccion, datosTemporales.idEscenario, datosTemporales.inicio, datosTemporales.duracion)) {
+        return nueva; // El escenario no está disponible
+    }
+    // Verificamos la disponibilidad del artista
+    if (!verificarDisponibilidadArtista(*coleccion, datosTemporales.idArtista, datosTemporales.inicio, datosTemporales.duracion)) {
+        return nueva; // El artista no está disponible
+    }
+    // Si ambas validaciones pasaron, podemos crear la presentación
+    nueva = datosTemporales; // Copiamos los datos validados a la nueva presentación
+    return nueva;
 }
 
 int eliminarPresentacionesDeMemoriaPorArtista(ColeccionPresentaciones* coleccion, int idArtista) {

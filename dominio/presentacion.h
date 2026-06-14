@@ -21,6 +21,7 @@ typedef struct stPresentacionArchivo {
 } PresentacionArchivo;
 
 // Prototipo de la función para mostrar la presentación
-void mostrarPresentacion(Presentacion presentacion);
+void mostrarPresentacionAdmin(Presentacion presentacion, char nombreArtista[], char nombreEscenario[]);
+void mostrarPresentacionUsuario(Presentacion presentacion, char nombreArtista[], char nombreEscenario[]);
 
 #endif

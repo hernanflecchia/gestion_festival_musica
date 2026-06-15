@@ -60,19 +60,6 @@ Presentacion obtenerPresentacion(ColeccionPresentaciones* coleccion, int indice)
     return unaPresentacion;
 }
 
-int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion presentacionModificada) {
-    int respuesta = 1;
-    // Verificamos que el indice sea valido y no se pase de los elementos cargados
-    // si falla algo devolvemos -1 como respuesta
-    if (indice >= 0 && indice < coleccion->validos) {
-        coleccion->arreglo[indice] = presentacionModificada;
-        respuesta = 1;
-    } else {
-        respuesta = -1; 
-    }
-    return respuesta;
-}
-
 int buscarIndicePresentacionPorId(ColeccionPresentaciones* coleccion, int idBuscado) {
     int indiceEncontrado = -1;
     
@@ -202,7 +189,11 @@ int verificarDisponibilidadArtista(ColeccionPresentaciones coleccion, int idArti
 
 Presentacion crearPresentacionValidada(ColeccionPresentaciones* coleccion, Presentacion datosTemporales) {
     Presentacion nueva;
-    nueva.id = -1; // Valor centinela para indicar que no se pudo crear la presentación
+    if (datosTemporales.idArtista == 0 || datosTemporales.idEscenario == 0) {
+        nueva.id = -1;
+        return nueva;
+    }
+    nueva.id = -1;
     // Verificamos la disponibilidad del escenario
     if (!verificarDisponibilidadEscenario(*coleccion, datosTemporales.idEscenario, datosTemporales.inicio, datosTemporales.duracion)) {
         return nueva; // El escenario no está disponible
@@ -212,8 +203,26 @@ Presentacion crearPresentacionValidada(ColeccionPresentaciones* coleccion, Prese
         return nueva; // El artista no está disponible
     }
     // Si ambas validaciones pasaron, podemos crear la presentación
-    nueva = datosTemporales; // Copiamos los datos validados a la nueva presentación
+    nueva = datosTemporales;
     return nueva;
+}
+
+int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion presentacionModificada) {
+    int respuesta = 1;
+    // Verificamos que el indice sea valido y no se pase de los elementos cargados
+    // si falla algo devolvemos -1 como respuesta
+    if (indice >= 0 && indice < coleccion->validos) {
+        Presentacion temporal = crearPresentacionValidada(coleccion, presentacionModificada);
+        if (temporal.id == -1) {
+            respuesta = -1;
+        } else {
+            coleccion->arreglo[indice] = presentacionModificada;
+            respuesta = 1;
+        }
+    } else {
+        respuesta = -1; 
+    }
+    return respuesta;
 }
 
 int eliminarPresentacionesDeMemoriaPorArtista(ColeccionPresentaciones* coleccion, int idArtista) {

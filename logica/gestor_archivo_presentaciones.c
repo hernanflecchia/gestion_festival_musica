@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdbool.h>
 #include "gestor_archivo_presentaciones.h"
 #include "../dominio/tipos_seguros.h"
 #include "coleccion_artistas.h"
@@ -118,13 +119,17 @@ int bajaLogicaPresentacionEnArchivo(int idBorrar) {
     return exito;
 }
 
-int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios) {
+int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, bool esAdmin) {
     
     FILE* archTxt = fopen(nombreArchivoTxt, "w");
     
     if (archTxt != NULL) {
         
-        fprintf(archTxt, "artista\tescenario\tinicio\tduracion\n");
+        if (esAdmin) {
+            fprintf(archTxt, "id\tartista\tescenario\tinicio\tduracion\n");
+        } else {
+            fprintf(archTxt, "artista\tescenario\tinicio\tduracion\n");
+        }
         
         for (int i = 0; i < coleccion->validos; i++) {
             
@@ -136,13 +141,24 @@ int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresenta
                 int indiceEsc = buscarIndiceEscenarioPorId(colEscenarios, coleccion->arreglo[i].idEscenario);
                 Escenario escenario = obtenerEscenario(colEscenarios, indiceEsc);
 
-                fprintf(archTxt, "%s\t%s\t%02d:%02d\t%02d:%02d\n", 
-                    artista.nombre, 
-                    escenario.nombre,
-                    coleccion->arreglo[i].inicio.horas, 
-                    coleccion->arreglo[i].inicio.minutos,
-                    coleccion->arreglo[i].duracion.horas, 
-                    coleccion->arreglo[i].duracion.minutos);
+                if (esAdmin) {
+                    fprintf(archTxt, "%d\t%s\t%s\t%02d:%02d\t%02d:%02d\n", 
+                        coleccion->arreglo[i].id, 
+                        artista.nombre, 
+                        escenario.nombre,
+                        coleccion->arreglo[i].inicio.horas, 
+                        coleccion->arreglo[i].inicio.minutos,
+                        coleccion->arreglo[i].duracion.horas, 
+                        coleccion->arreglo[i].duracion.minutos);
+                } else {
+                    fprintf(archTxt, "%s\t%s\t%02d:%02d\t%02d:%02d\n", 
+                        artista.nombre, 
+                        escenario.nombre,
+                        coleccion->arreglo[i].inicio.horas, 
+                        coleccion->arreglo[i].inicio.minutos,
+                        coleccion->arreglo[i].duracion.horas, 
+                        coleccion->arreglo[i].duracion.minutos);
+                }
             }
         }
         
@@ -196,4 +212,25 @@ int bajaLogicaPresentacionesEnArchivoPorEscenario(int idEscenarioBuscado) {
         fclose(arch);
     }
     return cantidadBorradas;
+}
+
+ColeccionPresentaciones obtenerPresentacionesEliminadas() {
+    ColeccionPresentaciones eliminadas;
+    eliminadas.arreglo = NULL;
+    eliminadas.capacidad = 0;
+    eliminadas.validos = 0;
+
+    FILE* arch = fopen(ARCHIVO_PRESENTACIONES, "rb");
+    if (arch != NULL) {
+        PresentacionArchivo presentacionLeida;
+
+        while (fread(&presentacionLeida, sizeof(PresentacionArchivo), 1, arch)) {
+            if (presentacionLeida.valido == 'N') {
+                Presentacion presentacionMemoria = transformarAPresentacionMemoria(presentacionLeida);
+                agregarPresentacion(&eliminadas, presentacionMemoria);
+            }
+        }
+        fclose(arch);
+    }
+    return eliminadas;
 }

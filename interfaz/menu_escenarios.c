@@ -21,16 +21,12 @@ void mostrarListadoEscenarios(ColeccionEscenarios* colEscenarios, bool esAdmin) 
     printf("\n--- LISTADO DE ESCENARIOS ---\n");
     for (int i = 0; i < colEscenarios->validos; i++) {
         Escenario escenario = obtenerEscenario(colEscenarios, i);
-        if (escenario.id != -1) {
-            if (esAdmin) {
-                mostrarEscenarioAdmin(escenario);
-            } else {
-                mostrarEscenarioUsuario(escenario);
-            }
+        if (esAdmin) {
+            mostrarEscenarioAdmin(escenario);
+        } else {
+            mostrarEscenarioUsuario(escenario);
         }
     }
-    printf("\nPresione Enter para continuar...");
-    getchar();
 }
 
 Escenario pedirDatosNuevoEscenario(void) {

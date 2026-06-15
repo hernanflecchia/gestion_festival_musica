@@ -108,14 +108,22 @@ int bajaLogicaArtistaEnArchivo(int idBorrar) {
     return exito;
 }
 
-int exportarArtistasATexto(const char* nombreArchivoTxt, ColeccionArtistas* coleccion) {
+int exportarArtistasATexto(const char* nombreArchivoTxt, ColeccionArtistas* coleccion, bool esAdmin) {
     FILE* archTxt = fopen(nombreArchivoTxt, "w");
     
     if (archTxt != NULL) {
         
-        fprintf(archTxt, "nombre\tgenero\n");
+        if (esAdmin) {
+            fprintf(archTxt, "id\tnombre\tgenero\n");
+        } else {
+            fprintf(archTxt, "nombre\tgenero\n");
+        }
         for (int i = 0; i < coleccion->validos; i++) {
-            fprintf(archTxt, "%s\t%s\n", coleccion->arreglo[i].nombre,  coleccion->arreglo[i].genero);
+            if (esAdmin) {
+                fprintf(archTxt, "%d\t%s\t%s\n", coleccion->arreglo[i].id, coleccion->arreglo[i].nombre, coleccion->arreglo[i].genero);
+            } else {
+                fprintf(archTxt, "%s\t%s\n", coleccion->arreglo[i].nombre,  coleccion->arreglo[i].genero);
+            }
         }
         fclose(archTxt);
         return 1; 
@@ -123,4 +131,25 @@ int exportarArtistasATexto(const char* nombreArchivoTxt, ColeccionArtistas* cole
     } else {
         return 0;
     }
+}
+
+ColeccionArtistas obtenerArtistasEliminados() {
+    ColeccionArtistas eliminados;
+    eliminados.arreglo = NULL;
+    eliminados.capacidad = 0;
+    eliminados.validos = 0;
+
+    FILE* arch = fopen(ARCHIVO_ARTISTAS, "rb");
+    if (arch != NULL) {
+        ArtistaArchivo artistaLeido;
+
+        while (fread(&artistaLeido, sizeof(ArtistaArchivo), 1, arch)) {
+            if (artistaLeido.valido == 'N') {
+                Artista artistaMemoria = transformarAArtistaMemoria(artistaLeido);
+                agregarArtista(&eliminados, artistaMemoria);
+            }
+        }
+        fclose(arch);
+    }
+    return eliminados;
 }

@@ -21,16 +21,12 @@ void mostrarListadoArtistas(ColeccionArtistas* colArtistas, bool esAdmin) {
     printf("\n--- LISTADO DE ARTISTAS ---\n");
     for (int i = 0; i < colArtistas->validos; i++) {
         Artista artistas = obtenerArtista(colArtistas, i);
-        if (artistas.id != -1) {
-            if (esAdmin) {
-                mostrarArtistaAdmin(artistas);
-            } else {
-                mostrarArtistaUsuario(artistas);
-            }
+        if (esAdmin) {
+            mostrarArtistaAdmin(artistas);
+        } else {
+            mostrarArtistaUsuario(artistas);
         }
     }
-    printf("\nPresione Enter para continuar...");
-    getchar();
 }
 
 Artista pedirDatosNuevoArtista(void) {

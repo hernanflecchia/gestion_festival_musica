@@ -106,14 +106,22 @@ int bajaLogicaEscenarioEnArchivo(int idBorrar) {
     return exito;
 }
 
-int exportarEscenariosATexto(const char* nombreArchivoTxt, ColeccionEscenarios* coleccion) {
+int exportarEscenariosATexto(const char* nombreArchivoTxt, ColeccionEscenarios* coleccion, bool esAdmin) {
     FILE* archTxt = fopen(nombreArchivoTxt, "w");
     
     if (archTxt != NULL) {
         
-        fprintf(archTxt, "nombre\n");
+        if (esAdmin) {
+            fprintf(archTxt, "id\tnombre\n");
+        } else {
+            fprintf(archTxt, "nombre\n");
+        }
         for (int i = 0; i < coleccion->validos; i++) {
-            fprintf(archTxt, "%s\n", coleccion->arreglo[i].nombre);
+            if (esAdmin) {
+                fprintf(archTxt, "%d\t%s\n", coleccion->arreglo[i].id, coleccion->arreglo[i].nombre);
+            } else {
+                fprintf(archTxt, "%s\n", coleccion->arreglo[i].nombre);
+            }
         }
         fclose(archTxt);
         return 1; 
@@ -121,4 +129,24 @@ int exportarEscenariosATexto(const char* nombreArchivoTxt, ColeccionEscenarios* 
     } else {
         return 0;
     }
+}
+
+ColeccionEscenarios obtenerEscenariosEliminados() {
+    ColeccionEscenarios eliminados;
+    eliminados.validos = 0;
+    eliminados.capacidad = 0;
+    eliminados.arreglo = NULL;
+
+    FILE* arch = fopen(ARCHIVO_ESCENARIOS, "rb");
+    if (arch != NULL) {
+        EscenarioArchivo escenarioLeido;
+        while (fread(&escenarioLeido, sizeof(EscenarioArchivo), 1, arch)) {
+            if (escenarioLeido.valido == 'N') {
+                Escenario escenarioMemoria = transformarAEscenarioMemoria(escenarioLeido);
+                agregarEscenario(&eliminados, escenarioMemoria);
+            }
+        }
+        fclose(arch);
+    }
+    return eliminados;
 }

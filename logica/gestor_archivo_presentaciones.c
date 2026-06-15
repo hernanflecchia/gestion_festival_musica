@@ -37,6 +37,22 @@ void cargarPresentacionesDesdeArchivo(ColeccionPresentaciones* coleccion) {
     }
 }
 
+int guardarPresentacionEnArchivo(PresentacionArchivo nuevaPresentacion) {
+    int exito = 0;
+    FILE* arch = fopen(ARCHIVO_PRESENTACIONES, "ab"); 
+    
+    if (arch != NULL) {
+        fwrite(&nuevaPresentacion, sizeof(PresentacionArchivo), 1, arch);
+        fclose(arch);
+        exito = 1; 
+    } else {
+        printf("[Error] No se pudo abrir el archivo %s para guardar.\n", ARCHIVO_PRESENTACIONES);
+    }
+    
+    return exito;
+}
+
+
 int bajaLogicaPresentacionesEnArchivoPorArtista(int idArtistaBuscado) {
     int cantidadBorradas = 0;
     FILE* arch = fopen(ARCHIVO_PRESENTACIONES, "r+b"); 

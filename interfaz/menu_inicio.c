@@ -2,8 +2,7 @@
 #include "scanner.h"
 #include "menu_usuario.h"
 
-int mostrarMenuInicio(void)
-{
+int mostrarMenuInicio(void) {
     printf("|====================================|\n");
     printf("|               INICIO               |\n");
     printf("|====================================|\n");

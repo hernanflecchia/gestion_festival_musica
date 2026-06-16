@@ -7,6 +7,6 @@
 #include "../logica/coleccion_presentaciones.h"
 
 void menuUsuario(Usuarios usuario, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, ColeccionPresentaciones* colPresentaciones);
-int mostrarMenuDeUsuario(Usuarios usuario);
+int mostrarMenuUsuario(Usuarios usuario);
 
 #endif

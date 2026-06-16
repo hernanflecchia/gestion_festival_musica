@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "scanner.h"
+#include "menu_usuario.h"
 #include "menu_artistas.h"
 #include "menu_escenarios.h"
 #include "menu_presentaciones.h"

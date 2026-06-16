@@ -1,5 +1,6 @@
 #ifndef COLECCION_ARTISTAS_H
 #define COLECCION_ARTISTAS_H
+#define CAPACIDAD_ARTISTAS 5
 
 #include "../dominio/artista.h"
 

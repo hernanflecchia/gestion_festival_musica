@@ -1,5 +1,6 @@
 #ifndef COLECCION_ESCENARIOS_H
 #define COLECCION_ESCENARIOS_H
+#define CAPACIDAD_ESCENARIOS 3
 
 #include "../dominio/escenario.h"
 

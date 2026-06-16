@@ -7,6 +7,7 @@
 
 int mostrarMenuArtistas(void);
 void mostrarListadoArtistas(ColeccionArtistas* colArtistas, bool esAdmin);
+
 Artista pedirDatosNuevoArtista(void);
 Artista pedirDatosModificadosArtista(Artista artistaExistente);
 

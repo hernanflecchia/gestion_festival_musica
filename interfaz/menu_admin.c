@@ -1,47 +1,545 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include "scanner.h"
-#include "menu_admin.h"
 #include "menu_artistas.h"
 #include "menu_escenarios.h"
 #include "menu_presentaciones.h"
+#include "../dominio/usuario.h"
+#include "../logica/coleccion_artistas.h"
+#include "../logica/coleccion_escenarios.h"
+#include "../logica/coleccion_presentaciones.h"
+#include "../logica/gestor_archivo_artistas.h"
+#include "../logica/gestor_archivo_escenarios.h"
+#include "../logica/gestor_archivo_presentaciones.h"
 
-void menuAdmin(Usuarios usuario, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, ColeccionPresentaciones* colPresentaciones) {
-    int opcionMenu;
-    do {
-        opcionMenu = mostrarMenuAdmin(usuario);
-
-        switch(opcionMenu) {
-        case 1:
-
-            break;
-        case 2:
-
-            break;
-        case 3:
-
-            break;
-        default:
-            if(opcionMenu != 4){
-                printf("\nOpcion invalida. Intente de nuevo.\n");
-            }
-            break;
-        }
-    }
-    while(opcionMenu != 4);
+int mostrarMenuReportes(void) {
+    system("clear");
+    printf("\n--- REPORTES ---\n");
+    printf("1. Listar Artistas\n");
+    printf("2. Listar Escenarios\n");
+    printf("3. Listar Cronograma Completo\n");
+    printf("4. Listar Presentaciones por Artista\n");
+    printf("5. Listar Presentaciones por Escenario\n");
+    printf("0. Volver al menu principal\n");
+    printf("Elija una opcion: ");
+    return scanInt();
 }
 
-int mostrarMenuAdmin(Usuarios usuario) {
-    printf(" Usuario: %s\n", usuario.nombre);
-    printf("|====================================|\n");
-    printf("|         MENU ADMINISTRADOR         |\n");
-    printf("|====================================|\n");
-    printf("|                                    |\n");
-    printf("|   1. Menu artistas                 |\n");
-    printf("|   2. Menu escenarios               |\n");
-    printf("|   3. Menu presentaciones           |\n");
-    printf("|   4. Salir                         |\n");
-    printf("|                                    |\n");
-    printf("|------------------------------------|\n");
-    printf("|Seleccione una opcion: ");
+int mostrarMenuAuditoria(void) {
+    system("clear");
+    printf("\n--- AUDITORIA ---\n");
+    printf("1. Listar Artistas eliminados\n");
+    printf("2. Listar Escenarios eliminados\n");
+    printf("3. Listar Presentaciones eliminadas\n");
+    printf("0. Volver al menu principal\n");
+    printf("Elija una opcion: ");
     return scanInt();
+}
+
+void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPresentaciones* cPres) {
+    int opcionPrincipal;
+    int opcionSubMenu;
+    int idBuscado;
+    int indice;
+
+    do {
+        system("clear");
+        printf("\n=== PANEL DE ADMINISTRADOR ===\n");
+        printf("Bienvenido/a, %s\n", usuario.nombre);
+        printf("1. Gestionar Artistas\n");
+        printf("2. Gestionar Escenarios\n");
+        printf("3. Gestionar Presentaciones\n");
+        printf("4. Ver Listados y Reportes\n");
+        printf("5. Auditoria\n");
+        printf("0. Cerrar Sesion\n");
+        printf("Elija una opcion: ");
+        opcionPrincipal = scanInt();
+        switch(opcionPrincipal) {
+            case 1:
+                do {
+                    opcionSubMenu = mostrarMenuArtistas();
+                    switch(opcionSubMenu) {
+                        case 1:
+                            Artista nuevoArtista = pedirDatosNuevoArtista();
+                            nuevoArtista.id = obtenerSiguienteIdArtista(cArt);
+                            // Intentamos agregarlo a la memoria dinámica
+                            if (agregarArtista(cArt, nuevoArtista) == 1) {
+                                // Si la memoria RAM lo aceptó, lo mapeamos al formato de archivo
+                                ArtistaArchivo nuevoArch = transformarAArtistaArchivo(nuevoArtista);
+                                // Finalmente lo guardamos en el disco
+                                if (guardarArtistaEnArchivo(nuevoArch) == 1) {
+                                    printf("\n[Exito] Artista agregado y guardado correctamente.\n");
+                                } else {
+                                    printf("\n[Error] El artista esta en memoria pero fallo el guardado en disco.\n");
+                                }
+                            } else {
+                                printf("\n[Error] No se pudo agregar al artista por falta de memoria.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 2:
+                            system("clear");
+                            printf("\n--- MODIFICAR ARTISTA ---\n");
+                            printf("Para modificar un artista, primero ingrese su ID.\n");
+                            idBuscado = scanInt();
+                            indice = buscarIndiceArtistaPorId(cArt, idBuscado);
+                            if (indice != -1) {
+                                Artista aModificar = obtenerArtista(cArt, indice);
+                                aModificar = pedirDatosModificadosArtista(aModificar);                             
+                                if (actualizarArtista(cArt, indice, aModificar) == 1) {
+                                    ArtistaArchivo archModificado = transformarAArtistaArchivo(aModificar);
+                                    if (modificarArtistaEnArchivo(archModificado) == 1) {
+                                        printf("\n[Exito] Artista modificado en memoria y disco.\n");
+                                    } else {
+                                        printf("\n[Error] Modificado en memoria pero no en disco.\n");
+                                    }
+                                } else {
+                                    printf("\n[Error] No se pudo modificar el artista en memoria.\n");
+                                }
+                            } else {
+                                printf("\n[Error] Indice invalido. No existe el artista.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 3:
+                            system("clear");
+                            printf("\n--- ELIMINAR ARTISTA ---\n");
+                            printf("Para eliminar un artista, primero ingrese su ID.\n");
+                            idBuscado = scanInt();
+                            indice = buscarIndiceArtistaPorId(cArt, idBuscado);
+                            if (indice != -1) {
+                                eliminarArtistaDeMemoria(cArt, indice);
+                                if (bajaLogicaArtistaEnArchivo(idBuscado) == 1) {
+                                    printf("\n[Exito] Artista borrado de la memoria y del disco correctamente.\n");
+                                    // Borrar en cascada
+                                    int cantMemoria = eliminarPresentacionesDeMemoriaPorArtista(cPres, idBuscado);
+                                    int cantDisco = bajaLogicaPresentacionesEnArchivoPorArtista(idBuscado);
+                                    // Verificamos si hubo presentaciones afectadas
+                                    if (cantMemoria > 0 || cantDisco > 0) {
+                                        printf("[Exito] Se borraron %d presentaciones en Memoria y %d en disco asociadas a este artista.\n", cantMemoria, cantDisco);
+                                    } else {
+                                        printf("[Info] El artista no tenia presentaciones programadas activas.\n");
+                                    }
+                                } else {
+                                    printf("\n[Error] Se borró de memoria pero falló la escritura en el archivo.\n");
+                                }
+                            } else {
+                                printf("\n[Error] El ID ingresado no existe o ya fue dado de baja previamente.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 4:
+                            system("clear");
+                            printf("\n--- LISTADO DE ARTISTAS ---\n");
+                            int cantidad = obtenerCantidadArtistas(cArt);
+                            if (cantidad == 0) {
+                                printf("No hay artistas cargados en el sistema.\n");
+                            } else {
+                                mostrarListadoArtistas(cArt, true);
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 0:
+                            // Simplemente vuelve al menú principal
+                            break;
+                        default:
+                            printf("\nOpcion invalida.\n");
+                    }
+                } while(opcionSubMenu != 0);
+                break;
+
+            case 2:
+                do {
+                    opcionSubMenu = mostrarMenuEscenarios();
+                    switch(opcionSubMenu) {
+                        case 1:
+                            Escenario nuevoEscenario = pedirDatosNuevoEscenario();
+                            nuevoEscenario.id = obtenerSiguienteIdEscenario(cEsc);
+                            // Intentamos agregarlo a la memoria dinámica
+                            if (agregarEscenario(cEsc, nuevoEscenario) == 1) {
+                                // Si la memoria RAM lo aceptó, lo mapeamos al formato de archivo
+                                EscenarioArchivo nuevoArch = transformarAEscenarioArchivo(nuevoEscenario);
+                                // Finalmente lo guardamos en el disco
+                                if (guardarEscenarioEnArchivo(nuevoArch) == 1) {
+                                    printf("\n[Exito] Escenario agregado y guardado correctamente.\n");
+                                } else {
+                                    printf("\n[Error] El escenario esta en memoria pero fallo el guardado en disco.\n");
+                                }
+                            } else {
+                                printf("\n[Error] No se pudo agregar al escenario por falta de memoria.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 2:
+                            system("clear");
+                            printf("\n--- MODIFICAR ESCENARIO ---\n");
+                            printf("Para modificar un escenario, primero ingrese su ID.\n");
+                            idBuscado = scanInt();
+                            indice = buscarIndiceEscenarioPorId(cEsc, idBuscado);
+                            if (indice != -1) {
+                                Escenario aModificar = obtenerEscenario(cEsc, indice);
+                                aModificar = pedirDatosModificadosEscenario(aModificar);                             
+                                if (actualizarEscenario(cEsc, indice, aModificar) == 1) {
+                                    EscenarioArchivo archModificado = transformarAEscenarioArchivo(aModificar);
+                                    if (modificarEscenarioEnArchivo(archModificado) == 1) {
+                                        printf("\n[Exito] Escenario modificado en memoria y disco.\n");
+                                    } else {
+                                        printf("\n[Error] Modificado en memoria pero no en disco.\n");
+                                    }
+                                }
+                            } else {
+                                printf("\n[Error] Indice invalido. No existe el escenario.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 3:
+                            system("clear");
+                            printf("\n--- ELIMINAR ESCENARIO ---\n");
+                            printf("Para eliminar un escenario, primero ingrese su ID.\n");
+                            idBuscado = scanInt();
+                            indice = buscarIndiceEscenarioPorId(cEsc, idBuscado);
+                            if (indice != -1) {
+                                eliminarEscenarioDeMemoria(cEsc, indice);
+                                if (bajaLogicaEscenarioEnArchivo(idBuscado) == 1) {
+                                    printf("\n[Exito] Escenario borrado de la memoria y del disco correctamente.\n");
+                                    // Borrar en cascada
+                                    int cantMemoria = eliminarPresentacionesDeMemoriaPorEscenario(cPres, idBuscado);
+                                    int cantDisco = bajaLogicaPresentacionesEnArchivoPorEscenario(idBuscado);
+                                    // Verificamos si hubo presentaciones afectadas
+                                    if (cantMemoria > 0 || cantDisco > 0) {
+                                        printf("[Exito] Se borraron %d presentaciones en Memoria y %d en disco asociadas a este escenario.\n", cantMemoria, cantDisco);
+                                    } else {
+                                        printf("[Info] El escenario no tenia presentaciones programadas activas.\n");
+                                    }
+                                } else {
+                                    printf("\n[Error] Se borró de memoria pero falló la escritura en el archivo.\n");
+                                }
+                            } else {
+                                printf("\n[Error] El ID ingresado no existe o ya fue dado de baja previamente.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 4:
+                            printf("\n--- LISTADO DE ESCENARIOS ---\n");
+                            int cantidad = obtenerCantidadEscenarios(cEsc);
+                            if (cantidad == 0) {
+                                printf("No hay escenarios cargados en el sistema.\n");
+                            } else {
+                                mostrarListadoEscenarios(cEsc, true);
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 0:
+                            // Simplemente vuelve al menú principal
+                            break;
+                        default:
+                            printf("\nOpcion invalida.\n");
+                    }
+                } while(opcionSubMenu != 0);
+                break;
+                
+            case 3:
+                do {
+                    opcionSubMenu = mostrarMenuPresentaciones();
+                    switch(opcionSubMenu) {
+                        case 1:
+                            system("clear");
+                            printf("\n--- ALTA DE PRESENTACION ---\n");
+                            Presentacion temp = pedirDatosNuevaPresentacion(cArt, cEsc);
+                            Presentacion nuevaPresentacion = crearPresentacionValidada(cPres, temp);
+                            if (nuevaPresentacion.id != -1) {
+                                nuevaPresentacion.id = obtenerSiguienteIdPresentacion(cPres);
+                                if (agregarPresentacion(cPres, nuevaPresentacion) == 1) {
+                                    PresentacionArchivo nuevoArch = transformarAPresentacionArchivo(nuevaPresentacion);
+                                    if (guardarPresentacionEnArchivo(nuevoArch) == 1) {
+                                        printf("\n[Exito] Presentacion agregada y guardada correctamente.\n");
+                                    } else {
+                                        printf("\n[Error] La presentacion esta en memoria pero fallo el guardado en disco.\n");
+                                    }
+                                } else {
+                                    printf("\n[Error] No se pudo agregar la presentacion por falta de memoria.\n");
+                                }
+                            } else {
+                                printf("\n[Error] No se pudo crear la presentacion.\n");
+                                printf("Motivo: No existen el Artista o el Escenario o el Artista o el Escenario ya se encuentran ocupados en ese horario.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 2:
+                            system("clear");
+                            printf("\n--- MODIFICAR PRESENTACION ---\n");
+                            printf("Para modificar una presentacion, primero ingrese su ID.\n");
+                            idBuscado = scanInt();
+                            indice = buscarIndicePresentacionPorId(cPres, idBuscado);
+                            if (indice != -1) {
+                                Presentacion aModificar = obtenerPresentacion(cPres, indice);
+                                aModificar = pedirDatosModificadosPresentacion(aModificar, cArt, cEsc);
+                                if (actualizarPresentacion(cPres, indice, aModificar) == 1) {
+                                    PresentacionArchivo archModificado = transformarAPresentacionArchivo(aModificar);
+                                    if (modificarPresentacionEnArchivo(archModificado) == 1) {
+                                        printf("\n[Exito] Presentacion modificada en memoria y disco.\n");
+                                    } else {
+                                        printf("\n[Error] Modificado en memoria pero no en disco.\n");
+                                    }
+                                } else {
+                                    printf("\n[Error] No se pudo modificar la presentacion en memoria.\n");
+                                }
+                            } else {
+                                printf("\n[Error] Indice invalido. No existe la presentacion.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 3:
+                            system("clear");
+                            printf("\n--- ELIMINAR PRESENTACION ---\n");
+                            printf("Para eliminar una presentacion, primero ingrese su ID.\n");
+                            idBuscado = scanInt();
+                            indice = buscarIndicePresentacionPorId(cPres, idBuscado);
+                            if (indice != -1) {
+                                eliminarPresentacionDeMemoria(cPres, indice);
+                                if (bajaLogicaPresentacionEnArchivo(idBuscado) == 1) {
+                                    printf("\n[Exito] Presentacion borrada de la memoria y del disco correctamente.\n");
+                                } else {
+                                    printf("\n[Error] Se borró de memoria pero falló la escritura en el archivo.\n");
+                                }
+                            } else {
+                                printf("\n[Error] El ID ingresado no existe o ya fue dado de baja previamente.\n");
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 4:
+                            printf("\n--- LISTADO DE PRESENTACIONES ---\n");
+                            int cantidad = obtenerCantidadPresentaciones(cPres);
+                            if (cantidad == 0) {
+                                printf("No hay presentaciones cargadas en el sistema.\n");
+                            } else {
+                                mostrarListadoPresentaciones(cPres, cArt, cEsc, true);
+                            }
+                            printf("\nPresione Enter para continuar...");
+                            getchar();
+                            break;
+                        case 0:
+                            // Volver al menú principal
+                            break;
+                        default:
+                            printf("\nOpcion invalida.\n");
+                    }
+                } while(opcionSubMenu != 0);
+                break;
+
+            case 4:
+                do {
+                    opcionSubMenu = mostrarMenuReportes();
+                    switch(opcionSubMenu) {
+                        case 1:
+                            printf("\n--- LISTADO DE ARTISTAS ---\n");
+                            int cantidad = obtenerCantidadArtistas(cArt);
+                            if (cantidad == 0) {
+                                printf("No hay artistas cargados en el sistema.\n");
+                                printf("\nPresione Enter para continuar...");
+                                getchar();
+                            } else {
+                                mostrarListadoArtistas(cArt, true);
+                                printf("¿Desea exportar los artistas a un TSV? (s/n)\n");
+                                if (confirmar('s')) {
+                                    if (exportarArtistasATexto("artistas_admin.tsv", cArt, true)) {
+                                        printf("[Exito] El listado fue guardado en 'artistas_admin.tsv'.\n");
+                                    } else {
+                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                                    }
+                                }
+                                printf("\nPresione Enter para continuar...");
+                                getchar();
+                            }
+                            break;
+                        case 2:
+                            printf("\n--- LISTADO DE ESCENARIOS ---\n");
+                            cantidad = obtenerCantidadEscenarios(cEsc);
+                            if (cantidad == 0) {
+                                printf("No hay escenarios cargados en el sistema.\n");
+                                printf("\nPresione Enter para continuar...");
+                                getchar();
+                            } else {
+                                mostrarListadoEscenarios(cEsc, true);
+                                printf("¿Desea exportar los escenarios a un TSV? (s/n)\n");
+                                if (confirmar('s')) {
+                                    if (exportarEscenariosATexto("escenarios_admin.tsv", cEsc, true)) {
+                                        printf("[Exito] El listado fue guardado en 'escenarios_admin.tsv'.\n");
+                                    } else {
+                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                                    }
+                                    printf("\nPresione Enter para continuar...");
+                                    getchar();
+                                }
+                            }
+                            break;
+                        case 3:
+                            printf("\n--- CRONOGRAMA COMPLETO ---\n");
+                            cantidad = obtenerCantidadPresentaciones(cPres);
+                            if (cantidad == 0) {
+                                printf("No hay presentaciones cargadas en el sistema.\n");
+                                printf("\nPresione Enter para continuar...");
+                                getchar();
+                            } else {
+                                mostrarListadoPresentaciones(cPres, cArt, cEsc, true);
+                                printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
+                                if (confirmar('s')) {
+                                    if (exportarPresentacionesATexto("presentaciones_admin.tsv", cPres, cArt, cEsc, true)) {
+                                        printf("[Exito] El listado fue guardado en 'presentaciones_admin.tsv'.\n");
+                                    } else {
+                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                                    }
+                                    printf("\nPresione Enter para continuar...");
+                                    getchar();
+                                }
+                            }
+                            break;
+                        case 4:
+                            printf("\n--- PRESENTACIONES DEL ARTISTA ---\n");
+                            printf("Ingrese el id del artista: ");
+                            idBuscado = scanInt();
+                            cantidad = mostrarListadoPresentacionesPorArtista(idBuscado, cPres, cArt, cEsc, true);
+                            if (cantidad != 0) {
+                                printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
+                                if (confirmar('s')) {
+                                    if (exportarPresentacionesATexto("presentaciones_por_artista_admin.tsv", cPres, cArt, cEsc, true)) {
+                                        printf("[Exito] El listado fue guardado en 'presentaciones_por_artista_admin.tsv'.\n");
+                                    } else {
+                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                                    }
+                                    printf("\nPresione Enter para continuar...");
+                                    getchar();
+                                }
+                            } else {
+                                printf("No se encontraron presentaciones para el artista con ID %d.\n", idBuscado);
+                                printf("\nPresione Enter para continuar...");
+                                getchar();
+                            }                            
+                            break;
+                        case 5:
+                            printf("\n--- PRESENTACIONES POR ESCENARIO ---\n");
+                            printf("Ingrese el id del escenario: ");
+                            idBuscado = scanInt();
+                            cantidad = mostrarListadoPresentacionesPorEscenario(idBuscado, cPres, cArt, cEsc, true);
+                            if (cantidad != 0) {
+                                printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
+                                if (confirmar('s')) {
+                                    if (exportarPresentacionesATexto("presentaciones_por_escenario_admin.tsv", cPres, cArt, cEsc, true)) {
+                                        printf("[Exito] El listado fue guardado en 'presentaciones_por_escenario_admin.tsv'.\n");
+                                    } else {
+                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                                    }
+                                    printf("\nPresione Enter para continuar...");
+                                    getchar();
+                                }
+                            } else {
+                                printf("No se encontraron presentaciones para el escenario con ID %d.\n", idBuscado);
+                                printf("\nPresione Enter para continuar...");
+                                getchar();
+                            }
+                            break;
+                        case 0:
+                            // Volver al menú principal
+                            break;
+                        default:
+                            printf("\nOpcion invalida.\n");
+                    }
+                } while(opcionSubMenu != 0);
+                break;
+
+            case 5:
+                do {
+                    opcionSubMenu = mostrarMenuAuditoria();
+                    switch(opcionSubMenu) {
+                        case 1:
+                            printf("\n--- ARTISTAS ELIMINADOS ---\n");
+                            ColeccionArtistas eliminados = obtenerArtistasEliminados();
+                            if (eliminados.validos == 0) {
+                                printf("No hay artistas eliminados en el sistema.\n");
+                                printf("\nPresione Enter para continuar...");
+                                getchar();
+                            } else {
+                                mostrarListadoArtistas(&eliminados, true);
+                                printf("¿Desea exportar los artistas a un TSV? (s/n)\n");
+                                if (confirmar('s')) {
+                                    if (exportarArtistasATexto("artistas_eliminados.tsv", &eliminados, true)) {
+                                        printf("[Exito] El listado fue guardado en 'artistas_eliminados.tsv'.\n");
+                                    } else {
+                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                                    }
+                                    printf("\nPresione Enter para continuar...");
+                                    getchar();
+                                }
+                            }
+                            break;
+                        case 2:
+                            printf("\n--- ESCENARIOS ELIMINADOS ---\n");
+                            ColeccionEscenarios escenariosEliminados = obtenerEscenariosEliminados();
+                            if (escenariosEliminados.validos == 0) {
+                                printf("No hay escenarios eliminados en el sistema.\n");
+                                printf("\nPresione Enter para continuar...");
+                                getchar();
+                            } else {
+                                mostrarListadoEscenarios(&escenariosEliminados, true);
+                                printf("¿Desea exportar los escenarios a un TSV? (s/n)\n");
+                                if (confirmar('s')) {
+                                    if (exportarEscenariosATexto("escenarios_eliminados.tsv", &escenariosEliminados, true)) {
+                                        printf("[Exito] El listado fue guardado en 'escenarios_eliminados.tsv'.\n");
+                                    } else {
+                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                                    }
+                                    printf("\nPresione Enter para continuar...");
+                                    getchar();
+                                }
+                            }
+                            break;
+                        case 3:
+                            printf("\n--- PRESENTACIONES ELIMINADAS ---\n");
+                            ColeccionPresentaciones presentacionesEliminadas = obtenerPresentacionesEliminadas();
+                            if (presentacionesEliminadas.validos == 0) {
+                                printf("No hay presentaciones eliminadas en el sistema.\n");
+                                printf("\nPresione Enter para continuar...");
+                                getchar();
+                            } else {
+                                mostrarListadoPresentaciones(&presentacionesEliminadas, cArt, cEsc, true);
+                                printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
+                                if (confirmar('s')) {
+                                    if (exportarPresentacionesATexto("presentaciones_eliminadas.tsv", &presentacionesEliminadas, cArt, cEsc, true)) {
+                                        printf("[Exito] El listado fue guardado en 'presentaciones_eliminadas.tsv'.\n");
+                                    } else {
+                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                                    }
+                                    printf("\nPresione Enter para continuar...");
+                                    getchar();
+                                }
+                            }
+                            break;
+                        case 0:
+                            // Volver al menú principal
+                            break;
+                        default:
+                            printf("\nOpcion invalida.\n");
+                    }
+                } while(opcionSubMenu != 0);
+                break;
+
+            case 0:
+                printf("\nCerrando sesion de %s...\n", usuario.nombre);
+                break;
+
+            default:
+                printf("\nOpcion invalida.\n");
+        }
+    } while(opcionPrincipal != 0);
 }

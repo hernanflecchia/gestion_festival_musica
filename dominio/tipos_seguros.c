@@ -38,3 +38,13 @@ Duracion crearDuracion(int horas, int minutos) {
     
     return nuevaDuracion;
 }
+
+// Función para convertir un Horario a su equivalente en minutos totales
+int calcularHorarioEnMinutos(Horario horario) {
+    return (horario.horas * 60) + horario.minutos;
+}
+
+// Función para convertir una Duración a su equivalente en minutos totales
+int calcularDuracionEnMinutos(Duracion duracion) {
+    return (duracion.horas * 60) + duracion.minutos;
+}

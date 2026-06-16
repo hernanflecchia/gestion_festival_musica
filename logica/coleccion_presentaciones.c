@@ -1,0 +1,264 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "coleccion_presentaciones.h"
+#include "coleccion_artistas.h"
+#include "../dominio/tipos_seguros.h"
+
+ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
+    ColeccionPresentaciones col;
+    
+    col.capacidad = CAPACIDAD_PRESENTACIONES;
+    col.validos = 0;
+    col.arreglo = (Presentacion*) malloc(col.capacidad * sizeof(Presentacion));
+    if (col.arreglo == NULL) {
+        printf("[Error Critico] No hay memoria disponible para inicializar Presentaciones.\n");
+        col.capacidad = 0;
+    }
+    
+    return col;
+}
+
+int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPresentacion) {
+    
+    if (coleccion->validos == coleccion->capacidad) {
+        
+        int nuevaCapacidad = coleccion->capacidad + CAPACIDAD_PRESENTACIONES;
+        Presentacion* nuevoBloque = (Presentacion*) realloc(coleccion->arreglo, nuevaCapacidad * sizeof(Presentacion));
+        
+        if (nuevoBloque == NULL) {
+            return 0;
+        }
+        
+        coleccion->arreglo = nuevoBloque;
+        coleccion->capacidad = nuevaCapacidad;
+    }
+    
+    coleccion->arreglo[coleccion->validos] = unaPresentacion;
+    coleccion->validos++;
+    
+    return 1;
+}
+
+Presentacion obtenerPresentacion(ColeccionPresentaciones* coleccion, int indice) {
+    Presentacion unaPresentacion;
+
+    if (indice >= 0 && indice < coleccion->validos) {
+        unaPresentacion = coleccion->arreglo[indice];
+    } else {
+        unaPresentacion.id = -1; 
+    }
+
+    return unaPresentacion;
+}
+
+int buscarIndicePresentacionPorId(ColeccionPresentaciones* coleccion, int idBuscado) {
+    int indiceEncontrado = -1;
+    
+    for (int i = 0; i < coleccion->validos; i++) {
+        if (coleccion->arreglo[i].id == idBuscado) {
+            indiceEncontrado = i;
+            break;
+        }
+    }
+    
+    return indiceEncontrado;
+}
+
+int obtenerCantidadPresentaciones(ColeccionPresentaciones* coleccion) {
+    return coleccion->validos;
+}
+
+int obtenerSiguienteIdPresentacion(ColeccionPresentaciones* coleccion) {
+    int proximoId = 1;
+    
+    if (coleccion->validos > 0) {
+        // Vamos a la ultima celda ocupada(validos - 1) y le sumamos 1 al id que tiene para generar el próximo id
+        proximoId = coleccion->arreglo[coleccion->validos - 1].id + 1;
+    }
+    
+    return proximoId;
+}
+
+void eliminarPresentacionDeMemoria(ColeccionPresentaciones* coleccion, int indiceAEliminar) {
+    if (indiceAEliminar >= 0 && indiceAEliminar < coleccion->validos) {
+        for (int i = indiceAEliminar; i < coleccion->validos - 1; i++) {
+            coleccion->arreglo[i] = coleccion->arreglo[i + 1];
+        }
+        coleccion->validos--;
+        if ((coleccion->capacidad - coleccion->validos) > CAPACIDAD_PRESENTACIONES) {
+            int nuevaCapacidad = coleccion->capacidad - CAPACIDAD_PRESENTACIONES;
+    
+            if (nuevaCapacidad > 0) {
+                Presentacion* bloqueAchicado = (Presentacion*) realloc(coleccion->arreglo, nuevaCapacidad * sizeof(Presentacion));
+                
+                if (bloqueAchicado != NULL) {
+                    coleccion->arreglo = bloqueAchicado;
+                    coleccion->capacidad = nuevaCapacidad;
+                }
+            }
+        }
+    }
+}
+
+void liberarColeccionPresentaciones(ColeccionPresentaciones* coleccion) {
+    // Verificamos que el puntero no sea nulo antes de liberar
+    if (coleccion->arreglo != NULL) {
+        free(coleccion->arreglo);
+    }
+}
+
+int buscarPresentacionPosMenorAlfabeticoRecursivo(Presentacion arreglo[], int validos, int indiceActual, int indiceMenor, ColeccionArtistas* colArtistas) {
+    if (indiceActual == validos) {
+        return indiceMenor; 
+    }
+    
+    int idArtActual = arreglo[indiceActual].idArtista;
+    int idArtMenor = arreglo[indiceMenor].idArtista;
+    
+    int idxActual = buscarIndiceArtistaPorId(colArtistas, idArtActual);
+    int idxMenor = buscarIndiceArtistaPorId(colArtistas, idArtMenor);
+    
+    Artista artActual = obtenerArtista(colArtistas, idxActual);
+    Artista artMenor = obtenerArtista(colArtistas, idxMenor);
+
+    if (strcmp(artActual.nombre, artMenor.nombre) < 0) {
+        indiceMenor = indiceActual;
+    }
+    
+    return buscarPresentacionPosMenorAlfabeticoRecursivo(arreglo, validos, indiceActual + 1, indiceMenor, colArtistas);
+}
+
+void ordenarPresentacionesRecursivo(Presentacion arreglo[], int validos, int indiceActual, ColeccionArtistas* colArtistas) {
+    // Condición de corte: si llegamos al anteúltimo elemento, ya está todo ordenado
+    if (indiceActual >= validos - 1) {
+        return; 
+    }
+    
+    // Buscamos el menor desde la posición actual hasta el final
+    int posMenor = buscarPresentacionPosMenorAlfabeticoRecursivo(arreglo, validos, indiceActual + 1, indiceActual, colArtistas);
+    
+    // Si encontramos uno menor, hacemos el intercambio de las presentaciones enteras
+    if (posMenor != indiceActual) {
+        Presentacion aux = arreglo[indiceActual];
+        arreglo[indiceActual] = arreglo[posMenor];
+        arreglo[posMenor] = aux;
+    }
+    
+    // Llamada recursiva para ordenar el resto del arreglo avanzando un lugar
+    ordenarPresentacionesRecursivo(arreglo, validos, indiceActual + 1, colArtistas);
+}
+
+void ordenarColeccionPresentacionesAlfabeticamente(ColeccionPresentaciones* colPresentaciones, ColeccionArtistas* colArtistas) {
+    // Disparamos la recursión empezando desde el índice 0
+    if (colPresentaciones->validos > 1) {
+        ordenarPresentacionesRecursivo(colPresentaciones->arreglo, colPresentaciones->validos, 0, colArtistas);
+    }
+}
+
+// Verifica si el escenario está libre en ese rango (Retorna 1 si está libre, 0 si hay solapamiento).
+int verificarDisponibilidadEscenario(ColeccionPresentaciones coleccion, int idEscenario, Horario inicio, Duracion duracion) {
+    for (int i = 0; i < coleccion.validos; i++) {
+        Presentacion presentacion = coleccion.arreglo[i];
+        if (presentacion.idEscenario == idEscenario) {
+            int duracionTotalPresentacion = calcularHorarioEnMinutos(presentacion.inicio) + calcularDuracionEnMinutos(presentacion.duracion);
+            int duracionTotalNuevaPresentacion = calcularHorarioEnMinutos(inicio) + calcularDuracionEnMinutos(duracion);
+            if ((calcularHorarioEnMinutos(inicio) >= calcularHorarioEnMinutos(presentacion.inicio) && calcularHorarioEnMinutos(inicio) < duracionTotalPresentacion) ||
+                (duracionTotalNuevaPresentacion > calcularHorarioEnMinutos(presentacion.inicio) && duracionTotalNuevaPresentacion <= duracionTotalPresentacion)) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+// Verifica si el artista está libre en ese rango (Retorna 1 si está libre, 0 si hay solapamiento).
+int verificarDisponibilidadArtista(ColeccionPresentaciones coleccion, int idArtista, Horario inicio, Duracion duracion) {
+    int duracionTotalPresentacion;
+    int duracionTotalNuevaPresentacion;
+    for (int i = 0; i < coleccion.validos; i++) {
+        Presentacion presentacion = coleccion.arreglo[i];
+        if (presentacion.idArtista == idArtista) {
+            duracionTotalPresentacion = calcularHorarioEnMinutos(presentacion.inicio) + calcularDuracionEnMinutos(presentacion.duracion);
+            duracionTotalNuevaPresentacion = calcularHorarioEnMinutos(inicio) + calcularDuracionEnMinutos(duracion);
+            if ((calcularHorarioEnMinutos(inicio) >= calcularHorarioEnMinutos(presentacion.inicio) && calcularHorarioEnMinutos(inicio) < duracionTotalPresentacion) ||
+                (duracionTotalNuevaPresentacion > calcularHorarioEnMinutos(presentacion.inicio) && duracionTotalNuevaPresentacion <= duracionTotalPresentacion)) {
+                return 0;
+            }
+        }
+    }
+    return 1;
+}
+
+Presentacion crearPresentacionValidada(ColeccionPresentaciones* coleccion, Presentacion datosTemporales) {
+    Presentacion nueva;
+    if (datosTemporales.idArtista == 0 || datosTemporales.idEscenario == 0) {
+        nueva.id = -1;
+        return nueva;
+    }
+    nueva.id = -1;
+    // Verificamos la disponibilidad del escenario
+    if (!verificarDisponibilidadEscenario(*coleccion, datosTemporales.idEscenario, datosTemporales.inicio, datosTemporales.duracion)) {
+        return nueva; // El escenario no está disponible
+    }
+    // Verificamos la disponibilidad del artista
+    if (!verificarDisponibilidadArtista(*coleccion, datosTemporales.idArtista, datosTemporales.inicio, datosTemporales.duracion)) {
+        return nueva; // El artista no está disponible
+    }
+    // Si ambas validaciones pasaron, podemos crear la presentación
+    nueva = datosTemporales;
+    return nueva;
+}
+
+int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion presentacionModificada) {
+    int respuesta = 1;
+    if (indice >= 0 && indice < coleccion->validos) {
+        Presentacion temporal = crearPresentacionValidada(coleccion, presentacionModificada);
+        if (temporal.id == -1) {
+            respuesta = -1;
+        } else {
+            coleccion->arreglo[indice] = presentacionModificada;
+            respuesta = 1;
+        }
+    } else {
+        respuesta = -1; 
+    }
+    return respuesta;
+}
+
+int eliminarPresentacionesDeMemoriaPorArtista(ColeccionPresentaciones* coleccion, int idArtista) {
+    int cantidadBorradas = 0;
+    int i = 0;
+    
+    while (i < coleccion->validos) {
+        if (coleccion->arreglo[i].idArtista == idArtista) {
+            for (int j = i; j < coleccion->validos - 1; j++) {
+                coleccion->arreglo[j] = coleccion->arreglo[j + 1];
+            }
+            coleccion->validos--;
+            cantidadBorradas++;
+        } else {
+            i++;
+        }
+    }
+    
+    return cantidadBorradas;
+}
+
+int eliminarPresentacionesDeMemoriaPorEscenario(ColeccionPresentaciones* coleccion, int idEscenario) {
+    int cantidadBorradas = 0;
+    int i = 0;
+    
+    while (i < coleccion->validos) {
+        if (coleccion->arreglo[i].idEscenario == idEscenario) {
+            for (int j = i; j < coleccion->validos - 1; j++) {
+                coleccion->arreglo[j] = coleccion->arreglo[j + 1];
+            }
+            coleccion->validos--;
+            cantidadBorradas++;
+        } else {
+            i++;
+        }
+    }
+    
+    return cantidadBorradas;
+}

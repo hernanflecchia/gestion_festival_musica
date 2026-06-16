@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "scanner.h"
+#include "../logica/coleccion_artistas.h"
+
+int mostrarMenuArtistas(void) {
+    system("clear");
+    printf("\n--- GESTION DE ARTISTAS ---\n");
+    printf("1. Dar de alta nuevo Artista\n");
+    printf("2. Modificar Artista existente\n");
+    printf("3. Dar de baja (Eliminar) Artista\n");
+    printf("4. Listar Artistas por pantalla\n");
+    printf("0. Volver al menu principal\n");
+    printf("Elija una opcion: ");
+    return scanInt();
+}
+
+void mostrarListadoArtistas(ColeccionArtistas* colArtistas, bool esAdmin) {
+    system("clear");
+    printf("\n--- LISTADO DE ARTISTAS ---\n");
+    for (int i = 0; i < colArtistas->validos; i++) {
+        Artista artistas = obtenerArtista(colArtistas, i);
+        if (esAdmin) {
+            mostrarArtistaAdmin(artistas);
+        } else {
+            mostrarArtistaUsuario(artistas);
+        }
+    }
+}
+
+Artista pedirDatosNuevoArtista(void) {
+    Artista nuevo;
+    
+    system("clear");
+    printf("\n--- ALTA DE ARTISTA ---\n");
+    printf("Ingrese el nombre del artista: ");
+    scanString(nuevo.nombre, DIM_ARTISTA_NOMBRE);
+    printf("Ingrese el genero musical: ");
+    scanString(nuevo.genero, DIM_GENERO);
+    return nuevo;
+}
+
+Artista pedirDatosModificadosArtista(Artista artistaExistente) {
+    system("clear");
+    printf("\n--- MODIFICANDO ARTISTA ---\n");
+    printf("Modificando los datos del ID: %d\n", artistaExistente.id);
+    printf("Nuevo nombre (anterior: %s): ", artistaExistente.nombre);
+    scanString(artistaExistente.nombre, DIM_ARTISTA_NOMBRE);
+    printf("Nuevo genero (anterior: %s): ", artistaExistente.genero);
+    scanString(artistaExistente.genero, DIM_GENERO);
+    return artistaExistente;
+}

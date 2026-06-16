@@ -5,7 +5,7 @@
 #include "menu_escenarios.h"
 #include "menu_presentaciones.h"
 
-void menuAdmin(Usuarios usuario) {
+void menuAdmin(Usuarios usuario, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, ColeccionPresentaciones* colPresentaciones) {
     int opcionMenu;
     do {
         opcionMenu = mostrarMenuAdmin(usuario);

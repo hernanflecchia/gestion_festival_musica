@@ -20,7 +20,9 @@ void menuUsuario(Usuarios usuario, ColeccionArtistas* colArtistas, ColeccionEsce
             
             break;
         default:
+            if(opcionMenu != 4) {
             printf("\nOpcion invalida. Intente de nuevo.\n");
+            }
             break;
         }
     }

@@ -66,7 +66,9 @@ int main() {
                 printf("\nGuardando configuraciones y cerrando el sistema...\n");
                 break;
             default:
-                printf("\nOpción inválida. Intente de nuevo.\n");
+                if(opcionInicio != 3){
+                    printf("\nOpcion invalida. Intente de nuevo.\n");
+                }
         }
     } while (opcionInicio != 3);
 

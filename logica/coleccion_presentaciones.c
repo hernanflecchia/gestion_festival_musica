@@ -8,11 +8,9 @@
 ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
     ColeccionPresentaciones col;
     
-    col.capacidad = INCREMENTO_CAPACIDAD;
+    col.capacidad = CAPACIDAD_PRESENTACIONES;
     col.validos = 0;
-    // Solicitamos el bloque de memoria dinámico
     col.arreglo = (Presentacion*) malloc(col.capacidad * sizeof(Presentacion));
-    // Verificamos que el sistema operativo nos haya dado la memoria
     if (col.arreglo == NULL) {
         printf("[Error Critico] No hay memoria disponible para inicializar Presentaciones.\n");
         col.capacidad = 0;
@@ -23,14 +21,13 @@ ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
 
 int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPresentacion) {
     
-    // Verificamos si NO hay espacio (los válidos alcanzaron la capacidad)
     if (coleccion->validos == coleccion->capacidad) {
         
-        int nuevaCapacidad = coleccion->capacidad + INCREMENTO_CAPACIDAD;
+        int nuevaCapacidad = coleccion->capacidad + CAPACIDAD_PRESENTACIONES;
         Presentacion* nuevoBloque = (Presentacion*) realloc(coleccion->arreglo, nuevaCapacidad * sizeof(Presentacion));
         
         if (nuevoBloque == NULL) {
-            return 0; // Falló la inserción
+            return 0;
         }
         
         coleccion->arreglo = nuevoBloque;
@@ -46,8 +43,6 @@ int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPres
 Presentacion obtenerPresentacion(ColeccionPresentaciones* coleccion, int indice) {
     Presentacion unaPresentacion;
 
-    // Verificamos que el indice sea valido y no se pase de los elementos cargados
-    // si falla algo devolvemos -1 como id indicando con ello que falló
     if (indice >= 0 && indice < coleccion->validos) {
         unaPresentacion = coleccion->arreglo[indice];
     } else {
@@ -86,13 +81,23 @@ int obtenerSiguienteIdPresentacion(ColeccionPresentaciones* coleccion) {
 }
 
 void eliminarPresentacionDeMemoria(ColeccionPresentaciones* coleccion, int indiceAEliminar) {
-    // Verificamos que el indice sea valido y no se pase de los elementos cargados
     if (indiceAEliminar >= 0 && indiceAEliminar < coleccion->validos) {
-        // Borrado físico: Pisamos moviendo todo hacia la izquierda
         for (int i = indiceAEliminar; i < coleccion->validos - 1; i++) {
             coleccion->arreglo[i] = coleccion->arreglo[i + 1];
         }
         coleccion->validos--;
+        if ((coleccion->capacidad - coleccion->validos) > CAPACIDAD_PRESENTACIONES) {
+            int nuevaCapacidad = coleccion->capacidad - CAPACIDAD_PRESENTACIONES;
+    
+            if (nuevaCapacidad > 0) {
+                Presentacion* bloqueAchicado = (Presentacion*) realloc(coleccion->arreglo, nuevaCapacidad * sizeof(Presentacion));
+                
+                if (bloqueAchicado != NULL) {
+                    coleccion->arreglo = bloqueAchicado;
+                    coleccion->capacidad = nuevaCapacidad;
+                }
+            }
+        }
     }
 }
 
@@ -206,8 +211,6 @@ Presentacion crearPresentacionValidada(ColeccionPresentaciones* coleccion, Prese
 
 int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion presentacionModificada) {
     int respuesta = 1;
-    // Verificamos que el indice sea valido y no se pase de los elementos cargados
-    // si falla algo devolvemos -1 como respuesta
     if (indice >= 0 && indice < coleccion->validos) {
         Presentacion temporal = crearPresentacionValidada(coleccion, presentacionModificada);
         if (temporal.id == -1) {
@@ -228,14 +231,13 @@ int eliminarPresentacionesDeMemoriaPorArtista(ColeccionPresentaciones* coleccion
     
     while (i < coleccion->validos) {
         if (coleccion->arreglo[i].idArtista == idArtista) {
-            // Borrado físico: Pisamos moviendo todo hacia la izquierda
             for (int j = i; j < coleccion->validos - 1; j++) {
                 coleccion->arreglo[j] = coleccion->arreglo[j + 1];
             }
             coleccion->validos--;
             cantidadBorradas++;
         } else {
-            i++; // Solo avanzamos si no borramos nada
+            i++;
         }
     }
     
@@ -248,14 +250,13 @@ int eliminarPresentacionesDeMemoriaPorEscenario(ColeccionPresentaciones* colecci
     
     while (i < coleccion->validos) {
         if (coleccion->arreglo[i].idEscenario == idEscenario) {
-            // Borrado físico: Pisamos moviendo todo hacia la izquierda
             for (int j = i; j < coleccion->validos - 1; j++) {
                 coleccion->arreglo[j] = coleccion->arreglo[j + 1];
             }
             coleccion->validos--;
             cantidadBorradas++;
         } else {
-            i++; // Solo avanzamos si no borramos nada
+            i++;
         }
     }
     

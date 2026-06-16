@@ -28,7 +28,6 @@ void inicializarArchivoUsuarios(void) {
 
 Usuarios validarLogin(Usuarios usuarioIngresado) {
     Usuarios usuarioLeido;
-    // Creamos un usuario "centinela" para indicar que falló el login
     Usuarios usuarioError;
     usuarioError.rol = -1; 
 

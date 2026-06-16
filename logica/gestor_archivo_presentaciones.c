@@ -76,16 +76,9 @@ int modificarPresentacionEnArchivo(PresentacionArchivo modificado) {
         PresentacionArchivo leido;
         
         while (fread(&leido, sizeof(PresentacionArchivo), 1, arch)) { 
-            
-            // Si encontramos la presentación con el mismo ID que queremos modificar
             if (leido.id == modificado.id) {
-                
-                // Movemos el indicador de posición exactamente un struct para atrás
                 fseek(arch, -1 * sizeof(PresentacionArchivo), SEEK_CUR); 
-                
-                // Escribimos el dato nuevo pisando el viejo
                 fwrite(&modificado, sizeof(PresentacionArchivo), 1, arch);
-                
                 exito = 1;
                 break;
             }
@@ -103,13 +96,10 @@ int bajaLogicaPresentacionEnArchivo(int idBorrar) {
         PresentacionArchivo leida;
         while (fread(&leida, sizeof(PresentacionArchivo), 1, arch)) { 
             
-            // Si encontramos la presentación con el mismo ID que queremos borrar
             if (leida.id == idBorrar && leida.valido == 'S') {
-                leida.valido = 'N'; // La marcamos como borrada lógicamente
+                leida.valido = 'N';
                 fseek(arch, -1 * sizeof(PresentacionArchivo), SEEK_CUR); 
                 fwrite(&leida, sizeof(PresentacionArchivo), 1, arch);
-                // Preguntar sobre esta linea
-                fseek(arch, 0, SEEK_CUR);
                 exito = 1;
                 break;
             }

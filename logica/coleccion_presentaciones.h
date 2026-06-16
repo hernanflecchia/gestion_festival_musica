@@ -1,6 +1,6 @@
 #ifndef COLECCION_PRESENTACIONES_H
 #define COLECCION_PRESENTACIONES_H
-#define INCREMENTO_CAPACIDAD 10
+#define CAPACIDAD_PRESENTACIONES 10
 
 #include "../dominio/presentacion.h"
 #include "../dominio/tipos_seguros.h"

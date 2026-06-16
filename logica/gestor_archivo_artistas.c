@@ -65,17 +65,10 @@ int modificarArtistaEnArchivo(ArtistaArchivo modificado) {
     if (arch != NULL) {
         ArtistaArchivo leido;
         
-        while (fread(&leido, sizeof(ArtistaArchivo), 1, arch)) { 
-            
-            // Si encontramos el artista con el mismo ID que queremos modificar
+        while (fread(&leido, sizeof(ArtistaArchivo), 1, arch)) {
             if (leido.id == modificado.id) {
-                
-                // Movemos el indicador de posición exactamente un struct para atrás
                 fseek(arch, -1 * sizeof(ArtistaArchivo), SEEK_CUR); 
-                
-                // Escribimos el dato nuevo pisando el viejo
                 fwrite(&modificado, sizeof(ArtistaArchivo), 1, arch);
-                
                 exito = 1;
                 break;
             }
@@ -93,11 +86,8 @@ int bajaLogicaArtistaEnArchivo(int idBorrar) {
         ArtistaArchivo leido;
         while (fread(&leido, sizeof(ArtistaArchivo), 1, arch)) { 
             if (leido.id == idBorrar && leido.valido == 'S') {
-                // Cambiamos su estado a inactivo ('N')
                 leido.valido = 'N'; 
-                // Movemos el cursor exactamente un struct para atrás desde la posición actual
                 fseek(arch, -1 * sizeof(ArtistaArchivo), SEEK_CUR); 
-                // Sobrescribimos el registro en el disco
                 fwrite(&leido, sizeof(ArtistaArchivo), 1, arch);
                 exito = 1;
                 break;

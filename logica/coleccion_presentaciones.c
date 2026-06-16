@@ -8,8 +8,7 @@
 ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
     ColeccionPresentaciones col;
     
-    // Definimos un tamaño inicial arbitrario (por ejemplo, para 10 presentaciones)
-    col.capacidad = 10;
+    col.capacidad = INCREMENTO_CAPACIDAD;
     col.validos = 0;
     // Solicitamos el bloque de memoria dinámico
     col.arreglo = (Presentacion*) malloc(col.capacidad * sizeof(Presentacion));
@@ -27,19 +26,17 @@ int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPres
     // Verificamos si NO hay espacio (los válidos alcanzaron la capacidad)
     if (coleccion->validos == coleccion->capacidad) {
         
-        int nuevaCapacidad = coleccion->capacidad + 10;
+        int nuevaCapacidad = coleccion->capacidad + INCREMENTO_CAPACIDAD;
         Presentacion* nuevoBloque = (Presentacion*) realloc(coleccion->arreglo, nuevaCapacidad * sizeof(Presentacion));
         
         if (nuevoBloque == NULL) {
             return 0; // Falló la inserción
         }
         
-        // Actualizamos los datos de la colección
         coleccion->arreglo = nuevoBloque;
         coleccion->capacidad = nuevaCapacidad;
     }
     
-    // Agregamos el presentacion a la coleccion
     coleccion->arreglo[coleccion->validos] = unaPresentacion;
     coleccion->validos++;
     
@@ -136,7 +133,7 @@ void ordenarPresentacionesRecursivo(Presentacion arreglo[], int validos, int ind
     // Buscamos el menor desde la posición actual hasta el final
     int posMenor = buscarPresentacionPosMenorAlfabeticoRecursivo(arreglo, validos, indiceActual + 1, indiceActual, colArtistas);
     
-    // Si encontramos uno menor, hacemos el "swap" (intercambio) de las presentaciones enteras
+    // Si encontramos uno menor, hacemos el intercambio de las presentaciones enteras
     if (posMenor != indiceActual) {
         Presentacion aux = arreglo[indiceActual];
         arreglo[indiceActual] = arreglo[posMenor];
@@ -167,7 +164,7 @@ int verificarDisponibilidadEscenario(ColeccionPresentaciones coleccion, int idEs
             }
         }
     }
-    return 1; // Asumimos que está libre
+    return 1;
 }
 // Verifica si el artista está libre en ese rango (Retorna 1 si está libre, 0 si hay solapamiento).
 int verificarDisponibilidadArtista(ColeccionPresentaciones coleccion, int idArtista, Horario inicio, Duracion duracion) {
@@ -184,7 +181,7 @@ int verificarDisponibilidadArtista(ColeccionPresentaciones coleccion, int idArti
             }
         }
     }
-    return 1; // Asumimos que está libre
+    return 1;
 }
 
 Presentacion crearPresentacionValidada(ColeccionPresentaciones* coleccion, Presentacion datosTemporales) {

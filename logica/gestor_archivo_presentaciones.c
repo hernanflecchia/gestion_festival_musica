@@ -108,7 +108,7 @@ int bajaLogicaPresentacionEnArchivo(int idBorrar) {
                 leida.valido = 'N'; // La marcamos como borrada lógicamente
                 fseek(arch, -1 * sizeof(PresentacionArchivo), SEEK_CUR); 
                 fwrite(&leida, sizeof(PresentacionArchivo), 1, arch);
-                // Refrescamos el buffer haciendo un seek vacio
+                // Preguntar sobre esta linea
                 fseek(arch, 0, SEEK_CUR);
                 exito = 1;
                 break;
@@ -182,7 +182,7 @@ int bajaLogicaPresentacionesEnArchivoPorArtista(int idArtistaBuscado) {
                 leida.valido = 'N'; // Las marcamos como borradas lógicamente
                 fseek(arch, -1 * sizeof(PresentacionArchivo), SEEK_CUR); 
                 fwrite(&leida, sizeof(PresentacionArchivo), 1, arch);
-                // Refrescamos el buffer haciendo un seek vacio
+                // Preguntar sobre esta linea
                 fseek(arch, 0, SEEK_CUR);
                 cantidadBorradas++;
             }
@@ -204,7 +204,7 @@ int bajaLogicaPresentacionesEnArchivoPorEscenario(int idEscenarioBuscado) {
                 leida.valido = 'N'; // Las marcamos como borradas lógicamente
                 fseek(arch, -1 * sizeof(PresentacionArchivo), SEEK_CUR); 
                 fwrite(&leida, sizeof(PresentacionArchivo), 1, arch);
-                // Refrescamos el buffer haciendo un seek vacio
+                // Preguntar sobre esta linea
                 fseek(arch, 0, SEEK_CUR);
                 cantidadBorradas++;
             }

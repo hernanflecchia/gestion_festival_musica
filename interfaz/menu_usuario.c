@@ -1,3 +1,9 @@
+#include <stdio.h>
+#include "scanner.h"
+#include "menu_artistas.h"
+#include "menu_escenarios.h"
+#include "menu_presentaciones.h"
+
 void menuUsuario(Usuarios usuario, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, ColeccionPresentaciones* colPresentaciones) {
     int opcionMenu;
     do {

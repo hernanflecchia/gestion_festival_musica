@@ -64,7 +64,7 @@ int mostrarListadoPresentacionesPorArtista(int idArtista, ColeccionPresentacione
             }
         }
     }
-    return validos; // Retornamos la cantidad de presentaciones encontradas para ese artista
+    return validos;
 }
 
 int mostrarListadoPresentacionesPorEscenario(int idEscenario, ColeccionPresentaciones* colPresentaciones, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, bool esAdmin) {
@@ -91,7 +91,7 @@ int mostrarListadoPresentacionesPorEscenario(int idEscenario, ColeccionPresentac
             }
         }
     }
-    return validos; // Retornamos la cantidad de presentaciones encontradas para ese escenario
+    return validos;
 }
 
 Presentacion pedirDatosNuevaPresentacion(ColeccionArtistas* cArt, ColeccionEscenarios* cEsc) {

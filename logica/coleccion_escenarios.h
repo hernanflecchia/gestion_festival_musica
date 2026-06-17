@@ -17,6 +17,7 @@ typedef struct {
 // PROTOTIPOS PARA GESTION EN MEMORIA
 // =====================================
 ColeccionEscenarios inicializarColeccionEscenarios(void);
+void cargarEscenariosDePrueba(ColeccionEscenarios* coleccion);
 int agregarEscenario(ColeccionEscenarios* coleccion, Escenario unEscenario);
 Escenario obtenerEscenario(ColeccionEscenarios* coleccion, int indice);
 int actualizarEscenario(ColeccionEscenarios* coleccion, int indice, Escenario escenarioModificado);

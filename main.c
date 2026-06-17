@@ -18,9 +18,9 @@ int main() {
     int opcionInicio;
     Usuarios usuarioLogueado;
 
-    // ==========================================
+    // =========================================
     // EJECUCIÓN (Bucle principal)
-    // ==========================================
+    // =========================================
     do {
         opcionInicio = mostrarMenuInicio();
 
@@ -36,6 +36,15 @@ int main() {
                     cargarEscenariosDesdeArchivo(&colEscenarios);
                     ColeccionPresentaciones colPresentaciones = inicializarColeccionPresentaciones();
                     cargarPresentacionesDesdeArchivo(&colPresentaciones);
+                    // =========================================
+                    // Comentar o descomentar esta seccion si se quiere o no inicializar con datos de prueba
+                    // cargarArtistasDePrueba(&colArtistas);
+                    // cargarEscenariosDePrueba(&colEscenarios);
+                    // cargarPresentacionesDePrueba(&colPresentaciones);
+                    // cargarArtistasDePruebaAlArchivo();
+                    // cargarEscenariosDePruebaAlArchivo();
+                    // cargarPresentacionesDePruebaAlArchivo();
+                    // =========================================
                     if (usuarioLogueado.rol == 1) {
                         menuAdmin(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
                     } 

@@ -13,6 +13,28 @@ ArtistaArchivo transformarAArtistaArchivo(Artista artistaMemoria) {
     return artistaDisco;
 }
 
+void cargarArtistasDePruebaAlArchivo() {
+    Artista artistasDePrueba[] = {
+        {1, "Divididos", "Rock"},
+        {2, "Tan Bionica", "Pop"},
+        {3, "Bajofondo", "Electrónica"},
+        {4, "Intoxicados", "Rock"},
+        {5, "Mon Laferte", "Pop"},
+        {6, "El Mato", "Alternativo"},
+        {7, "Wos", "Hip-Hop"},
+        {8, "Estelares", "Pop"},
+        {9, "Abel Pintos", "Pop"},
+        {10, "Pearl Jam", "Grunge"}
+    };
+    
+    int cantidadDePrueba = sizeof(artistasDePrueba) / sizeof(artistasDePrueba[0]);
+    
+    for (int i = 0; i < cantidadDePrueba; i++) {
+        ArtistaArchivo artistaArchivo = transformarAArtistaArchivo(artistasDePrueba[i]);
+        guardarArtistaEnArchivo(artistaArchivo);
+    }
+}
+
 int guardarArtistaEnArchivo(ArtistaArchivo nueva) {
     FILE* arch = fopen(ARCHIVO_ARTISTAS, "ab");
 

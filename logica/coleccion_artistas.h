@@ -18,6 +18,7 @@ typedef struct {
 // =====================================
 ColeccionArtistas inicializarColeccionArtistas(void);
 int agregarArtista(ColeccionArtistas* coleccion, Artista unArtista);
+void cargarArtistasDePrueba(ColeccionArtistas* coleccion);
 Artista obtenerArtista(ColeccionArtistas* coleccion, int indice);
 int actualizarArtista(ColeccionArtistas* coleccion, int indice, Artista artistaModificado);
 int buscarIndiceArtistaPorId(ColeccionArtistas* coleccion, int idBuscado);

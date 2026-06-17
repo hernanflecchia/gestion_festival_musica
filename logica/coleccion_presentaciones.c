@@ -19,6 +19,22 @@ ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
     return col;
 }
 
+void cargarPresentacionesDePrueba(ColeccionPresentaciones* coleccion) {
+    Presentacion presentacionesDePrueba[] = {
+        {1, 1, 1, {18, 0}, {2, 0}},
+        {2, 2, 2, {20, 0}, {1, 30}},
+        {3, 3, 3, {19, 30}, {1, 0}},
+        {4, 4, 1, {21, 0}, {2, 0}},
+        {5, 5, 2, {22, 30}, {1, 30}}
+    };
+    
+    int cantidadDePrueba = sizeof(presentacionesDePrueba) / sizeof(presentacionesDePrueba[0]);
+    
+    for (int i = 0; i < cantidadDePrueba; i++) {
+        agregarPresentacion(coleccion, presentacionesDePrueba[i]);
+    }
+}
+
 int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPresentacion) {
     
     if (coleccion->validos == coleccion->capacidad) {
@@ -261,4 +277,52 @@ int eliminarPresentacionesDeMemoriaPorEscenario(ColeccionPresentaciones* colecci
     }
     
     return cantidadBorradas;
+}
+
+ColeccionPresentaciones filtrarPresentacionesPorArtista(ColeccionPresentaciones* originales, int idBuscado, int cantidad) {
+    ColeccionPresentaciones filtrada;
+    filtrada.validos = 0;
+    filtrada.capacidad = 0;
+    filtrada.arreglo = NULL;
+
+    if (cantidad > 0) {
+        filtrada.arreglo = (Presentacion*) malloc(cantidad * sizeof(Presentacion));
+        
+        if (filtrada.arreglo != NULL) {
+            filtrada.capacidad = cantidad;
+            
+            for (int i = 0; i < originales->validos; i++) {
+                if (originales->arreglo[i].idArtista == idBuscado) {
+                    filtrada.arreglo[filtrada.validos] = originales->arreglo[i];
+                    filtrada.validos++;
+                }
+            }
+        }
+    }
+
+    return filtrada;
+}
+
+ColeccionPresentaciones filtrarPresentacionesPorEscenario(ColeccionPresentaciones* originales, int idBuscado, int cantidad) {
+    ColeccionPresentaciones filtrada;
+    filtrada.validos = 0;
+    filtrada.capacidad = 0;
+    filtrada.arreglo = NULL;
+
+    if (cantidad > 0) {
+        filtrada.arreglo = (Presentacion*) malloc(cantidad * sizeof(Presentacion));
+        
+        if (filtrada.arreglo != NULL) {
+            filtrada.capacidad = cantidad;
+            
+            for (int i = 0; i < originales->validos; i++) {
+                if (originales->arreglo[i].idEscenario == idBuscado) {
+                    filtrada.arreglo[filtrada.validos] = originales->arreglo[i];
+                    filtrada.validos++;
+                }
+            }
+        }
+    }
+
+    return filtrada;
 }

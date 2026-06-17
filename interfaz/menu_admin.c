@@ -413,7 +413,8 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             if (cantidad != 0) {
                                 printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
                                 if (confirmar('s')) {
-                                    if (exportarPresentacionesATexto("presentaciones_por_artista_admin.tsv", cPres, cArt, cEsc, true)) {
+                                    ColeccionPresentaciones filtradas = filtrarPresentacionesPorArtista(cPres, idBuscado, cantidad);
+                                    if (exportarPresentacionesATexto("presentaciones_por_artista_admin.tsv", &filtradas, cArt, cEsc, true)) {
                                         printf("[Exito] El listado fue guardado en 'presentaciones_por_artista_admin.tsv'.\n");
                                     } else {
                                         printf("[Error] No se pudo crear el archivo de exportacion.\n");
@@ -435,7 +436,8 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             if (cantidad != 0) {
                                 printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
                                 if (confirmar('s')) {
-                                    if (exportarPresentacionesATexto("presentaciones_por_escenario_admin.tsv", cPres, cArt, cEsc, true)) {
+                                    ColeccionPresentaciones filtradas = filtrarPresentacionesPorEscenario(cPres, idBuscado, cantidad);
+                                    if (exportarPresentacionesATexto("presentaciones_por_escenario_admin.tsv", &filtradas, cArt, cEsc, true)) {
                                         printf("[Exito] El listado fue guardado en 'presentaciones_por_escenario_admin.tsv'.\n");
                                     } else {
                                         printf("[Error] No se pudo crear el archivo de exportacion.\n");

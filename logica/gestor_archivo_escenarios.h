@@ -9,7 +9,7 @@
 // PROTOTIPOS PARA GESTION EN DISCO
 // =====================================
 int guardarEscenarioEnArchivo(EscenarioArchivo nuevoEscenario);
-void cargarEscenariosDePruebaAlArchivo();
+void inicializarArchivoEscenarios(void);
 void cargarEscenariosDesdeArchivo(ColeccionEscenarios* coleccion);
 int exportarEscenariosATexto(const char* nombreArchivoTxt, ColeccionEscenarios* coleccion, bool esAdmin);
 int modificarEscenarioEnArchivo(EscenarioArchivo escenarioModificado);

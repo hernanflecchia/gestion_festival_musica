@@ -9,7 +9,7 @@
 // PROTOTIPOS PARA GESTION EN DISCO
 // =====================================
 int guardarArtistaEnArchivo(ArtistaArchivo nuevoArtista);
-void cargarArtistasDePruebaAlArchivo();
+void inicializarArchivoArtistas(void);
 void cargarArtistasDesdeArchivo(ColeccionArtistas* coleccion);
 int exportarArtistasATexto(const char* nombreArchivoTxt, ColeccionArtistas* coleccion, bool esAdmin);
 int modificarArtistaEnArchivo(ArtistaArchivo artistaModificado);

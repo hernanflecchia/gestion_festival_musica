@@ -11,7 +11,7 @@
 // PROTOTIPOS PARA GESTION EN DISCO
 // =====================================
 int guardarPresentacionEnArchivo(PresentacionArchivo nuevaPresentacion);
-void cargarPresentacionesDePruebaAlArchivo();
+void inicializarArchivoPresentaciones(void);
 void cargarPresentacionesDesdeArchivo(ColeccionPresentaciones* coleccion);
 int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, bool esAdmin);
 int modificarPresentacionEnArchivo(PresentacionArchivo presentacionModificado);

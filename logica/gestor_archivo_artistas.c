@@ -15,16 +15,16 @@ ArtistaArchivo transformarAArtistaArchivo(Artista artistaMemoria) {
 
 void inicializarArchivoArtistas(void) {
     ArtistaArchivo artistasDePrueba[] = {
-        {1, "Divididos", "Rock", "S"},
-        {2, "Tan Bionica", "Pop", "S"},
-        {3, "Bajofondo", "Electrónica", "S"},
-        {4, "Intoxicados", "Rock", "S"},
-        {5, "Mon Laferte", "Pop", "S"},
-        {6, "El Mato", "Alternativo", "S"},
-        {7, "Wos", "Hip-Hop", "S"},
-        {8, "Estelares", "Pop", "S"},
-        {9, "Abel Pintos", "Pop", "S"},
-        {10, "Pearl Jam", "Grunge", "S"}
+        {1, "Divididos", "Rock", 'S'},
+        {2, "Tan Bionica", "Pop", 'S'},
+        {3, "Bajofondo", "Electrónica", 'S'},
+        {4, "Intoxicados", "Rock", 'S'},
+        {5, "Mon Laferte", "Pop", 'S'},
+        {6, "El Mato", "Alternativo", 'S'},
+        {7, "Wos", "Hip-Hop", 'S'},
+        {8, "Estelares", "Pop", 'S'},
+        {9, "Abel Pintos", "Pop", 'S'},
+        {10, "Pearl Jam", "Grunge", 'S'}
     };
     FILE* archArtistas = fopen(ARCHIVO_ARTISTAS, "rb");
     

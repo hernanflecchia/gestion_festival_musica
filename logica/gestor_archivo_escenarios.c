@@ -12,20 +12,26 @@ EscenarioArchivo transformarAEscenarioArchivo(Escenario escenarioMemoria) {
     return escenarioDisco;
 }
 
-void cargarEscenariosDePruebaAlArchivo() {
-    Escenario escenariosDePrueba[] = {
-        {1, "Principal"},
-        {2, "Acustico"},
-        {3, "Electronico"},
-        {4, "Rock"},
-        {5, "Cumbia"}
+void inicializarArchivoEscenarios(void) {
+    EscenarioArchivo escenariosDePrueba[] = {
+        {1, "Principal", "S"},
+        {2, "Acustico", "S"},
+        {3, "Electronico", "S"},
+        {4, "Rock", "S"},
+        {5, "Cumbia", "S"}
     };
+    FILE* archEscenarios = fopen(ARCHIVO_ESCENARIOS, "rb");
     
-    int cantidadDePrueba = sizeof(escenariosDePrueba) / sizeof(escenariosDePrueba[0]);
-    
-    for (int i = 0; i < cantidadDePrueba; i++) {
-        EscenarioArchivo escenarioArchivo = transformarAEscenarioArchivo(escenariosDePrueba[i]);
-        guardarEscenarioEnArchivo(escenarioArchivo);
+    if (archEscenarios == NULL) {
+        archEscenarios = fopen(ARCHIVO_ESCENARIOS, "wb");
+        if (archEscenarios != NULL) {
+            int cantidadDePrueba = sizeof(escenariosDePrueba) / sizeof(escenariosDePrueba[0]);
+            fwrite(escenariosDePrueba, sizeof(EscenarioArchivo), cantidadDePrueba, archEscenarios); 
+            fclose(archEscenarios);
+            printf("[Sistema] Primer inicio detectado: Archivo de prueba de escenarios creado con exito.\n\n");
+        }
+    } else {
+        fclose(archEscenarios); 
     }
 }
 

@@ -12,9 +12,14 @@
 #include "logica/coleccion_presentaciones.h"
 
 int main() {
-    // 1. Verificamos y creamos el archivo de usuarios si es necesario
+    // Verificamos y creamos el archivo de usuarios si es necesario
     inicializarArchivoUsuarios();
-
+    // =========================================
+    // Comentar o descomentar esta seccion si se quiere o no inicializar con datos de prueba
+    inicializarArchivoArtistas();
+    inicializarArchivoEscenarios();
+    inicializarArchivoPresentaciones();
+    // =========================================
     int opcionInicio;
     Usuarios usuarioLogueado;
 
@@ -36,15 +41,6 @@ int main() {
                     cargarEscenariosDesdeArchivo(&colEscenarios);
                     ColeccionPresentaciones colPresentaciones = inicializarColeccionPresentaciones();
                     cargarPresentacionesDesdeArchivo(&colPresentaciones);
-                    // =========================================
-                    // Comentar o descomentar esta seccion si se quiere o no inicializar con datos de prueba
-                    // cargarArtistasDePrueba(&colArtistas);
-                    // cargarEscenariosDePrueba(&colEscenarios);
-                    // cargarPresentacionesDePrueba(&colPresentaciones);
-                    // cargarArtistasDePruebaAlArchivo();
-                    // cargarEscenariosDePruebaAlArchivo();
-                    // cargarPresentacionesDePruebaAlArchivo();
-                    // =========================================
                     if (usuarioLogueado.rol == 1) {
                         menuAdmin(usuarioLogueado, &colArtistas, &colEscenarios, &colPresentaciones);
                     } 

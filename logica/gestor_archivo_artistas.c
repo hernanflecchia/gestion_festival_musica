@@ -13,25 +13,31 @@ ArtistaArchivo transformarAArtistaArchivo(Artista artistaMemoria) {
     return artistaDisco;
 }
 
-void cargarArtistasDePruebaAlArchivo() {
-    Artista artistasDePrueba[] = {
-        {1, "Divididos", "Rock"},
-        {2, "Tan Bionica", "Pop"},
-        {3, "Bajofondo", "Electrónica"},
-        {4, "Intoxicados", "Rock"},
-        {5, "Mon Laferte", "Pop"},
-        {6, "El Mato", "Alternativo"},
-        {7, "Wos", "Hip-Hop"},
-        {8, "Estelares", "Pop"},
-        {9, "Abel Pintos", "Pop"},
-        {10, "Pearl Jam", "Grunge"}
+void inicializarArchivoArtistas(void) {
+    ArtistaArchivo artistasDePrueba[] = {
+        {1, "Divididos", "Rock", "S"},
+        {2, "Tan Bionica", "Pop", "S"},
+        {3, "Bajofondo", "Electrónica", "S"},
+        {4, "Intoxicados", "Rock", "S"},
+        {5, "Mon Laferte", "Pop", "S"},
+        {6, "El Mato", "Alternativo", "S"},
+        {7, "Wos", "Hip-Hop", "S"},
+        {8, "Estelares", "Pop", "S"},
+        {9, "Abel Pintos", "Pop", "S"},
+        {10, "Pearl Jam", "Grunge", "S"}
     };
+    FILE* archArtistas = fopen(ARCHIVO_ARTISTAS, "rb");
     
-    int cantidadDePrueba = sizeof(artistasDePrueba) / sizeof(artistasDePrueba[0]);
-    
-    for (int i = 0; i < cantidadDePrueba; i++) {
-        ArtistaArchivo artistaArchivo = transformarAArtistaArchivo(artistasDePrueba[i]);
-        guardarArtistaEnArchivo(artistaArchivo);
+    if (archArtistas == NULL) {
+        archArtistas = fopen(ARCHIVO_ARTISTAS, "wb");
+        if (archArtistas != NULL) {
+            int cantidadDePrueba = sizeof(artistasDePrueba) / sizeof(artistasDePrueba[0]);
+            fwrite(artistasDePrueba, sizeof(ArtistaArchivo), cantidadDePrueba, archArtistas); 
+            fclose(archArtistas);
+            printf("[Sistema] Primer inicio detectado: Archivo de prueba de artistas creado con exito.\n\n");
+        }
+    } else {
+        fclose(archArtistas); 
     }
 }
 

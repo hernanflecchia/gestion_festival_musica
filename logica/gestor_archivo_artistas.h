@@ -14,7 +14,6 @@ void cargarArtistasDesdeArchivo(ColeccionArtistas* coleccion);
 int exportarArtistasATexto(const char* nombreArchivoTxt, ColeccionArtistas* coleccion, bool esAdmin);
 int modificarArtistaEnArchivo(ArtistaArchivo artistaModificado);
 int bajaLogicaArtistaEnArchivo(int idBuscado);
-ColeccionArtistas obtenerArtistasEliminados();
 
 // Utilitarios de mapeo (transforman un modelo en otro)
 ArtistaArchivo transformarAArtistaArchivo(Artista artistaMemoria);

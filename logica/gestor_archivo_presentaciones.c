@@ -236,24 +236,3 @@ int bajaLogicaPresentacionesEnArchivoPorEscenario(int idEscenarioBuscado) {
     }
     return cantidadBorradas;
 }
-
-ColeccionPresentaciones obtenerPresentacionesEliminadas() {
-    ColeccionPresentaciones eliminadas;
-    eliminadas.arreglo = NULL;
-    eliminadas.capacidad = 0;
-    eliminadas.validos = 0;
-
-    FILE* arch = fopen(ARCHIVO_PRESENTACIONES, "rb");
-    if (arch != NULL) {
-        PresentacionArchivo presentacionLeida;
-
-        while (fread(&presentacionLeida, sizeof(PresentacionArchivo), 1, arch)) {
-            if (presentacionLeida.valido == 'N') {
-                Presentacion presentacionMemoria = transformarAPresentacionMemoria(presentacionLeida);
-                agregarPresentacion(&eliminadas, presentacionMemoria);
-            }
-        }
-        fclose(arch);
-    }
-    return eliminadas;
-}

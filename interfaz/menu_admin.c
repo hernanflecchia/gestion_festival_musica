@@ -25,17 +25,6 @@ int mostrarMenuReportes(void) {
     return scanInt();
 }
 
-int mostrarMenuAuditoria(void) {
-    system("clear");
-    printf("\n--- AUDITORIA ---\n");
-    printf("1. Listar Artistas eliminados\n");
-    printf("2. Listar Escenarios eliminados\n");
-    printf("3. Listar Presentaciones eliminadas\n");
-    printf("0. Volver al menu principal\n");
-    printf("Elija una opcion: ");
-    return scanInt();
-}
-
 void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* cEsc, ColeccionPresentaciones* cPres) {
     int opcionPrincipal;
     int opcionSubMenu;
@@ -449,82 +438,6 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                                 printf("No se encontraron presentaciones para el escenario con ID %d.\n", idBuscado);
                                 printf("\nPresione Enter para continuar...");
                                 getchar();
-                            }
-                            break;
-                        case 0:
-                            // Volver al menú principal
-                            break;
-                        default:
-                            printf("\nOpcion invalida.\n");
-                    }
-                } while(opcionSubMenu != 0);
-                break;
-
-            case 5:
-                do {
-                    opcionSubMenu = mostrarMenuAuditoria();
-                    switch(opcionSubMenu) {
-                        case 1:
-                            printf("\n--- ARTISTAS ELIMINADOS ---\n");
-                            ColeccionArtistas eliminados = obtenerArtistasEliminados();
-                            if (eliminados.validos == 0) {
-                                printf("No hay artistas eliminados en el sistema.\n");
-                                printf("\nPresione Enter para continuar...");
-                                getchar();
-                            } else {
-                                mostrarListadoArtistas(&eliminados, true);
-                                printf("¿Desea exportar los artistas a un TSV? (s/n)\n");
-                                if (confirmar('s')) {
-                                    if (exportarArtistasATexto("artistas_eliminados.tsv", &eliminados, true)) {
-                                        printf("[Exito] El listado fue guardado en 'artistas_eliminados.tsv'.\n");
-                                    } else {
-                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
-                                    }
-                                    printf("\nPresione Enter para continuar...");
-                                    getchar();
-                                }
-                            }
-                            break;
-                        case 2:
-                            printf("\n--- ESCENARIOS ELIMINADOS ---\n");
-                            ColeccionEscenarios escenariosEliminados = obtenerEscenariosEliminados();
-                            if (escenariosEliminados.validos == 0) {
-                                printf("No hay escenarios eliminados en el sistema.\n");
-                                printf("\nPresione Enter para continuar...");
-                                getchar();
-                            } else {
-                                mostrarListadoEscenarios(&escenariosEliminados, true);
-                                printf("¿Desea exportar los escenarios a un TSV? (s/n)\n");
-                                if (confirmar('s')) {
-                                    if (exportarEscenariosATexto("escenarios_eliminados.tsv", &escenariosEliminados, true)) {
-                                        printf("[Exito] El listado fue guardado en 'escenarios_eliminados.tsv'.\n");
-                                    } else {
-                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
-                                    }
-                                    printf("\nPresione Enter para continuar...");
-                                    getchar();
-                                }
-                            }
-                            break;
-                        case 3:
-                            printf("\n--- PRESENTACIONES ELIMINADAS ---\n");
-                            ColeccionPresentaciones presentacionesEliminadas = obtenerPresentacionesEliminadas();
-                            if (presentacionesEliminadas.validos == 0) {
-                                printf("No hay presentaciones eliminadas en el sistema.\n");
-                                printf("\nPresione Enter para continuar...");
-                                getchar();
-                            } else {
-                                mostrarListadoPresentaciones(&presentacionesEliminadas, cArt, cEsc, true);
-                                printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
-                                if (confirmar('s')) {
-                                    if (exportarPresentacionesATexto("presentaciones_eliminadas.tsv", &presentacionesEliminadas, cArt, cEsc, true)) {
-                                        printf("[Exito] El listado fue guardado en 'presentaciones_eliminadas.tsv'.\n");
-                                    } else {
-                                        printf("[Error] No se pudo crear el archivo de exportacion.\n");
-                                    }
-                                    printf("\nPresione Enter para continuar...");
-                                    getchar();
-                                }
                             }
                             break;
                         case 0:

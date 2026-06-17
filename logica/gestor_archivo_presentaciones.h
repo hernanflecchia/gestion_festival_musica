@@ -16,7 +16,6 @@ void cargarPresentacionesDesdeArchivo(ColeccionPresentaciones* coleccion);
 int exportarPresentacionesATexto(const char* nombreArchivoTxt, ColeccionPresentaciones* coleccion, ColeccionArtistas* colArtistas, ColeccionEscenarios* colEscenarios, bool esAdmin);
 int modificarPresentacionEnArchivo(PresentacionArchivo presentacionModificado);
 int bajaLogicaPresentacionEnArchivo(int idBuscado);
-ColeccionPresentaciones obtenerPresentacionesEliminadas();
 
 // Utilitarios de mapeo (transforman un modelo en otro)
 PresentacionArchivo transformarAPresentacionArchivo(Presentacion presentacionMemoria);

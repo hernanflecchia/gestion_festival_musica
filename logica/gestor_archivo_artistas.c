@@ -150,24 +150,3 @@ int exportarArtistasATexto(const char* nombreArchivoTxt, ColeccionArtistas* cole
         return 0;
     }
 }
-
-ColeccionArtistas obtenerArtistasEliminados() {
-    ColeccionArtistas eliminados;
-    eliminados.arreglo = NULL;
-    eliminados.capacidad = 0;
-    eliminados.validos = 0;
-
-    FILE* arch = fopen(ARCHIVO_ARTISTAS, "rb");
-    if (arch != NULL) {
-        ArtistaArchivo artistaLeido;
-
-        while (fread(&artistaLeido, sizeof(ArtistaArchivo), 1, arch)) {
-            if (artistaLeido.valido == 'N') {
-                Artista artistaMemoria = transformarAArtistaMemoria(artistaLeido);
-                agregarArtista(&eliminados, artistaMemoria);
-            }
-        }
-        fclose(arch);
-    }
-    return eliminados;
-}

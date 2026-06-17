@@ -144,23 +144,3 @@ int exportarEscenariosATexto(const char* nombreArchivoTxt, ColeccionEscenarios* 
         return 0;
     }
 }
-
-ColeccionEscenarios obtenerEscenariosEliminados() {
-    ColeccionEscenarios eliminados;
-    eliminados.validos = 0;
-    eliminados.capacidad = 0;
-    eliminados.arreglo = NULL;
-
-    FILE* arch = fopen(ARCHIVO_ESCENARIOS, "rb");
-    if (arch != NULL) {
-        EscenarioArchivo escenarioLeido;
-        while (fread(&escenarioLeido, sizeof(EscenarioArchivo), 1, arch)) {
-            if (escenarioLeido.valido == 'N') {
-                Escenario escenarioMemoria = transformarAEscenarioMemoria(escenarioLeido);
-                agregarEscenario(&eliminados, escenarioMemoria);
-            }
-        }
-        fclose(arch);
-    }
-    return eliminados;
-}

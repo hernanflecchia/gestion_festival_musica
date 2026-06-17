@@ -4,13 +4,17 @@
 #include "../dominio/usuario.h"
 
 int mostrarMenuInicio(void) {
-    system("clear");
-    printf("        INICIO  \n\n");
-    printf("    1. Iniciar sesion \n");
-    printf("    2. Crear usuario \n");
-    printf("    3. Salir \n");
-
-    return scanInt();
+    printf("|====================================|\n");
+    printf("|               INICIO               |\n");
+    printf("|====================================|\n");
+    printf("|                                    |\n");
+    printf("|   1. Iniciar sesion                |\n");
+    printf("|   2. Crear usuario                 |\n");
+    printf("|   3. Salir                         |\n");
+    printf("|                                    |\n");
+    printf("|------------------------------------|\n");
+    printf("|Seleccione una opcion: ");
+return scanInt();
 }
 
 Usuarios pedirCredencialesUsuario(const char* titulo) {
@@ -25,3 +29,5 @@ Usuarios pedirCredencialesUsuario(const char* titulo) {
 
     return usuario;
 }
+
+

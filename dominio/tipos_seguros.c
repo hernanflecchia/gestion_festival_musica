@@ -25,7 +25,7 @@ Duracion crearDuracion(int horas, int minutos) {
     
     // Validación: Los minutos deben estar entre 0 y 59. 
     // Las horas no tienen límite máximo (pueden ser > 24), pero no pueden ser negativas.
-    if (horas >= 0 && minutos >= 0 && minutos <= 59) {
+    if (horas >= 0 && minutos >= 0 && minutos <= 59 && (horas > 0 || minutos > 0)) {
         nuevaDuracion.horas = horas;
         nuevaDuracion.minutos = minutos;
         nuevaDuracion.esValido = 1;

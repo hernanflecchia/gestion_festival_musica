@@ -19,6 +19,7 @@ typedef struct {
 // PROTOTIPOS PARA GESTION EN MEMORIA
 // =====================================
 ColeccionPresentaciones inicializarColeccionPresentaciones(void);
+void cargarPresentacionesDePrueba(ColeccionPresentaciones* coleccion);
 int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPresentacion);
 Presentacion obtenerPresentacion(ColeccionPresentaciones* coleccion, int indice);
 int actualizarPresentacion(ColeccionPresentaciones* coleccion, int indice, Presentacion presentacionModificada);

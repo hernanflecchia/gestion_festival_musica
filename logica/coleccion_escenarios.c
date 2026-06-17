@@ -17,6 +17,22 @@ ColeccionEscenarios inicializarColeccionEscenarios(void) {
     return col;
 }
 
+void cargarEscenariosDePrueba(ColeccionEscenarios* coleccion) {
+    Escenario escenariosDePrueba[] = {
+        {1, "Principal"},
+        {2, "Acustico"},
+        {3, "Electronico"},
+        {4, "Rock"},
+        {5, "Cumbia"}
+    };
+    
+    int cantidadDePrueba = sizeof(escenariosDePrueba) / sizeof(escenariosDePrueba[0]);
+    
+    for (int i = 0; i < cantidadDePrueba; i++) {
+        agregarEscenario(coleccion, escenariosDePrueba[i]);
+    }
+}
+
 int agregarEscenario(ColeccionEscenarios* coleccion, Escenario unEscenario) {
     
     if (coleccion->validos == coleccion->capacidad) {

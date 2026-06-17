@@ -19,6 +19,22 @@ ColeccionPresentaciones inicializarColeccionPresentaciones(void) {
     return col;
 }
 
+void cargarPresentacionesDePrueba(ColeccionPresentaciones* coleccion) {
+    Presentacion presentacionesDePrueba[] = {
+        {1, 1, 1, {18, 0}, {2, 0}},
+        {2, 2, 2, {20, 0}, {1, 30}},
+        {3, 3, 3, {19, 30}, {1, 0}},
+        {4, 4, 1, {21, 0}, {2, 0}},
+        {5, 5, 2, {22, 30}, {1, 30}}
+    };
+    
+    int cantidadDePrueba = sizeof(presentacionesDePrueba) / sizeof(presentacionesDePrueba[0]);
+    
+    for (int i = 0; i < cantidadDePrueba; i++) {
+        agregarPresentacion(coleccion, presentacionesDePrueba[i]);
+    }
+}
+
 int agregarPresentacion(ColeccionPresentaciones* coleccion, Presentacion unaPresentacion) {
     
     if (coleccion->validos == coleccion->capacidad) {

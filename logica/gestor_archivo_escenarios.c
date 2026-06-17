@@ -12,6 +12,23 @@ EscenarioArchivo transformarAEscenarioArchivo(Escenario escenarioMemoria) {
     return escenarioDisco;
 }
 
+void cargarEscenariosDePruebaAlArchivo() {
+    Escenario escenariosDePrueba[] = {
+        {1, "Principal"},
+        {2, "Acustico"},
+        {3, "Electronico"},
+        {4, "Rock"},
+        {5, "Cumbia"}
+    };
+    
+    int cantidadDePrueba = sizeof(escenariosDePrueba) / sizeof(escenariosDePrueba[0]);
+    
+    for (int i = 0; i < cantidadDePrueba; i++) {
+        EscenarioArchivo escenarioArchivo = transformarAEscenarioArchivo(escenariosDePrueba[i]);
+        guardarEscenarioEnArchivo(escenarioArchivo);
+    }
+}
+
 int guardarEscenarioEnArchivo(EscenarioArchivo nueva) {
     FILE* arch = fopen(ARCHIVO_ESCENARIOS, "ab");
 

@@ -21,6 +21,23 @@ PresentacionArchivo transformarAPresentacionArchivo(Presentacion presentacionMem
     return presentacionDisco;
 }
 
+void cargarPresentacionesDePruebaAlArchivo() {
+    Presentacion presentacionesDePrueba[] = {
+        {1, 1, 1, {18, 0, 1}, {2, 0, 1}},
+        {2, 2, 2, {20, 0, 1}, {1, 30, 1}},
+        {3, 3, 3, {19, 30, 1}, {1, 0, 1}},
+        {4, 4, 1, {21, 0, 1}, {2, 0, 1}},
+        {5, 5, 2, {22, 30, 1}, {1, 30, 1}}
+    };
+    
+    int cantidadDePrueba = sizeof(presentacionesDePrueba) / sizeof(presentacionesDePrueba[0]);
+    
+    for (int i = 0; i < cantidadDePrueba; i++) {
+        PresentacionArchivo presentacionArchivo = transformarAPresentacionArchivo(presentacionesDePrueba[i]);
+        guardarPresentacionEnArchivo(presentacionArchivo);
+    }
+}
+
 int guardarPresentacionEnArchivo(PresentacionArchivo nueva) {
     FILE* arch = fopen(ARCHIVO_PRESENTACIONES, "ab");
 

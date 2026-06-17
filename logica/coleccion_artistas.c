@@ -17,6 +17,27 @@ ColeccionArtistas inicializarColeccionArtistas(void) {
     return col;
 }
 
+void cargarArtistasDePrueba(ColeccionArtistas* coleccion) {
+    Artista artistasDePrueba[] = {
+        {1, "Divididos", "Rock"},
+        {2, "Tan Bionica", "Pop"},
+        {3, "Bajofondo", "Electrónica"},
+        {4, "Intoxicados", "Rock"},
+        {5, "Mon Laferte", "Pop"},
+        {6, "El Mato", "Alternativo"},
+        {7, "Wos", "Hip-Hop"},
+        {8, "Estelares", "Pop"},
+        {9, "Abel Pintos", "Pop"},
+        {10, "Pearl Jam", "Grunge"}
+    };
+    
+    int cantidadDePrueba = sizeof(artistasDePrueba) / sizeof(artistasDePrueba[0]);
+    
+    for (int i = 0; i < cantidadDePrueba; i++) {
+        agregarArtista(coleccion, artistasDePrueba[i]);
+    }
+}
+
 int agregarArtista(ColeccionArtistas* coleccion, Artista unArtista) {
     
     if (coleccion->validos == coleccion->capacidad) {

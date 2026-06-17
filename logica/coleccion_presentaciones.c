@@ -138,8 +138,16 @@ int buscarPresentacionPosMenorAlfabeticoRecursivo(Presentacion arreglo[], int va
     Artista artActual = obtenerArtista(colArtistas, idxActual);
     Artista artMenor = obtenerArtista(colArtistas, idxMenor);
 
-    if (strcmp(artActual.nombre, artMenor.nombre) < 0) {
+    int comparacion = strcmp(artActual.nombre, artMenor.nombre);
+
+    if (comparacion < 0) {
         indiceMenor = indiceActual;
+    } else if (comparacion == 0) {
+        int minutosActuales = calcularHorarioEnMinutos(arreglo[indiceActual].inicio);
+        int minutosMenor = calcularHorarioEnMinutos(arreglo[indiceMenor].inicio);
+        if (minutosActuales < minutosMenor) {
+            indiceMenor = indiceActual;
+        }
     }
     
     return buscarPresentacionPosMenorAlfabeticoRecursivo(arreglo, validos, indiceActual + 1, indiceMenor, colArtistas);

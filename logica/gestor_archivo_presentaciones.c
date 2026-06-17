@@ -23,11 +23,21 @@ PresentacionArchivo transformarAPresentacionArchivo(Presentacion presentacionMem
 
 void inicializarArchivoPresentaciones(void) {
     PresentacionArchivo presentacionesDePrueba[] = {
-        {1, 1, 1, {18, 0}, {2, 0}, "S"},
-        {2, 2, 2, {20, 0}, {1, 30}, "S"},
-        {3, 3, 3, {19, 30}, {1, 0}, "S"},
-        {4, 4, 1, {21, 0}, {2, 0}, "S"},
-        {5, 5, 2, {22, 30}, {1, 30}, "S"}
+        {1, 1, 1, {18, 0}, {2, 0}, 'S'},
+        {2, 2, 2, {20, 0}, {1, 30}, 'S'},
+        {3, 3, 3, {19, 30}, {1, 0}, 'S'},
+        {4, 4, 1, {21, 0}, {2, 0}, 'S'},
+        {5, 5, 2, {22, 30}, {1, 30}, 'S'},
+        {6, 2, 4, {22, 30}, {1, 30}, 'S'},
+        {7, 7, 2, {18, 30}, {1, 00}, 'S'},
+        {8, 2, 5, {18, 30}, {1, 00}, 'S'},
+        {9, 8, 5, {22, 30}, {1, 30}, 'S'},
+        {10, 10, 3, {22, 30}, {1, 30}, 'S'},
+        {11, 9, 2, {17, 00}, {1, 00}, 'S'},
+        {12, 1, 3, {16, 00}, {1, 00}, 'S'},
+        {13, 5, 1, {16, 30}, {1, 00}, 'S'},
+        {14, 6, 4, {18, 00}, {1, 30}, 'S'},
+        {15, 9, 4, {20, 00}, {1, 00}, 'S'}
     };
     FILE* archPresentaciones = fopen(ARCHIVO_PRESENTACIONES, "rb");
     
@@ -35,7 +45,7 @@ void inicializarArchivoPresentaciones(void) {
         archPresentaciones = fopen(ARCHIVO_PRESENTACIONES, "wb");
         if (archPresentaciones != NULL) {
             int cantidadDePrueba = sizeof(presentacionesDePrueba) / sizeof(presentacionesDePrueba[0]);
-            fwrite(presentacionesDePrueba, sizeof(ArtistaArchivo), cantidadDePrueba, archPresentaciones); 
+            fwrite(presentacionesDePrueba, sizeof(PresentacionArchivo), cantidadDePrueba, archPresentaciones); 
             fclose(archPresentaciones);
             printf("[Sistema] Primer inicio detectado: Archivo de prueba de presentaciones creado con exito.\n\n");
         }

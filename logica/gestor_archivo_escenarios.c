@@ -14,11 +14,11 @@ EscenarioArchivo transformarAEscenarioArchivo(Escenario escenarioMemoria) {
 
 void inicializarArchivoEscenarios(void) {
     EscenarioArchivo escenariosDePrueba[] = {
-        {1, "Principal", "S"},
-        {2, "Acustico", "S"},
-        {3, "Electronico", "S"},
-        {4, "Rock", "S"},
-        {5, "Cumbia", "S"}
+        {1, "Principal", 'S'},
+        {2, "Acustico", 'S'},
+        {3, "Electronico", 'S'},
+        {4, "Rock", 'S'},
+        {5, "Cumbia", 'S'}
     };
     FILE* archEscenarios = fopen(ARCHIVO_ESCENARIOS, "rb");
     

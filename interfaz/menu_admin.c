@@ -39,7 +39,6 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
         printf("2. Gestionar Escenarios\n");
         printf("3. Gestionar Presentaciones\n");
         printf("4. Ver Listados y Reportes\n");
-        printf("5. Auditoria\n");
         printf("0. Cerrar Sesion\n");
         printf("Elija una opcion: ");
         opcionPrincipal = scanInt();
@@ -70,6 +69,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 2:
                             system("clear");
                             printf("\n--- MODIFICAR ARTISTA ---\n");
+                            mostrarListadoArtistas(cArt, true);
                             printf("Para modificar un artista, primero ingrese su ID.\n");
                             idBuscado = scanInt();
                             indice = buscarIndiceArtistaPorId(cArt, idBuscado);
@@ -95,6 +95,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 3:
                             system("clear");
                             printf("\n--- ELIMINAR ARTISTA ---\n");
+                            mostrarListadoArtistas(cArt, true);
                             printf("Para eliminar un artista, primero ingrese su ID.\n");
                             idBuscado = scanInt();
                             indice = buscarIndiceArtistaPorId(cArt, idBuscado);
@@ -167,6 +168,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 2:
                             system("clear");
                             printf("\n--- MODIFICAR ESCENARIO ---\n");
+                            mostrarListadoEscenarios(cEsc, true);
                             printf("Para modificar un escenario, primero ingrese su ID.\n");
                             idBuscado = scanInt();
                             indice = buscarIndiceEscenarioPorId(cEsc, idBuscado);
@@ -190,6 +192,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 3:
                             system("clear");
                             printf("\n--- ELIMINAR ESCENARIO ---\n");
+                            mostrarListadoEscenarios(cEsc, true);
                             printf("Para eliminar un escenario, primero ingrese su ID.\n");
                             idBuscado = scanInt();
                             indice = buscarIndiceEscenarioPorId(cEsc, idBuscado);
@@ -266,6 +269,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 2:
                             system("clear");
                             printf("\n--- MODIFICAR PRESENTACION ---\n");
+                            mostrarListadoPresentaciones(cPres, cArt, cEsc, true);
                             printf("Para modificar una presentacion, primero ingrese su ID.\n");
                             idBuscado = scanInt();
                             indice = buscarIndicePresentacionPorId(cPres, idBuscado);
@@ -291,6 +295,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                         case 3:
                             system("clear");
                             printf("\n--- ELIMINAR PRESENTACION ---\n");
+                            mostrarListadoPresentaciones(cPres, cArt, cEsc, true);
                             printf("Para eliminar una presentacion, primero ingrese su ID.\n");
                             idBuscado = scanInt();
                             indice = buscarIndicePresentacionPorId(cPres, idBuscado);
@@ -396,6 +401,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             break;
                         case 4:
                             printf("\n--- PRESENTACIONES DEL ARTISTA ---\n");
+                            mostrarListadoArtistas(cArt, true);
                             printf("Ingrese el id del artista: ");
                             idBuscado = scanInt();
                             cantidad = mostrarListadoPresentacionesPorArtista(idBuscado, cPres, cArt, cEsc, true);
@@ -419,6 +425,7 @@ void menuAdmin(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios* c
                             break;
                         case 5:
                             printf("\n--- PRESENTACIONES POR ESCENARIO ---\n");
+                            mostrarListadoEscenarios(cEsc, true);
                             printf("Ingrese el id del escenario: ");
                             idBuscado = scanInt();
                             cantidad = mostrarListadoPresentacionesPorEscenario(idBuscado, cPres, cArt, cEsc, true);

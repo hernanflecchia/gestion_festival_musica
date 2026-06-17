@@ -5,6 +5,8 @@
 #include "../logica/coleccion_presentaciones.h"
 #include "../logica/coleccion_artistas.h"
 #include "../logica/coleccion_escenarios.h"
+#include "menu_artistas.h"
+#include "menu_escenarios.h"
 
 int mostrarMenuPresentaciones(void) {
     system("clear");
@@ -100,6 +102,7 @@ Presentacion pedirDatosNuevaPresentacion(ColeccionArtistas* cArt, ColeccionEscen
     Duracion duracion;
         
     printf("Ingrese el id del artista: ");
+    mostrarListadoArtistas(cArt, true);
     nueva.idArtista = scanInt();
     while (buscarIndiceArtistaPorId(cArt, nueva.idArtista) == -1 && nueva.idArtista != 0) {
         printf("\n[Error] El ID del Artista no existe en el sistema.\n");
@@ -110,6 +113,7 @@ Presentacion pedirDatosNuevaPresentacion(ColeccionArtistas* cArt, ColeccionEscen
         return nueva;
     }
     printf("\nIngrese el id del escenario: ");
+    mostrarListadoEscenarios(cEsc, true);
     nueva.idEscenario = scanInt();
     while (buscarIndiceEscenarioPorId(cEsc, nueva.idEscenario) == -1 && nueva.idEscenario != 0) {
         printf("\n[Error] El ID del Escenario no existe en el sistema.\n");
@@ -158,6 +162,7 @@ Presentacion pedirDatosModificadosPresentacion(Presentacion presentacionExistent
     printf("\n--- MODIFICANDO PRESENTACION ---\n");
     printf("Modificando los datos del ID: %d\n", presentacionExistente.id);
     printf("Nuevo id del artista (anterior: %d): ", presentacionExistente.idArtista);
+    mostrarListadoArtistas(cArt, true);
     presentacionExistente.idArtista = scanInt();
     while (buscarIndiceArtistaPorId(cArt, presentacionExistente.idArtista) == -1 && presentacionExistente.idArtista != 0) {
         printf("\n[Error] El ID del Artista no existe en el sistema.\n");
@@ -168,6 +173,7 @@ Presentacion pedirDatosModificadosPresentacion(Presentacion presentacionExistent
         return presentacionExistente;
     }
     printf("Nuevo id del escenario (anterior: %d): ", presentacionExistente.idEscenario);
+    mostrarListadoEscenarios(cEsc, true);
     presentacionExistente.idEscenario = scanInt();
     while (buscarIndiceEscenarioPorId(cEsc, presentacionExistente.idEscenario) == -1 && presentacionExistente.idEscenario != 0) {
         printf("\n[Error] El ID del Escenario no existe en el sistema.\n");

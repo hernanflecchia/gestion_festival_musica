@@ -13,7 +13,7 @@ Esta aplicación de consola, desarrollada íntegramente en lenguaje C, permite a
 ## 📋 Características Principales
 
 El sistema cumple con las siguientes funcionalidades:
-* **Modo Usuario y Modo Admin:** El administrador es el encargado de dar de alta, bajas y modificaciones de todas las entidades, asi tambien tiene acceso a una auditoria en donde poder ver los registros eliminados. Con respecto a la eliminación de una entidad, esta se marca con un flag de registro que indica que fue eliminada, de lo contrario es una entidad valida. El modo usuario puede ver los datos de las entidades y obtener todos los listados disponibles.
+* **Modo Usuario y Modo Admin:** El administrador es el encargado de dar de alta, bajas y modificaciones de todas las entidades. Con respecto a la eliminación de una entidad, esta se marca con un flag de registro que indica que fue eliminada, de lo contrario es una entidad valida. El modo usuario puede ver los datos de las entidades y obtener todos los listados disponibles.
 * **ABM Completos:** Alta, baja y modificación de Artistas, Escenarios y Presentaciones.
 * **Listados Dinámicos:** Visualización en orden alfabético de todos los registros en modo usuario y en orden de ID en modo admin, con filtros específicos (Presentaciones por Artista y Presentaciones por Escenario).
 * **Reglas de Negocio:** Algoritmos de validación para evitar el solapamiento de horarios en un mismo escenario y para impedir que un mismo artista se presente en distintos escenarios simultáneamente.

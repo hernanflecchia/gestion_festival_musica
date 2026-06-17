@@ -14,7 +14,6 @@ void cargarEscenariosDesdeArchivo(ColeccionEscenarios* coleccion);
 int exportarEscenariosATexto(const char* nombreArchivoTxt, ColeccionEscenarios* coleccion, bool esAdmin);
 int modificarEscenarioEnArchivo(EscenarioArchivo escenarioModificado);
 int bajaLogicaEscenarioEnArchivo(int idBuscado);
-ColeccionEscenarios obtenerEscenariosEliminados();
 
 // Utilitarios de mapeo (transforman un modelo en otro)
 EscenarioArchivo transformarAEscenarioArchivo(Escenario escenarioMemoria);

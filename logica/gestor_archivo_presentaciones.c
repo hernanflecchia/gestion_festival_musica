@@ -45,7 +45,7 @@ void inicializarArchivoPresentaciones(void) {
         archPresentaciones = fopen(ARCHIVO_PRESENTACIONES, "wb");
         if (archPresentaciones != NULL) {
             int cantidadDePrueba = sizeof(presentacionesDePrueba) / sizeof(presentacionesDePrueba[0]);
-            fwrite(presentacionesDePrueba, sizeof(ArtistaArchivo), cantidadDePrueba, archPresentaciones); 
+            fwrite(presentacionesDePrueba, sizeof(PresentacionArchivo), cantidadDePrueba, archPresentaciones); 
             fclose(archPresentaciones);
             printf("[Sistema] Primer inicio detectado: Archivo de prueba de presentaciones creado con exito.\n\n");
         }

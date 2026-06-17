@@ -106,25 +106,29 @@ void menuUsuario(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios*
             case 4:
                 printf("\n--- PRESENTACIONES DEL ARTISTA ---\n");
                 printf("Ingrese el id del artista: ");
-                idBuscado = scanInt();
+                int idBuscado = scanInt();
                 ordenarColeccionPresentacionesAlfabeticamente(cPres, cArt);
-                cantidad = mostrarListadoPresentacionesPorArtista(idBuscado, cPres, cArt, cEsc, false);
+                int cantidad = mostrarListadoPresentacionesPorArtista(idBuscado, cPres, cArt, cEsc, false);
                 if (cantidad != 0) {
                     printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
                     if (confirmar('s')) {
-                        if (exportarPresentacionesATexto("presentaciones_por_artista.tsv", cPres, cArt, cEsc, false)) {
+                        ColeccionPresentaciones filtradas = filtrarPresentacionesPorArtista(cPres, idBuscado, cantidad);
+                        if (exportarPresentacionesATexto("presentaciones_por_artista.tsv", &filtradas, cArt, cEsc, false)) {
                             printf("[Exito] El listado fue guardado en 'presentaciones_por_artista.tsv'.\n");
                         } else {
                             printf("[Error] No se pudo crear el archivo de exportacion.\n");
+                        }
+                        if (filtradas.arreglo != NULL) {
+                            free(filtradas.arreglo);
                         }
                         printf("\nPresione Enter para continuar...");
                         getchar();
                     }
                 } else {
                     printf("No se encontraron presentaciones para el artista con ID %d.\n", idBuscado);
+                    printf("\nPresione Enter para continuar...");
+                    getchar();
                 }
-                printf("\nPresione Enter para continuar...");
-                getchar();
                 break;
                 
             case 5:
@@ -136,7 +140,8 @@ void menuUsuario(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios*
                 if (cantidad != 0) {
                     printf("¿Desea exportar las presentaciones a un TSV? (s/n)\n");
                     if (confirmar('s')) {
-                        if (exportarPresentacionesATexto("presentaciones_por_escenario.tsv", cPres, cArt, cEsc, false)) {
+                        ColeccionPresentaciones filtradas = filtrarPresentacionesPorEscenario(cPres, idBuscado, cantidad);
+                        if (exportarPresentacionesATexto("presentaciones_por_escenario.tsv", &filtradas, cArt, cEsc, false)) {
                             printf("[Exito] El listado fue guardado en 'presentaciones_por_escenario.tsv'.\n");
                         } else {
                             printf("[Error] No se pudo crear el archivo de exportacion.\n");
@@ -146,9 +151,9 @@ void menuUsuario(Usuarios usuario, ColeccionArtistas* cArt, ColeccionEscenarios*
                     }
                 } else {
                     printf("No se encontraron presentaciones para el escenario con ID %d.\n", idBuscado);
+                    printf("\nPresione Enter para continuar...");
+                    getchar();
                 }
-                printf("\nPresione Enter para continuar...");
-                getchar();
                 break;
                 
             case 0:

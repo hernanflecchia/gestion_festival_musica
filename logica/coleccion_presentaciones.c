@@ -278,3 +278,51 @@ int eliminarPresentacionesDeMemoriaPorEscenario(ColeccionPresentaciones* colecci
     
     return cantidadBorradas;
 }
+
+ColeccionPresentaciones filtrarPresentacionesPorArtista(ColeccionPresentaciones* originales, int idBuscado, int cantidad) {
+    ColeccionPresentaciones filtrada;
+    filtrada.validos = 0;
+    filtrada.capacidad = 0;
+    filtrada.arreglo = NULL;
+
+    if (cantidad > 0) {
+        filtrada.arreglo = (Presentacion*) malloc(cantidad * sizeof(Presentacion));
+        
+        if (filtrada.arreglo != NULL) {
+            filtrada.capacidad = cantidad;
+            
+            for (int i = 0; i < originales->validos; i++) {
+                if (originales->arreglo[i].idArtista == idBuscado) {
+                    filtrada.arreglo[filtrada.validos] = originales->arreglo[i];
+                    filtrada.validos++;
+                }
+            }
+        }
+    }
+
+    return filtrada;
+}
+
+ColeccionPresentaciones filtrarPresentacionesPorEscenario(ColeccionPresentaciones* originales, int idBuscado, int cantidad) {
+    ColeccionPresentaciones filtrada;
+    filtrada.validos = 0;
+    filtrada.capacidad = 0;
+    filtrada.arreglo = NULL;
+
+    if (cantidad > 0) {
+        filtrada.arreglo = (Presentacion*) malloc(cantidad * sizeof(Presentacion));
+        
+        if (filtrada.arreglo != NULL) {
+            filtrada.capacidad = cantidad;
+            
+            for (int i = 0; i < originales->validos; i++) {
+                if (originales->arreglo[i].idEscenario == idBuscado) {
+                    filtrada.arreglo[filtrada.validos] = originales->arreglo[i];
+                    filtrada.validos++;
+                }
+            }
+        }
+    }
+
+    return filtrada;
+}

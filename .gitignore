@@ -59,3 +59,5 @@ dkms.conf
 
 # TSV files
 *.tsv
+
+main
